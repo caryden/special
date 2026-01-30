@@ -1,0 +1,69 @@
+; Spec IL: Core Types and Primitives
+; These are built-in but documented here for reference
+
+; =============================================================================
+; Built-in Types (no implementation needed)
+; =============================================================================
+
+; bool - Boolean values
+; Values: true, false
+; Operations: and, or, not, implies, iff
+
+; nat - Natural numbers (non-negative integers)  
+; Values: 0, 1, 2, ...
+; Operations: +, -, *, /, mod, <, <=, >, >=, =, !=
+
+; int - Integers
+; Values: ..., -2, -1, 0, 1, 2, ...
+; Operations: same as nat, plus negation
+
+; bytes - Byte sequences
+; Values: #x, #x00, #xff, #x48656c6c6f
+; Operations: len, at, slice, concat
+
+; str - Unicode strings
+; Values: "", "hello", "世界"
+; Operations: len, at, slice, concat
+
+; unit - Unit type (empty tuple)
+; Values: ()
+
+; =============================================================================
+; Built-in Predicates
+; =============================================================================
+
+(node permutation
+  (sig ([T] [T]) -> bool)
+  (inv
+    ; Same length
+    (implies (permutation a b) (= (len a) (len b)))
+    ; Same elements (multiset equality)
+    (implies (permutation a b)
+      (forall (x) (= (count x a) (count x b)))))
+  (witness
+    ([] [] true)
+    ([1 2 3] [3 1 2] true)
+    ([1 2 3] [1 2 4] false)))
+
+(node monotonic
+  (sig ([T:Ord]) -> bool)
+  (inv
+    (iff (monotonic xs)
+      (forall (i)
+        (implies (< i (- (len xs) 1))
+          (<= (at xs i) (at xs (+ i 1)))))))
+  (witness
+    ([] true)
+    ([1] true)
+    ([1 2 3] true)
+    ([1 3 2] false)))
+
+(node count
+  (sig (T [T]) -> nat)
+  (inv
+    (>= (count x xs) 0)
+    (<= (count x xs) (len xs)))
+  (witness
+    (1 [] 0)
+    (1 [1 2 1] 2)
+    (3 [1 2 1] 0)))
