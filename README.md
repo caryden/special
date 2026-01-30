@@ -1,146 +1,42 @@
-# Spec IL: Specification Intermediate Language
+# Codeless Libraries
 
-**A dense, formal specification language for AI-generated, verified software.**
+Software libraries that contain no code — just specifications and test conditions.
+
+A coding agent (Claude Code, Copilot, etc.) consumes the spec and generates a conforming implementation natively in any language, for any OS, any processor. The spec *is* the library. Code is ephemeral output.
 
 ## The Problem
 
-Software libraries today are distributed as code. This creates:
-- **Supply chain attacks**: Malicious code hides in dependencies
-- **Platform lock-in**: Code targets specific languages/architectures
-- **Trust by faith**: We trust maintainers, not proofs
-- **Verification cost**: Formal methods are prohibitively expensive
+Today's libraries ship code: source, binaries, platform-specific builds. This creates dependency hell, supply chain risk, version rot, and FFI friction. Meanwhile, AI coding agents can generate correct implementations on demand — if they have a clear enough spec.
 
-## The Solution
+## The Idea
 
-Distribute *specifications*, not code.
+What if a "library" was just:
+1. **What it does** — behavioral specification
+2. **How to verify it** — test conditions and expected outputs
+3. **What it depends on** — references to other specs
 
-```
-Spec IL (formal, auditable, non-executable)
-         ↓
-    AI Agent generates implementation
-         ↓
-    Your code, your control, verified
-```
+No code. No language. No platform. The consumer's agent reads the spec and produces a native implementation, verified against the included tests.
 
-## How It Works
+Markdown + YAML (like [dbreunig's approach](https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html)) works as a proof of concept, but probably isn't the optimal representation. The format should be:
 
-### 1. Spec IL Specifications
+- **Token-efficient** — AI agents pay per token; verbosity costs money
+- **Unambiguous** — natural language specs invite interpretation drift
+- **Machine-readable** — parseable without an LLM
+- **Human-reviewable** — a person should be able to audit what they're asking an agent to build
+- **Composable** — specs should reference other specs, building up complexity
 
-Formal, machine-readable specifications using S-expression syntax:
+Think of it as an IL (intermediate language) but on the *other side* of the code — not compiled output, but compiled input.
 
-```lisp
-(node hotp_truncate
-  (sig (bytes) -> nat)
-  (inv
-    ; Output is exactly 6 digits (< 1,000,000)
-    (< out 1000000)
-    ; Deterministic
-    (forall (x) (= (hotp_truncate x) (hotp_truncate x))))
-  (witness
-    (#x1f8698690e02ca16618550ef7f19da8e945b555a 872921)))
-```
+## Open Questions
 
-### 2. AI-Generated Implementations
+- What format balances token efficiency with human readability?
+- How much formalism is needed vs. how much can natural language carry?
+- Should specs include algorithmic hints or just behavioral contracts?
+- How do you spec stateful systems, protocols, concurrency?
+- What's the right granularity — function-level? module-level? system-level?
+- How do specs compose and version?
+- What verification is realistic for an agent to self-check?
 
-Agents generate conforming implementations in any language:
+## Status
 
-```rust
-// Generated from: hotp_truncate @ a3f7b2...
-fn hotp_truncate(hmac: &[u8]) -> u32 {
-    let offset = (hmac[19] & 0x0f) as usize;
-    let code = ((hmac[offset] & 0x7f) as u32) << 24
-             | (hmac[offset + 1] as u32) << 16
-             | (hmac[offset + 2] as u32) << 8
-             | (hmac[offset + 3] as u32);
-    code % 1_000_000
-}
-```
-
-### 3. Verification Pyramid
-
-```
-Level 0: Syntactic validity     ✓ Spec parses
-Level 1: Internal consistency   ✓ Invariants don't contradict
-Level 2: Witness conformance    ✓ Examples pass
-Level 3: Property tests         ✓ Random inputs satisfy invariants
-Level 4: Cross-validation       ✓ Multiple impls agree
-Level 5: Formal proofs          ✓ Mathematical guarantee
-```
-
-### 4. Granular Trust
-
-Each spec node carries its own verification level:
-
-```
-hotp_truncate @ a3f7b2   [L5: proven]
-hmac_sha1 @ c4d8e1       [L4: bounded-verified]
-sha1_compress @ 7f2a3b   [L5: proven]
-```
-
-Compose systems from verified building blocks.
-
-## Project Status
-
-**Phase: Bootstrap**
-
-- [ ] Spec IL grammar definition
-- [ ] Core spec library (types, primitives)
-- [ ] HOTP/TOTP specs from RFC 4226/6238
-- [ ] Code generators (Rust, C, Python)
-- [ ] Property test generator
-- [ ] Cross-validation harness
-- [ ] SMT proof integration
-
-## Quick Start
-
-```bash
-# Clone the repo
-git clone <repo-url>
-cd spec-il
-
-# Point Claude Code at it
-claude
-
-# Ask Claude to:
-# "Read the specs for HOTP and generate a Rust implementation"
-# "Validate the TOTP spec for internal consistency"
-# "Cross-validate the Python and Rust implementations"
-```
-
-## Why S-Expressions?
-
-| Property | S-expr | JSON | YAML | Custom DSL |
-|----------|--------|------|------|------------|
-| Token density | High | Low | Medium | High |
-| Parse complexity | Trivial | Medium | High | High |
-| Homoiconic | Yes | No | No | Maybe |
-| Extensible | Yes | Limited | Limited | Limited |
-
-The spec can describe itself. Tools can manipulate specs as data.
-
-## Security Implications
-
-**What can't happen with Spec IL:**
-
-- Malicious code in specs (specs don't execute)
-- Supply chain injection (you generate your own code)
-- Dependency confusion (no transitive code dependencies)
-- Backdoors in updates (specs are auditable, content-addressed)
-
-**Multi-agent verification:**
-
-Different AI models, different training data, different failure modes.
-If Claude, Gemini, and a local model all generate implementations that agree on 10 million test cases, the probability of correlated bugs approaches zero.
-
-## License
-
-MIT
-
-## Contributing
-
-This project is in early bootstrap phase. Contributions welcome:
-- Spec IL grammar refinements
-- Additional spec examples
-- Code generator backends
-- Verification tooling
-- Formal proof integration
+Brainstorming. Nothing is settled.
