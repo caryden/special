@@ -107,14 +107,31 @@ describe("my-function", () => {
 });
 ```
 
-### 6. Verify
+### 6. Verify: tests and 100% coverage
 
 ```bash
 cd reference/<library-name>
-bun test
+bun test --coverage
 ```
 
-All tests must pass. The reference implementation must be correct — it's the source of truth.
+All tests must pass. **Line and branch coverage must be 100%. No exceptions.**
+
+The tests *are* the behavioral contract — they're what gets translated to the target
+language and used to verify the generated implementation. Any line not covered by tests
+is behavior that will not be verified after translation. The agent's output could
+silently diverge on uncovered paths with no way to detect it.
+
+If a line can't be covered, it shouldn't exist:
+
+- **Unreachable defensive returns** — restructure the code to eliminate the implicit
+  path (e.g., use `find()` instead of a for-loop-with-early-returns).
+- **Dead code branches** — remove them. Reference code should contain zero dead code.
+  Every line is part of the spec an agent will translate.
+- **Impossible error paths** — if an error truly can't happen, don't handle it. Only
+  handle errors that tests can trigger.
+
+The 100% requirement forces clean, transparent reference code where every line maps
+directly to tested, translatable behavior.
 
 ### 7. Validate the graph
 
@@ -145,5 +162,8 @@ reference/<library-name>/
 - [ ] `@depends-on` edges accurately reflect the call graph
 - [ ] No circular dependencies
 - [ ] Tests cover happy path, edge cases, and errors
-- [ ] Reference implementation builds and all tests pass (`bun test`)
+- [ ] All tests pass (`bun test --coverage`)
+- [ ] **100% line coverage — no exceptions**
+- [ ] **100% function coverage — no exceptions**
+- [ ] Zero dead code — no unreachable branches, no defensive fallbacks
 - [ ] Code is clear and straightforward — no metaprogramming, no clever abstractions

@@ -31,8 +31,8 @@ docs/
 ## Key commands
 
 ```bash
-# Run tests for a reference library
-cd reference/<library-name> && bun test
+# Run tests with coverage for a reference library (must be 100%)
+cd reference/<library-name> && bun test --coverage
 
 # Run a specific test file
 bun test reference/<library-name>/src/<node>.test.ts
@@ -58,6 +58,9 @@ export function myFunction(...): ReturnType { ... }
 
 - Node IDs use kebab-case: `time-ago`, `parse-duration`, `human-date`
 - One test file per node, linked via `@contract`
+- **100% line and function coverage required — no exceptions.** Tests are the behavioral
+  contract; uncovered code is unverifiable after translation. If a line can't be covered,
+  remove it — zero dead code in reference libraries.
 - Reference implementations prioritize clarity over performance
 - No metaprogramming or dynamic dispatch in reference code
 - All functions are pure where possible; state and I/O are explicit
