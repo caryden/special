@@ -40,23 +40,18 @@ export function timeAgo(timestamp: number, reference: number): string {
     [Infinity, "year", "years", 365 * 86400],
   ];
 
-  for (const [max, singular, plural, divisor] of thresholds) {
-    if (seconds <= max) {
-      // "just now" has no direction
-      if (singular === "just now") {
-        return "just now";
-      }
+  const [, singular, plural, divisor] = thresholds.find(([max]) => seconds <= max)!;
 
-      // Fixed labels like "1 minute", "1 hour", "1 day", "1 month", "1 year"
-      if (divisor === 1) {
-        return isFuture ? `in ${singular}` : `${singular} ago`;
-      }
-
-      // Computed labels like "N minutes", "N hours", etc.
-      const n = Math.round(seconds / divisor);
-      const label = n === 1 ? singular : plural;
-      const text = `${n} ${label}`;
-      return isFuture ? `in ${text}` : `${text} ago`;
-    }
+  if (singular === "just now") {
+    return "just now";
   }
+
+  if (divisor === 1) {
+    return isFuture ? `in ${singular}` : `${singular} ago`;
+  }
+
+  const n = Math.round(seconds / divisor);
+  const label = n === 1 ? singular : plural;
+  const text = `${n} ${label}`;
+  return isFuture ? `in ${text}` : `${text} ago`;
 }
