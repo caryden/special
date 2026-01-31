@@ -7,8 +7,7 @@ library spec, API documentation, RFC, or behavioral description.
 
 ## Prerequisites
 
-- .NET 8+ SDK installed
-- TypeO.Attributes project available at `src/TypeO.Attributes/`
+- Bun installed (`curl -fsSL https://bun.sh/install | bash`)
 
 ## Process
 
@@ -23,10 +22,9 @@ Read the spec, documentation, or existing library code. Identify:
 ### 2. Create the reference project
 
 ```bash
-dotnet new classlib -n <LibraryName> -o reference/<LibraryName>
-dotnet new xunit -n <LibraryName>.Tests -o reference/<LibraryName>.Tests
-dotnet add reference/<LibraryName>/<LibraryName>.csproj reference src/TypeO.Attributes/TypeO.Attributes.csproj
-dotnet add reference/<LibraryName>.Tests/<LibraryName>.Tests.csproj reference reference/<LibraryName>/<LibraryName>.csproj
+mkdir -p reference/<library-name>
+cd reference/<library-name>
+bun init -y
 ```
 
 ### 3. Design the node graph
@@ -43,73 +41,109 @@ node-id          | depends-on       | description
 Granularity guidance:
 - Each public function that a consumer might want independently = a node
 - Shared helper functions that are only internal = part of the nearest node, not separate
-- Data types shared across nodes = their own node (often a leaf)
+- Data types/interfaces shared across nodes = their own node (often a leaf)
 - Error handling types = their own node (leaf)
 
-### 4. Implement with annotations
+### 4. Implement with structured comments
 
-For each node, write the reference implementation and annotate it:
+For each node, write the reference implementation in TypeScript and annotate it
+with structured JSDoc comments:
 
-```csharp
-using TypeO;
-
-[Node("my-function",
-    DependsOn = new[] { "helper-a" },
-    Description = "One-line description of what this does")]
-[Contract(typeof(MyFunctionTests))]
-[TranslationHint("Pure function, no platform concerns", Category = "pattern")]
-public static ReturnType MyFunction(ParamType input) { ... }
+```typescript
+/**
+ * One-line description of what this does.
+ *
+ * @node my-function
+ * @depends-on helper-a, helper-b
+ * @contract my-function.test.ts
+ * @hint pattern: Pure function, no platform concerns
+ */
+export function myFunction(input: ParamType): ReturnType {
+  // Clear, straightforward implementation
+}
 ```
 
-Rules:
-- Every public function gets a `[Node]` attribute
-- Every node gets at least one `[Contract]` pointing to its test class
-- Add `[TranslationHint]` only where the agent needs guidance it can't infer from the code
-- Keep implementations straightforward — clarity over cleverness
-- No metaprogramming, no reflection, no dynamic dispatch in reference code
+#### Structured comment tags
+
+| Tag | Required | Description |
+|-----|----------|-------------|
+| `@node <id>` | Yes | Unique kebab-case identifier for this node |
+| `@depends-on <ids>` | If deps exist | Comma-separated node IDs this node requires |
+| `@contract <file>` | Yes | Test file that defines the behavioral contract |
+| `@hint [category]: <text>` | Optional | Translation guidance for the agent |
+
+#### Hint categories
+
+- `pattern:` — suggest target-language idiom
+- `platform:` — use native platform capabilities
+- `perf:` — performance expectation or complexity bound
+- `adapt:` — requires user decision (agent should ask)
 
 ### 5. Write comprehensive tests
 
-For each node, create a test class with:
+For each node, create a colocated test file (`<node>.test.ts`) with:
 - Happy-path cases covering normal behavior
 - Edge cases from the spec
 - Error cases (invalid input, boundary conditions)
 - Any test vectors from the source material (RFCs, specs, etc.)
 
-Use `[Theory]` and `[InlineData]` for parameterized tests where possible — these translate
-cleanly to parameterized test patterns in any target language.
+Use `describe` / `test` blocks and parameterized patterns where possible:
+
+```typescript
+import { describe, test, expect } from "bun:test";
+import { myFunction } from "./my-function";
+
+describe("my-function", () => {
+  test.each([
+    { input: ..., expected: ... },
+    { input: ..., expected: ... },
+  ])("$input → $expected", ({ input, expected }) => {
+    expect(myFunction(input)).toBe(expected);
+  });
+
+  test("throws on invalid input", () => {
+    expect(() => myFunction(badInput)).toThrow();
+  });
+});
+```
 
 ### 6. Verify
 
 ```bash
-dotnet build reference/<LibraryName>/<LibraryName>.csproj
-dotnet test reference/<LibraryName>.Tests/<LibraryName>.Tests.csproj
+cd reference/<library-name>
+bun test
 ```
 
 All tests must pass. The reference implementation must be correct — it's the source of truth.
 
-### 7. Validate extraction
+### 7. Validate the graph
 
-```bash
-dotnet run --project src/TypeO.Extract/ -- \
-    reference/<LibraryName>/bin/Debug/net8.0/<LibraryName>.dll \
-    <any-node-id> \
-    --source-dir reference/<LibraryName>/
+Review the structured comments and verify:
+- Every exported function has a `@node` tag
+- `@depends-on` edges match the actual call graph
+- Every node has a `@contract` pointing to an existing test file
+- No circular dependencies
+
+## File organization
+
 ```
-
-Verify the extraction tool:
-- Finds all nodes
-- Resolves dependencies correctly
-- Topological sort is correct (leaves first)
-- Translation plan looks complete
+reference/<library-name>/
+  package.json
+  tsconfig.json
+  src/
+    <node-a>.ts           — implementation
+    <node-a>.test.ts      — tests (contract)
+    <node-b>.ts
+    <node-b>.test.ts
+    index.ts              — re-exports (optional)
+```
 
 ## Quality checklist
 
-- [ ] Every public function has a `[Node]` attribute with unique ID
-- [ ] Every node has at least one `[Contract]` linking to tests
-- [ ] Node IDs use kebab-case (`my-function`, not `MyFunction`)
-- [ ] DependsOn edges are accurate (matches actual call graph)
+- [ ] Every exported function has a `@node` tag with unique kebab-case ID
+- [ ] Every node has a `@contract` pointing to its test file
+- [ ] `@depends-on` edges accurately reflect the call graph
 - [ ] No circular dependencies
 - [ ] Tests cover happy path, edge cases, and errors
-- [ ] Reference implementation builds and all tests pass
-- [ ] Extraction tool correctly resolves the graph
+- [ ] Reference implementation builds and all tests pass (`bun test`)
+- [ ] Code is clear and straightforward — no metaprogramming, no clever abstractions

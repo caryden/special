@@ -1,7 +1,7 @@
 # ADR-0001: C# as Initial Type-O Donor Language
 
 **Date:** 2026-01-31
-**Status:** Accepted (for initial experiment)
+**Status:** Superseded by [ADR-0002](0002-type-o-language-typescript-bun.md)
 **Deciders:** caryden
 
 ## Context

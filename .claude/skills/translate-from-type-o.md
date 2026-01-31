@@ -7,48 +7,62 @@ Type-O reference library in their target language.
 
 ## Prerequisites
 
-- A built Type-O reference library (compiled .dll/.jar with [Node] attributes)
-- The TypeO.Extract tool at `src/TypeO.Extract/`
+- A Type-O reference library (TypeScript source with `@node` structured comments)
 - A target language and project for the output
 
 ## Process
 
-### 1. Extract the translation plan
+### 1. Read the reference and build the graph
 
-Run the extraction tool for the requested node(s):
+Read all `.ts` source files in the reference library. For each file, parse the
+structured JSDoc comments to identify:
+- Node IDs (`@node`)
+- Dependencies (`@depends-on`)
+- Test files (`@contract`)
+- Translation hints (`@hint`)
 
-```bash
-dotnet run --project src/TypeO.Extract/ -- \
-    reference/<LibraryName>/bin/Debug/net8.0/<LibraryName>.dll \
-    <requested-node-id> \
-    --source-dir reference/<LibraryName>/
+Build the dependency graph mentally and identify the transitive closure for the
+requested node(s).
+
+### 2. Plan the translation order
+
+Topologically sort the nodes in the closure — leaf nodes (no dependencies) first,
+composite nodes after their dependencies. Present the plan to the user:
+
+```
+Translation Plan: <requested-node> → <target-language>
+Source: reference/<library-name>/
+
+1. <leaf-node-a> (pure — no dependencies)
+2. <leaf-node-b> (pure — no dependencies)
+3. <composite-node> (depends: leaf-node-a, leaf-node-b)
 ```
 
-This produces a topologically sorted translation plan. Review it with the user
-to confirm scope (they may want more or fewer nodes).
+Confirm scope with the user before proceeding.
 
-### 2. Execute the plan, node by node
+### 3. Execute the plan, node by node
 
-For each task in the plan, in order:
+For each node in topological order:
 
 #### a. Translate tests first
 
-Read the C# test class linked by `[Contract]`. Translate the test cases to the
+Read the test file linked by `@contract`. Translate the test cases to the
 target language's test framework:
-- `[Theory] + [InlineData]` → parameterized tests (pytest.mark.parametrize, #[test_case], etc.)
-- `[Fact]` → individual test functions
-- `Assert.Equal` → target equivalent
-- `Assert.Throws<T>` → target equivalent for error cases
+- `test.each([...])` → parameterized tests in the target
+- `expect(...).toBe(...)` → target assertion equivalent
+- `expect(() => ...).toThrow()` → target error assertion
+- Preserve test names and structure
 
-The translated tests must be runnable but will initially fail (no implementation yet).
+The translated tests should be runnable but will initially fail (no implementation yet).
 
 #### b. Translate the implementation
 
-Read the C# reference implementation for this node. Translate to the target language:
+Read the TypeScript reference implementation for this node. Translate to the
+target language:
 - Preserve the behavioral contract exactly
-- Use idiomatic target language patterns (don't write C# in Python)
-- Respect any `[TranslationHint]` annotations on this node
-- If a hint has `Category = "adapt"`, ask the user how they want to handle it
+- Use idiomatic target language patterns (don't write TypeScript in Python)
+- Respect any `@hint` annotations on this node
+- If a hint has category `adapt:`, ask the user how they want to handle it
 
 #### c. Run tests for this node
 
@@ -60,13 +74,12 @@ If tests fail, fix the translation — do not modify the test expectations.
 The translated node's public interface is now available for subsequent nodes
 that depend on it.
 
-### 3. Final verification
+### 4. Final verification
 
 After all nodes are translated:
 - Run the complete test suite
-- Report pass/fail count vs. expected from the translation plan
-- Flag any nodes where hints with `Category = "adapt"` were resolved — document
-  the user's choices for future reference
+- Report pass/fail count
+- Flag any nodes where `adapt:` hints were resolved — document the user's choices
 
 ## Translation guidelines
 
@@ -76,22 +89,22 @@ After all nodes are translated:
 - Prefer the target language's standard library over adding dependencies
 - Generated code should look like a human wrote it in the target language
 
-### Common C# → target patterns
+### Common TypeScript → target patterns
 
-| C# pattern | Python | Rust | TypeScript | Go |
-|------------|--------|------|------------|-----|
-| `static method` | module function | `pub fn` | exported function | exported function |
-| `record` | dataclass | struct | interface + factory | struct |
+| TypeScript pattern | Python | Rust | Go | C# |
+|-------------------|--------|------|-----|-----|
+| `export function` | module function | `pub fn` | exported function | `public static` method |
+| `interface` / `type` | dataclass / TypedDict | struct | struct | record / class |
+| `number` | int / float | i64 / f64 | int64 / float64 | long / double |
 | `string` | str | String / &str | string | string |
-| `long` (unix timestamp) | int | i64 | number | int64 |
-| `TimeSpan` | timedelta | Duration | number (ms) | time.Duration |
-| `ArgumentException` | ValueError | custom error / anyhow | Error / throw | error return |
-| `[Flags] enum` | IntFlag | bitflags! | const enum | iota |
+| `throw new Error()` | raise ValueError | return Err() / panic | return error | throw Exception |
+| `T \| null` | Optional[T] | Option<T> | pointer / ok pattern | T? |
+| `Record<K, V>` | dict[K, V] | HashMap<K, V> | map[K]V | Dictionary<K, V> |
 
-### Handling [TranslationHint] categories
+### Handling @hint categories
 
-- **"platform"**: Use the target's native or best-in-class library (e.g., NumPy for Python, nalgebra for Rust)
-- **"pattern"**: Adopt the suggested target idiom
-- **"perf"**: Ensure the implementation meets the stated complexity/performance bound
-- **"adapt"**: Stop and ask the user. Present the hint and the available options in the target language.
-  Use the ask user question tool if available.
+- **`pattern:`** — Adopt the suggested target idiom
+- **`platform:`** — Use the target's native or best-in-class library
+- **`perf:`** — Ensure the implementation meets the stated complexity/performance bound
+- **`adapt:`** — Stop and ask the user. Present the hint and the available options
+  in the target language. Use the ask user question tool if available.
