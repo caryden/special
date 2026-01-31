@@ -1,0 +1,8 @@
+# Build artifacts
+__pycache__/
+*.pyc
+target/
+Cargo.lock
+cover.out
+*.o
+*.exe
