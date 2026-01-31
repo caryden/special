@@ -59,7 +59,4 @@ export function timeAgo(timestamp: number, reference: number): string {
       return isFuture ? `in ${text}` : `${text} ago`;
     }
   }
-
-  // Unreachable due to Infinity threshold
-  return "just now";
 }
