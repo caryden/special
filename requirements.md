@@ -97,11 +97,12 @@ This splits the work cleanly:
 | Step | Done by | Input | Output |
 |------|---------|-------|--------|
 | **Author** reference with annotations | Human developer | Domain knowledge | Annotated reference library |
-| **Extract** requested subgraph | Reflection tool (mechanical) | Node ID + annotated library | Minimal code + tests package |
-| **Translate** to target language | AI agent | Extracted package | Native implementation |
-| **Verify** against translated tests | Agent + test runner | Generated code + tests | Pass/fail |
+| **Extract** requested subgraph | Reflection tool (mechanical) | Node ID + annotated library | Topologically sorted translation plan with inline reference code and tests |
+| **Translate** each node in order | AI agent | One node at a time from the plan | Native implementation of that node |
+| **Verify** at each step | Agent + test runner | Generated code + translated tests | Pass/fail per node |
+| **Resolve** ambiguities | Agent skill + user | Translation hints that require decisions | User's adaptation choices |
 
-The agent never sees the full library. It receives a minimal, pre-extracted package with the graph already resolved, dependencies explicit, and tests attached. No discovery overhead.
+The agent never sees the full library. It receives a pre-computed, ordered plan where each step is self-contained. No discovery, no planning, no graph traversal — just translation and verification.
 
 ### Node Structure
 
@@ -132,17 +133,59 @@ l-bfgs → line-search → backtracking-armijo
 
 The consumer gets 6 nodes. Not the 40 other optimization algorithms, not the CLI tools, not the plotting utilities.
 
-### Agent Translation
+### Agent Translation via Generated Plan
 
-An AI agent receives the extracted subgraph and generates a native implementation in the consumer's target language:
+The extraction tool doesn't just emit raw source files — it generates a **structured translation plan**: an ordered sequence of discrete tasks, topologically sorted so leaf nodes (no dependencies) come first and composite nodes follow their dependencies. Each task contains the actual reference code and linked tests inline.
 
-1. Read the reference implementation and tests for each node in the subgraph.
-2. Translate to the target language, preserving behavioral contracts.
-3. Run the translated tests to verify correctness.
-4. Where nodes connect through interfaces, generate appropriate abstractions in the target language (traits, interfaces, protocols, etc.).
-5. Where translation hints indicate platform-specific concerns (e.g., async/await in a target without coroutines), consult agent skills or ask the user for adaptation decisions.
+For example, a user requests "L-BFGS in Rust." An agent skill invokes the reflection tool and produces:
 
-The pre-computed annotations mean the agent spends its context window on *translation*, not *discovery*.
+```
+Translation Plan: l-bfgs → Rust
+Source: Optimization.dll (C# reference)
+Nodes: 6 | Tests: 47
+
+Task 1/6: Translate node "vec-ops" (pure — no dependencies)
+  Functions: Dot, Norm, Scale, Axpy
+  Reference:
+    public static double Dot(double[] a, double[] b) { ... }
+    public static double Norm(double[] v) { ... }
+    public static double[] Scale(double s, double[] v) { ... }
+    public static double[] Axpy(double a, double[] x, double[] y) { ... }
+  Tests: VecOpsTests (14 cases)
+  Hint: Consider nalgebra or ndarray for target platform
+
+Task 2/6: Translate node "convergence-check" (pure — no dependencies)
+  Reference: ...
+  Tests: ConvergenceTests (5 cases)
+
+Task 3/6: Translate node "backtracking-armijo" (depends: vec-ops)
+  Reference: ...
+  Tests: ArmijoTests (8 cases)
+
+Task 4/6: Translate node "line-search" (depends: backtracking-armijo)
+  Reference: ...
+  Tests: LineSearchTests (7 cases)
+
+Task 5/6: Translate node "l-bfgs" (depends: line-search, convergence-check, vec-ops)
+  Reference: ...
+  Tests: LBFGSTests (13 cases)
+  Hint: Target should use platform BLAS for vec-ops if available
+
+Task 6/6: Run all translated tests
+  Expected: 47 tests across 5 nodes
+```
+
+This plan is the output of the reflection tool, not AI reasoning. The topological sort, the dependency resolution, the code and test extraction — all mechanical. The agent's job is reduced to executing the plan: translate each task in order, run the tests, move on.
+
+Key properties of this approach:
+
+- **Minimal context per step.** The agent works on one node at a time. It doesn't need the full library in context — just the current node's reference code, its tests, and the interfaces of previously-translated dependencies.
+- **Pre-computed ordering.** The topological sort ensures the agent never translates a node before its dependencies exist in the target language. No backtracking, no circular discovery.
+- **Translation hints are inline.** Platform-specific guidance (use BLAS, adapt async/await, prefer idiomatic target patterns) is attached to the relevant node, not buried in separate documentation.
+- **Verifiable at each step.** Tests run after each node translation, not just at the end. Failures are caught early and localized to the specific node that broke.
+- **Adaptable via agent skills.** Where a translation hint raises an ambiguity the agent can't resolve alone (e.g., "your spec uses C# events; your target is C — do you want callbacks or a message queue?"), the agent skill can ask the user for a decision. These decision points are predictable from the annotations, not discovered mid-translation.
+
+The reflection tool does the planning. The agent does the translating. The test runner does the verifying. Each component does what it's best at.
 
 ## Evaluation Rubric
 
