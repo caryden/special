@@ -152,8 +152,17 @@ reference/<library-name>/
     <node-a>.test.ts      — tests (contract)
     <node-b>.ts
     <node-b>.test.ts
-    index.ts              — re-exports (optional)
+    index.ts              — re-exports root nodes (the public API)
 ```
+
+`index.ts` exports only the **root nodes** — the public API the reference author
+maintains and stands behind. Internal dependency nodes (helpers, shared utilities)
+are not re-exported. They're still individually extractable through the graph
+(`@depends-on` edges), but they're not the promoted interface.
+
+A consumer can always reference an internal node directly if they want — it has
+its own source, tests, and `@node` annotation. But the author isn't committing
+to maintain it as a standalone contract.
 
 ## Quality checklist
 
