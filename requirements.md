@@ -35,14 +35,17 @@ Natural language prose
         → Formal specification (Lean/Dafny/TLA+)
 ```
 
-The hypothesis is that the sweet spot is toward the "reference implementation in a real language" end — specifically, a **type-safe language that compiles to an abstract runtime** (C#, Kotlin, Java, Swift, etc.) rather than a custom specification language or a natural language description.
+The hypothesis is that the sweet spot is toward the "reference implementation in a real language" end — specifically, a **type-safe language with low ceremony, deep LLM training representation, and lightweight tooling** rather than a custom specification language or a natural language description.
+
+The current choice is **TypeScript with Bun** (see [ADR-0002](docs/decisions/0002-type-o-language-typescript-bun.md)). The graph metadata is declared via structured JSDoc comments rather than compiled attributes, and the agent reads source files directly rather than relying on reflection-based extraction tooling.
 
 Rationale:
 
-- AI agents have deep training data for real languages; a novel DSL has zero.
-- Real languages have real toolchains: the reference implementation *runs* and its tests *execute*.
-- Type-safe, managed languages express logic and structure without leaking platform-specific details (memory management, calling conventions, hardware).
+- AI agents have deep training data for real languages; a novel DSL has zero. TypeScript has arguably the deepest LLM training representation of any language.
+- Real languages have real toolchains: the reference implementation *runs* and its tests *execute*. Bun provides a built-in test runner with zero configuration.
+- The type system is tunable — strict where it helps, loose where it doesn't — and expresses logic without leaking platform-specific details.
 - The reference captures both behavioral intent and structural architecture — not just *what* the code does, but how it's organized.
+- Lightweight toolchain (Bun is a single binary) means the approach works in any environment including Claude Code Web, Codespaces, and sandboxes.
 
 ## The Model
 
@@ -54,73 +57,64 @@ This was demonstrated in practice with the Optim.jl port: an AI agent analyzed t
 
 The key insight: **the graph should be pre-computed and declared, not discovered at translation time.** The work of understanding the dependency structure is the same for every consumer. It should be done once by the reference author and made explicit in the code.
 
-### Metadata Annotations
+### Structured Comments as Graph Metadata
 
-Languages with attribute/annotation systems (C# attributes, Kotlin/Java annotations) allow the graph to be declared directly in the source code as metadata on the reference implementation:
+The graph is declared directly in the source code via structured JSDoc comments on exported functions. No separate metadata format, no compilation step, no reflection tooling — the agent reads the source files directly.
 
-```csharp
-[Node("l-bfgs", DependsOn = new[] { "line-search", "convergence-check", "vec-ops" })]
-[Contract(TestClass = typeof(LBFGSTests))]
-[TranslationHint("Target should use platform BLAS for vec-ops if available")]
-public static MinResult<T> LBFGS<T>(...) where T : IFloatingPoint<T> { ... }
+```typescript
+/**
+ * L-BFGS optimization algorithm.
+ *
+ * @node l-bfgs
+ * @depends-on line-search, convergence-check, vec-ops
+ * @contract l-bfgs.test.ts
+ * @hint platform: Target should use platform BLAS for vec-ops if available
+ */
+export function lbfgs<T>(objective: (x: T[]) => number, x0: T[], opts?: MinOptions): MinResult<T> {
+  // ...
+}
 ```
 
-```kotlin
-@Node("l-bfgs", dependsOn = ["line-search", "convergence-check", "vec-ops"])
-@Contract(testClass = LBFGSTests::class)
-@TranslationHint("Target should use platform BLAS for vec-ops if available")
-fun <T : Comparable<T>> lbfgs(...): MinResult<T> { ... }
-```
+The structured comments pre-compute what every agent would otherwise need to figure out:
 
-The attributes pre-compute what every agent would otherwise need to figure out:
+- **What depends on what.** Explicit `@depends-on` edges instead of agent inference from call sites.
+- **Where the tests are.** Direct `@contract` link between implementation and its behavioral contract.
+- **Translation guidance.** `@hint` tags for platform-specific concerns, performance expectations, or adaptation strategies that would otherwise require the agent to reason about from scratch.
 
-- **What depends on what.** Explicit `DependsOn` edges instead of agent inference from call sites.
-- **Where the tests are.** Direct link between implementation and its behavioral contract.
-- **Translation guidance.** Hints about platform-specific concerns, performance expectations, or adaptation strategies that would otherwise require the agent to reason about from scratch.
+The code *is* the reference implementation. The comments *are* the graph. Nothing is separated into a different format or language. The agent reads `.ts` files directly — no compilation, no assembly loading, no reflection API.
 
-The code *is* the reference implementation. The annotations *are* the graph. Nothing is separated into a different format or language.
+If mechanical extraction is ever needed (e.g., tooling to emit a subgraph as a standalone package), the structured comments are trivially parseable by a simple script — regex on JSDoc tags. But the primary consumer is the AI agent reading source.
 
-### Reflection-Based Extraction
-
-Languages with strong reflection capabilities (C#, Kotlin/Java) allow the annotated graph to be walked mechanically at runtime. A tool — not an AI agent, just a simple program — can:
-
-1. Load the reference assembly/JAR.
-2. Walk every type and method decorated with `[Node]` attributes.
-3. Build the complete dependency graph from the declared edges.
-4. Given a requested node, compute its transitive closure.
-5. Emit only the reference code and associated tests for that subgraph.
-
-This is a mechanical pre-processing step, perhaps 100 lines of code. It does not require AI. It transforms the full annotated library into a minimal, self-contained package ready for agent consumption.
-
-This splits the work cleanly:
+### Workflow
 
 | Step | Done by | Input | Output |
 |------|---------|-------|--------|
-| **Author** reference with annotations | Human developer | Domain knowledge | Annotated reference library |
-| **Extract** requested subgraph | Reflection tool (mechanical) | Node ID + annotated library | Topologically sorted translation plan with inline reference code and tests |
-| **Translate** each node in order | AI agent | One node at a time from the plan | Native implementation of that node |
+| **Author** reference with structured comments | Human developer | Domain knowledge | Annotated TypeScript reference library |
+| **Request** a node | User | Node ID | Agent reads source files, builds graph from `@node`/`@depends-on` tags |
+| **Plan** translation order | Agent | Dependency graph | Topologically sorted task list (leaves first) |
+| **Translate** each node in order | Agent | One node at a time | Native implementation of that node in target language |
 | **Verify** at each step | Agent + test runner | Generated code + translated tests | Pass/fail per node |
-| **Resolve** ambiguities | Agent skill + user | Translation hints that require decisions | User's adaptation choices |
+| **Resolve** ambiguities | Agent + user | `@hint adapt:` tags that require decisions | User's adaptation choices |
 
-The agent never sees the full library. It receives a pre-computed, ordered plan where each step is self-contained. No discovery, no planning, no graph traversal — just translation and verification.
+The agent reads the full reference only once to build the graph. Then it works through the translation plan one node at a time, keeping context minimal at each step.
 
 ### Node Structure
 
-Each annotated node in the reference library represents a discrete unit of functionality: a function, a data type, or a small cohesive module.
+Each annotated node in the reference library represents a discrete unit of functionality: a function, a data type, or a small cohesive module. One source file per node, one test file per node.
 
-Each node carries (via annotations and the code itself):
+Each node carries (via structured comments and the code itself):
 
-- **Identity.** A unique, stable identifier (the annotation name).
-- **Reference implementation.** The actual method/class body — working, executable code in the donor language.
-- **Tests.** Linked test class(es) that define the behavioral contract.
-- **Dependencies.** Declared edges to other node identifiers.
-- **Metadata.** Translation hints, performance annotations, descriptions — anything that pre-computes knowledge an agent would otherwise need to derive.
+- **Identity.** A unique kebab-case identifier (`@node time-ago`).
+- **Reference implementation.** The exported function body — working, executable TypeScript.
+- **Tests.** A linked test file (`@contract time-ago.test.ts`) that defines the behavioral contract. **Tests must achieve 100% line and function coverage of the reference implementation — no exceptions.** Uncovered code is unverifiable after translation; if a line can't be covered, it shouldn't exist.
+- **Dependencies.** Declared edges to other node identifiers (`@depends-on`).
+- **Metadata.** Translation hints (`@hint`), descriptions — anything that pre-computes knowledge an agent would otherwise need to derive.
 
-A node is either **pure** (no `DependsOn` — a leaf in the graph) or **composite** (depends on other nodes).
+A node is either **pure** (no `@depends-on` — a leaf in the graph) or **composite** (depends on other nodes).
 
 ### Selective Extraction
 
-When a consumer requests a node, the reflection tool computes its **transitive closure** — that node plus every node reachable through its dependency edges. Nothing else.
+When a consumer requests a node, the agent (or a simple script) computes its **transitive closure** from the `@depends-on` tags — that node plus every node reachable through its dependency edges. Nothing else.
 
 Example: requesting `l-bfgs` from an optimization library yields:
 
@@ -133,59 +127,43 @@ l-bfgs → line-search → backtracking-armijo
 
 The consumer gets 6 nodes. Not the 40 other optimization algorithms, not the CLI tools, not the plotting utilities.
 
-### Agent Translation via Generated Plan
+### Agent Translation
 
-The extraction tool doesn't just emit raw source files — it generates a **structured translation plan**: an ordered sequence of discrete tasks, topologically sorted so leaf nodes (no dependencies) come first and composite nodes follow their dependencies. Each task contains the actual reference code and linked tests inline.
+The agent reads the reference source files, builds the dependency graph from `@node` and `@depends-on` tags, computes the transitive closure for the requested node, and produces a topologically sorted translation plan — leaf nodes first, composite nodes after their dependencies.
 
-For example, a user requests "L-BFGS in Rust." An agent skill invokes the reflection tool and produces:
+For example, a user requests "L-BFGS in Rust." The agent reads the reference, identifies the subgraph, and works through it:
 
 ```
 Translation Plan: l-bfgs → Rust
-Source: Optimization.dll (C# reference)
-Nodes: 6 | Tests: 47
+Source: reference/optimization/src/
 
-Task 1/6: Translate node "vec-ops" (pure — no dependencies)
-  Functions: Dot, Norm, Scale, Axpy
-  Reference:
-    public static double Dot(double[] a, double[] b) { ... }
-    public static double Norm(double[] v) { ... }
-    public static double[] Scale(double s, double[] v) { ... }
-    public static double[] Axpy(double a, double[] x, double[] y) { ... }
-  Tests: VecOpsTests (14 cases)
-  Hint: Consider nalgebra or ndarray for target platform
+1. Translate node "vec-ops" (pure — no dependencies)
+   Source: vec-ops.ts | Tests: vec-ops.test.ts (14 cases)
+   Hint: Consider nalgebra or ndarray for target platform
 
-Task 2/6: Translate node "convergence-check" (pure — no dependencies)
-  Reference: ...
-  Tests: ConvergenceTests (5 cases)
+2. Translate node "convergence-check" (pure — no dependencies)
+   Source: convergence-check.ts | Tests: convergence-check.test.ts (5 cases)
 
-Task 3/6: Translate node "backtracking-armijo" (depends: vec-ops)
-  Reference: ...
-  Tests: ArmijoTests (8 cases)
+3. Translate node "backtracking-armijo" (depends: vec-ops)
+   Source: backtracking-armijo.ts | Tests: backtracking-armijo.test.ts (8 cases)
 
-Task 4/6: Translate node "line-search" (depends: backtracking-armijo)
-  Reference: ...
-  Tests: LineSearchTests (7 cases)
+4. Translate node "line-search" (depends: backtracking-armijo)
+   Source: line-search.ts | Tests: line-search.test.ts (7 cases)
 
-Task 5/6: Translate node "l-bfgs" (depends: line-search, convergence-check, vec-ops)
-  Reference: ...
-  Tests: LBFGSTests (13 cases)
-  Hint: Target should use platform BLAS for vec-ops if available
+5. Translate node "l-bfgs" (depends: line-search, convergence-check, vec-ops)
+   Source: l-bfgs.ts | Tests: l-bfgs.test.ts (13 cases)
+   Hint: Target should use platform BLAS for vec-ops if available
 
-Task 6/6: Run all translated tests
-  Expected: 47 tests across 5 nodes
+6. Run all translated tests (47 expected)
 ```
 
-This plan is the output of the reflection tool, not AI reasoning. The topological sort, the dependency resolution, the code and test extraction — all mechanical. The agent's job is reduced to executing the plan: translate each task in order, run the tests, move on.
+Key properties:
 
-Key properties of this approach:
-
-- **Minimal context per step.** The agent works on one node at a time. It doesn't need the full library in context — just the current node's reference code, its tests, and the interfaces of previously-translated dependencies.
-- **Pre-computed ordering.** The topological sort ensures the agent never translates a node before its dependencies exist in the target language. No backtracking, no circular discovery.
-- **Translation hints are inline.** Platform-specific guidance (use BLAS, adapt async/await, prefer idiomatic target patterns) is attached to the relevant node, not buried in separate documentation.
+- **Minimal context per step.** The agent works on one node at a time — just the current node's reference code, its tests, and the interfaces of previously-translated dependencies.
+- **Topological ordering.** The agent never translates a node before its dependencies exist in the target language.
+- **Translation hints are inline.** Platform-specific guidance is attached to the relevant node via `@hint` tags, not buried in separate documentation.
 - **Verifiable at each step.** Tests run after each node translation, not just at the end. Failures are caught early and localized to the specific node that broke.
-- **Adaptable via agent skills.** Where a translation hint raises an ambiguity the agent can't resolve alone (e.g., "your spec uses C# events; your target is C — do you want callbacks or a message queue?"), the agent skill can ask the user for a decision. These decision points are predictable from the annotations, not discovered mid-translation.
-
-The reflection tool does the planning. The agent does the translating. The test runner does the verifying. Each component does what it's best at.
+- **Adaptable via agent skills.** Where an `@hint adapt:` tag raises an ambiguity the agent can't resolve alone, it asks the user for a decision.
 
 ## Evaluation Rubric
 
@@ -201,7 +179,7 @@ Any proposed approach — whether it's a specific donor language, a custom forma
 ### Reference Quality
 
 - **Modularity.** Can individual functions or small modules be extracted independently? The unit of extraction should be a function or cohesive module, not a package.
-- **Test completeness.** Do the tests fully specify the behavioral contract? Including edge cases, error conditions, and (where relevant) performance bounds?
+- **Test completeness.** Do the tests fully specify the behavioral contract? Including edge cases, error conditions, and (where relevant) performance bounds? **100% line and function coverage is required — no exceptions.** Every line of reference code is part of the behavioral spec; uncovered code is unverifiable after translation. If a line can't be covered, remove it — zero dead code in reference libraries.
 - **Executability.** Can the reference implementation and its tests be run directly? A spec that can't be validated against itself is less trustworthy than one that can.
 - **Type expressiveness.** Does the type system capture the important structural constraints? Strong types communicate intent unambiguously across language boundaries.
 
@@ -209,8 +187,8 @@ Any proposed approach — whether it's a specific donor language, a custom forma
 
 - **Authoring cost.** Can developers realistically create and maintain reference implementations? Using a real language with existing tooling dramatically lowers this barrier vs. a custom spec language.
 - **Toolchain maturity.** Does the approach leverage existing compilers, test runners, IDEs, and static analysis? Or does it require building a new toolchain from scratch?
-- **Annotation and reflection support.** Does the language have a first-class attribute/annotation system for declaring graph metadata directly in the source? Does it have runtime reflection capable of walking those annotations mechanically? This is a prerequisite for the extraction tooling. (C# and Kotlin/Java are strong here; Python decorators are weaker; C and Go lack this entirely.)
-- **Incremental adoption.** Can existing well-tested libraries be converted into this form without a ground-up rewrite? Ideally, annotating an existing well-structured codebase should be the primary onboarding path — not rewriting from scratch.
+- **Graph metadata support.** Can the dependency graph be declared directly in the source code? Structured comments (JSDoc-style) work in any language. Compiled attributes/annotations (C#, Kotlin/Java) are more formal but require compilation and reflection tooling. The current approach uses structured comments because the primary consumer is an AI agent that reads source directly.
+- **Incremental adoption.** Can existing well-tested libraries be converted into this form without a ground-up rewrite? Ideally, adding structured comments to an existing well-structured codebase should be the primary onboarding path — not rewriting from scratch.
 - **Human reviewability.** Can a developer audit the reference to understand what they're asking an agent to build?
 
 ### Boundary Conditions
@@ -225,15 +203,14 @@ The sweet spot is **logic-heavy, platform-independent code**: business rules, pr
 
 ## Open Questions
 
-- **Single donor language or domain-dependent?** Is one language the universal donor, or should numerical libraries use Julia/C#, web/API specs use Kotlin/TypeScript, etc.? The donor language must have strong annotation/attribute support and runtime reflection to enable the mechanical extraction tooling. C# and Kotlin/Java are strong candidates. Languages without annotation systems (C, Go, most functional languages) are weaker candidates regardless of other merits.
-- **Annotation vocabulary.** What's the right set of annotations? `[Node]`, `[Contract]`, and `[TranslationHint]` are illustrative but not designed. What metadata actually matters? What do agents need to know that they can't infer from the code itself? This should be driven by empirical observation of where agents struggle during translation.
-- **Interface nodes.** How are abstraction boundaries represented in annotations? When a node depends on "a gradient function" as an interface rather than a concrete implementation, how is that declared? The donor language's own interface/trait system may be sufficient, or it may need annotation support.
-- **Performance annotations.** What vocabulary is needed to tell an agent "don't be naive about this — use platform-optimized implementations where available"? This bridges the boundary condition for performance-critical code.
-- **Granularity.** What's the right size for a node? A single function? A class? A small module? Too fine-grained and the annotation overhead dominates; too coarse and you lose the unbundling benefit.
-- **Extraction tool design.** The reflection-based tool that walks annotations and emits subgraphs is small but its output format matters. What does the agent actually receive? Raw source files? A structured package with manifest? How are cross-node type references handled in the extracted output?
+- **Single donor language or domain-dependent?** TypeScript is the current choice. It may not be optimal for all domains — numerical libraries might benefit from a language with stronger numeric generics (C#'s `IFloatingPoint<T>`). This should be revisited with data after the first translation experiments.
+- **Comment vocabulary.** The current tags (`@node`, `@depends-on`, `@contract`, `@hint`) are minimal and untested at scale. What metadata actually matters? What do agents need to know that they can't infer from the code itself? This should be driven by empirical observation of where agents struggle during translation.
+- **Interface nodes.** How are abstraction boundaries represented? When a node depends on "a gradient function" as an interface rather than a concrete implementation, how is that declared? TypeScript's own interface/type system may be sufficient, or it may need additional `@hint` support.
+- **Performance annotations.** What `@hint` vocabulary is needed to tell an agent "don't be naive about this — use platform-optimized implementations where available"? This bridges the boundary condition for performance-critical code.
+- **Granularity.** What's the right size for a node? A single function? A class? A small module? Too fine-grained and the comment overhead dominates; too coarse and you lose the unbundling benefit.
 - **Versioning and evolution.** How do nodes version? When a node's contract changes, how does that propagate through the graph?
-- **Empirical validation.** The "universal donor" hypothesis is testable. Take the same library, represent it multiple ways, measure agent translation quality. This should be done before committing to an approach.
+- **Empirical validation.** The "universal donor" hypothesis is testable. Take the same reference library, have agents translate it to multiple target languages, and measure first-pass test pass rate. The whenwords reference library is the first test case.
 
 ## Status
 
-Requirements and hypotheses captured. No solution prescribed. Next step is empirical exploration.
+First reference library implemented: [whenwords](reference/whenwords/) (5 nodes, 124 tests, 100% coverage). Next step is to test the translation skill — have an agent translate the whenwords reference to a target language and measure the results.
