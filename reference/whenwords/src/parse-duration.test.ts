@@ -75,5 +75,9 @@ describe("parse-duration", () => {
     test("just a number", () => {
       expect(() => parseDuration("42")).toThrow();
     });
+
+    test("unrecognized unit", () => {
+      expect(() => parseDuration("5 foos")).toThrow();
+    });
   });
 });
