@@ -46,23 +46,80 @@ Rationale:
 
 ## The Model
 
-### Node Graph
+### The Graph Is Already in the Code
 
-A library is a **directed acyclic graph of nodes**. Each node represents a discrete unit of functionality: a function, a data type, or a small cohesive module.
+The dependency graph between functions, types, and modules is not a new data model to design — it already exists implicitly in any well-structured codebase. Functions call other functions. Types reference other types. Modules import other modules. The graph is *there*; it just isn't surfaced.
 
-Each node has:
+This was demonstrated in practice with the Optim.jl port: an AI agent analyzed the Julia source, traced the dependency graph from the requested functions, and extracted only the needed subgraph. It worked — but it required significant back-and-forth because the agent had to *discover* the graph by reading and reasoning about the code. Every agent that consumes the same library would repeat this same discovery work.
 
-- **Identity.** A unique, stable identifier.
-- **Reference implementation.** Working code in the donor language.
-- **Tests.** Executable tests that define the behavioral contract for this node.
-- **Dependencies.** Directed edges to other nodes this one requires.
-- **Metadata.** Description, version, performance annotations, translation hints.
+The key insight: **the graph should be pre-computed and declared, not discovered at translation time.** The work of understanding the dependency structure is the same for every consumer. It should be done once by the reference author and made explicit in the code.
 
-A node is either **pure** (no dependencies — a leaf in the graph) or **composite** (depends on other nodes).
+### Metadata Annotations
+
+Languages with attribute/annotation systems (C# attributes, Kotlin/Java annotations) allow the graph to be declared directly in the source code as metadata on the reference implementation:
+
+```csharp
+[Node("l-bfgs", DependsOn = new[] { "line-search", "convergence-check", "vec-ops" })]
+[Contract(TestClass = typeof(LBFGSTests))]
+[TranslationHint("Target should use platform BLAS for vec-ops if available")]
+public static MinResult<T> LBFGS<T>(...) where T : IFloatingPoint<T> { ... }
+```
+
+```kotlin
+@Node("l-bfgs", dependsOn = ["line-search", "convergence-check", "vec-ops"])
+@Contract(testClass = LBFGSTests::class)
+@TranslationHint("Target should use platform BLAS for vec-ops if available")
+fun <T : Comparable<T>> lbfgs(...): MinResult<T> { ... }
+```
+
+The attributes pre-compute what every agent would otherwise need to figure out:
+
+- **What depends on what.** Explicit `DependsOn` edges instead of agent inference from call sites.
+- **Where the tests are.** Direct link between implementation and its behavioral contract.
+- **Translation guidance.** Hints about platform-specific concerns, performance expectations, or adaptation strategies that would otherwise require the agent to reason about from scratch.
+
+The code *is* the reference implementation. The annotations *are* the graph. Nothing is separated into a different format or language.
+
+### Reflection-Based Extraction
+
+Languages with strong reflection capabilities (C#, Kotlin/Java) allow the annotated graph to be walked mechanically at runtime. A tool — not an AI agent, just a simple program — can:
+
+1. Load the reference assembly/JAR.
+2. Walk every type and method decorated with `[Node]` attributes.
+3. Build the complete dependency graph from the declared edges.
+4. Given a requested node, compute its transitive closure.
+5. Emit only the reference code and associated tests for that subgraph.
+
+This is a mechanical pre-processing step, perhaps 100 lines of code. It does not require AI. It transforms the full annotated library into a minimal, self-contained package ready for agent consumption.
+
+This splits the work cleanly:
+
+| Step | Done by | Input | Output |
+|------|---------|-------|--------|
+| **Author** reference with annotations | Human developer | Domain knowledge | Annotated reference library |
+| **Extract** requested subgraph | Reflection tool (mechanical) | Node ID + annotated library | Minimal code + tests package |
+| **Translate** to target language | AI agent | Extracted package | Native implementation |
+| **Verify** against translated tests | Agent + test runner | Generated code + tests | Pass/fail |
+
+The agent never sees the full library. It receives a minimal, pre-extracted package with the graph already resolved, dependencies explicit, and tests attached. No discovery overhead.
+
+### Node Structure
+
+Each annotated node in the reference library represents a discrete unit of functionality: a function, a data type, or a small cohesive module.
+
+Each node carries (via annotations and the code itself):
+
+- **Identity.** A unique, stable identifier (the annotation name).
+- **Reference implementation.** The actual method/class body — working, executable code in the donor language.
+- **Tests.** Linked test class(es) that define the behavioral contract.
+- **Dependencies.** Declared edges to other node identifiers.
+- **Metadata.** Translation hints, performance annotations, descriptions — anything that pre-computes knowledge an agent would otherwise need to derive.
+
+A node is either **pure** (no `DependsOn` — a leaf in the graph) or **composite** (depends on other nodes).
 
 ### Selective Extraction
 
-When a consumer requests a node, they receive its **transitive closure** — that node plus every node reachable through its dependency edges. Nothing else.
+When a consumer requests a node, the reflection tool computes its **transitive closure** — that node plus every node reachable through its dependency edges. Nothing else.
 
 Example: requesting `l-bfgs` from an optimization library yields:
 
@@ -79,12 +136,13 @@ The consumer gets 6 nodes. Not the 40 other optimization algorithms, not the CLI
 
 An AI agent receives the extracted subgraph and generates a native implementation in the consumer's target language:
 
-1. Read the reference implementation and tests for each node.
+1. Read the reference implementation and tests for each node in the subgraph.
 2. Translate to the target language, preserving behavioral contracts.
 3. Run the translated tests to verify correctness.
 4. Where nodes connect through interfaces, generate appropriate abstractions in the target language (traits, interfaces, protocols, etc.).
+5. Where translation hints indicate platform-specific concerns (e.g., async/await in a target without coroutines), consult agent skills or ask the user for adaptation decisions.
 
-The dependency edges tell the agent where the architectural boundaries are. The tests tell it whether the translation is correct.
+The pre-computed annotations mean the agent spends its context window on *translation*, not *discovery*.
 
 ## Evaluation Rubric
 
@@ -108,7 +166,8 @@ Any proposed approach — whether it's a specific donor language, a custom forma
 
 - **Authoring cost.** Can developers realistically create and maintain reference implementations? Using a real language with existing tooling dramatically lowers this barrier vs. a custom spec language.
 - **Toolchain maturity.** Does the approach leverage existing compilers, test runners, IDEs, and static analysis? Or does it require building a new toolchain from scratch?
-- **Incremental adoption.** Can existing well-tested libraries be converted into this form without a ground-up rewrite?
+- **Annotation and reflection support.** Does the language have a first-class attribute/annotation system for declaring graph metadata directly in the source? Does it have runtime reflection capable of walking those annotations mechanically? This is a prerequisite for the extraction tooling. (C# and Kotlin/Java are strong here; Python decorators are weaker; C and Go lack this entirely.)
+- **Incremental adoption.** Can existing well-tested libraries be converted into this form without a ground-up rewrite? Ideally, annotating an existing well-structured codebase should be the primary onboarding path — not rewriting from scratch.
 - **Human reviewability.** Can a developer audit the reference to understand what they're asking an agent to build?
 
 ### Boundary Conditions
@@ -123,10 +182,12 @@ The sweet spot is **logic-heavy, platform-independent code**: business rules, pr
 
 ## Open Questions
 
-- **Single donor language or domain-dependent?** Is one language the universal donor, or should numerical libraries use Julia/C#, web/API specs use Kotlin/TypeScript, etc.?
-- **Graph format.** The node graph structure needs a concrete representation. What's the minimal format for declaring nodes, edges, and metadata? (The node *contents* are just code and tests in the donor language — only the graph structure needs a format.)
-- **Interface nodes.** How are abstraction boundaries represented? When a node depends on "a gradient function" as an interface rather than a concrete implementation, how is that expressed?
-- **Performance annotations.** What vocabulary is needed to tell an agent "don't be naive about this — use platform-optimized implementations where available"?
+- **Single donor language or domain-dependent?** Is one language the universal donor, or should numerical libraries use Julia/C#, web/API specs use Kotlin/TypeScript, etc.? The donor language must have strong annotation/attribute support and runtime reflection to enable the mechanical extraction tooling. C# and Kotlin/Java are strong candidates. Languages without annotation systems (C, Go, most functional languages) are weaker candidates regardless of other merits.
+- **Annotation vocabulary.** What's the right set of annotations? `[Node]`, `[Contract]`, and `[TranslationHint]` are illustrative but not designed. What metadata actually matters? What do agents need to know that they can't infer from the code itself? This should be driven by empirical observation of where agents struggle during translation.
+- **Interface nodes.** How are abstraction boundaries represented in annotations? When a node depends on "a gradient function" as an interface rather than a concrete implementation, how is that declared? The donor language's own interface/trait system may be sufficient, or it may need annotation support.
+- **Performance annotations.** What vocabulary is needed to tell an agent "don't be naive about this — use platform-optimized implementations where available"? This bridges the boundary condition for performance-critical code.
+- **Granularity.** What's the right size for a node? A single function? A class? A small module? Too fine-grained and the annotation overhead dominates; too coarse and you lose the unbundling benefit.
+- **Extraction tool design.** The reflection-based tool that walks annotations and emits subgraphs is small but its output format matters. What does the agent actually receive? Raw source files? A structured package with manifest? How are cross-node type references handled in the extracted output?
 - **Versioning and evolution.** How do nodes version? When a node's contract changes, how does that propagate through the graph?
 - **Empirical validation.** The "universal donor" hypothesis is testable. Take the same library, represent it multiple ways, measure agent translation quality. This should be done before committing to an approach.
 
