@@ -8,30 +8,47 @@ Type-O reference library in their target language.
 ## Prerequisites
 
 - A Type-O reference library (TypeScript source with `@node` structured comments)
+- A skill layer (preferred): `experiments/<lib>-skill/` with `skill.md`, per-node
+  `spec.md`, and `to-<lang>.md` files
 - A target language and project for the output
 
 ## Process
 
-### 1. Read the reference and build the graph
+### 1. Progressive disclosure: read the skill layers
 
-Read all `.ts` source files in the reference library. For each file, parse the
-structured JSDoc comments to identify:
-- Node IDs (`@node`)
-- Dependencies (`@depends-on`)
-- Test files (`@contract`)
-- Translation hints (`@hint`)
+Follow this order, stopping at the layer that provides enough information:
 
-Build the dependency graph mentally and identify the transitive closure for the
-requested node(s).
+**Layer 1 — Skill overview** (`experiments/<lib>-skill/skill.md`):
+- Node graph and dependencies
+- Subset extraction patterns (which nodes are needed)
+- Design decisions and off-policy defaults
+
+**Layer 2 — Node specs** (`experiments/<lib>-skill/nodes/<name>/spec.md`):
+- Behavioral specification per node
+- Test vectors with `@provenance` annotations
+- Cross-library validated vectors (if available)
+- Algorithm descriptions
+
+**Layer 3 — Translation hints** (`experiments/<lib>-skill/nodes/<name>/to-<lang>.md`):
+- Language-specific type mappings and idioms
+- Implementation guidance for the target language
+
+**Layer 4 — TypeScript reference** (`reference/<lib>/src/<name>.ts`):
+- Consult only if the spec is ambiguous or unclear
+- The reference is the authoritative source for exact behavior
+- Track what you consulted and why (this generates improvement signals)
+
+If no skill layer exists, fall back to reading `.ts` source files directly
+(the original ref-only workflow described below).
 
 ### 2. Plan the translation order
 
-Topologically sort the nodes in the closure — leaf nodes (no dependencies) first,
-composite nodes after their dependencies. Present the plan to the user:
+Identify the nodes needed (subset or full library). Topologically sort them —
+leaf nodes first, composite nodes after their dependencies:
 
 ```
 Translation Plan: <requested-node> → <target-language>
-Source: reference/<library-name>/
+Subset: <which nodes>
 
 1. <leaf-node-a> (pure — no dependencies)
 2. <leaf-node-b> (pure — no dependencies)
@@ -44,42 +61,64 @@ Confirm scope with the user before proceeding.
 
 For each node in topological order:
 
-#### a. Translate tests first
+#### a. Read the spec and translation hints
 
-Read the test file linked by `@contract`. Translate the test cases to the
-target language's test framework:
-- `test.each([...])` → parameterized tests in the target
-- `expect(...).toBe(...)` → target assertion equivalent
-- `expect(() => ...).toThrow()` → target error assertion
-- Preserve test names and structure
+Read `spec.md` and `to-<lang>.md` for this node. If anything is ambiguous,
+consult the TypeScript reference (`reference/<lib>/src/<name>.ts`).
 
-The translated tests should be runnable but will initially fail (no implementation yet).
+**Important**: Track every time you consult the reference and why. This is
+valuable feedback — it identifies spec ambiguities that should be fixed.
 
-#### b. Translate the implementation
+#### b. Generate implementation + tests
 
-Read the TypeScript reference implementation for this node. Translate to the
-target language:
-- Preserve the behavioral contract exactly
-- Use idiomatic target language patterns (don't write TypeScript in Python)
-- Respect any `@hint` annotations on this node
-- If a hint has category `adapt:`, ask the user how they want to handle it
+Generate both the implementation and tests together. Tests should cover:
+- All test vectors from the spec
+- Behavioral tests (edge cases, error conditions)
+- Purity checks (vector operations don't mutate inputs)
 
 #### c. Run tests for this node
 
-Run only the tests for the node just translated. All must pass before proceeding.
-If tests fail, fix the translation — do not modify the test expectations.
+Run the tests. All must pass before proceeding.
+If tests fail, fix the implementation — do not modify the test expectations
+(unless they don't match the spec).
 
 #### d. Move to the next node
 
-The translated node's public interface is now available for subsequent nodes
-that depend on it.
+The translated node's public interface is now available for subsequent nodes.
 
 ### 4. Final verification
 
 After all nodes are translated:
 - Run the complete test suite
 - Report pass/fail count
-- Flag any nodes where `adapt:` hints were resolved — document the user's choices
+- Document which files were consulted (all four layers)
+- Document whether the TypeScript reference was needed, and for what
+
+### 5. Report translation feedback
+
+If you consulted the TypeScript reference, report the ambiguities found.
+Each ambiguity is a potential spec improvement. Format:
+
+```
+## Translation Feedback
+
+### Ambiguity: <brief description>
+- **Spec says**: <what the spec says>
+- **Reference does**: <what the TypeScript code does>
+- **Resolution**: <how you resolved it>
+- **Suggested fix**: <how to improve the spec>
+```
+
+## Ref-only fallback (when no skill layer exists)
+
+If there is no `experiments/<lib>-skill/` directory, fall back to reading
+the TypeScript source files directly:
+
+1. Read all `.ts` source files in the reference library
+2. Parse `@node`, `@depends-on`, `@contract`, `@hint` from JSDoc comments
+3. Build the dependency graph and compute transitive closure
+4. Translate in topological order, tests first, then implementation
+5. Run tests after each node
 
 ## Translation guidelines
 
@@ -88,18 +127,19 @@ After all nodes are translated:
 - Use the target language's native error handling (exceptions, Result types, error returns)
 - Prefer the target language's standard library over adding dependencies
 - Generated code should look like a human wrote it in the target language
+- Zero external dependencies is the goal
 
 ### Common TypeScript → target patterns
 
-| TypeScript pattern | Python | Rust | Go | C# |
-|-------------------|--------|------|-----|-----|
-| `export function` | module function | `pub fn` | exported function | `public static` method |
-| `interface` / `type` | dataclass / TypedDict | struct | struct | record / class |
-| `number` | int / float | i64 / f64 | int64 / float64 | long / double |
-| `string` | str | String / &str | string | string |
-| `throw new Error()` | raise ValueError | return Err() / panic | return error | throw Exception |
-| `T \| null` | Optional[T] | Option<T> | pointer / ok pattern | T? |
-| `Record<K, V>` | dict[K, V] | HashMap<K, V> | map[K]V | Dictionary<K, V> |
+| TypeScript pattern | Python | Rust | Go |
+|-------------------|--------|------|-----|
+| `export function` | module function | `pub fn` | exported function |
+| `interface` / `type` | dataclass / TypedDict | struct | struct |
+| `number` | int / float | i64 / f64 | int64 / float64 |
+| `string` | str | String / &str | string |
+| `throw new Error()` | raise ValueError | return Err() / panic | return error |
+| `T \| null` | Optional[T] | Option<T> | pointer / ok pattern |
+| `Record<K, V>` | dict[K, V] | HashMap<K, V> | map[K]V |
 
 ### Handling @hint categories
 
@@ -107,4 +147,4 @@ After all nodes are translated:
 - **`platform:`** — Use the target's native or best-in-class library
 - **`perf:`** — Ensure the implementation meets the stated complexity/performance bound
 - **`adapt:`** — Stop and ask the user. Present the hint and the available options
-  in the target language. Use the ask user question tool if available.
+  in the target language.

@@ -39,12 +39,12 @@ Start with Python and Rust for whenwords. Add others as the methodology stabiliz
 
 **Library complexity** — staged progression:
 
-| Stage | Library | Characteristics |
-|-------|---------|-----------------|
-| 1 | whenwords | 5 pure leaf nodes, no inter-node deps, string/date manipulation |
-| 2 | TBD — small with deps | ~10 nodes, DAG with 2-3 levels, shared types |
-| 3 | TBD — algorithmic | Numerical/algorithmic, generics, complex types |
-| 4 | TBD — extracted from existing | Real library subset (like the Optim.jl case) |
+| Stage | Library | Characteristics | Status |
+|-------|---------|-----------------|--------|
+| 1 | whenwords | 5 pure leaf nodes, no inter-node deps, string/date manipulation | Done |
+| 2 | mathexpr | 6 nodes, DAG with shared types, parser/evaluator pipeline | Done |
+| 3 | optimize | 10 nodes, numerical algorithms, cross-library validation | Done |
+| 4 | TBD — extracted from existing | Real library subset (like the Optim.jl case) | Planned |
 
 ### Dependent Variables (Metrics)
 
@@ -235,43 +235,72 @@ what you wanted?"
 For the PROMPT format, test vectors must still be provided *separately* after
 generation, to measure correctness. The agent doesn't see them during generation.
 
+## Results to Date
+
+### Stage 1: whenwords (5 nodes, no inter-node deps)
+
+9 runs: 3 formats (REF, SPEC, PROMPT) × 3 languages (Python, Rust, Go).
+See `docs/whenwords-experiment-results.md` for full results.
+
+- REF format produced the highest first-pass accuracy
+- PROMPT format diverged on 6/116 Python tests (ambiguous threshold behavior)
+- SPEC format was competitive with REF on simple string/date operations
+- All REF translations achieved 100% cross-validation pass rate
+
+### Stage 2: mathexpr (6 nodes, DAG with shared types)
+
+12 runs: 4 formats (REF, SPEC, PROMPT, SKILL) × 3 languages.
+See `docs/mathexpr-experiment-results.md` for full results.
+
+- All formats achieved 100% test pass rate (parser/evaluator domain is well-understood)
+- SKILL format designed based on Stage 1-2 findings: hybrid of SPEC + REF with progressive disclosure
+- Confirmed that `@depends-on` and topological ordering help with DAG translation
+
+### Stage 3: optimize (10 nodes, numerical algorithms) — partial
+
+3 runs: SKILL format × 3 languages (Python, Rust, Go), nelder-mead subset only.
+See `experiments/optimize-skill-nelder-mead-experiment.md` for full results.
+
+- **108/108 tests pass** across all 3 languages
+- **De-bundling confirmed**: subset (3 of 10 nodes) extracted and translated cleanly
+- **Progressive disclosure validated**: all agents used all 4 layers (skill.md → spec → hints → reference)
+- **3 spec ambiguities identified** via translation feedback (see `docs/draft-issues/`)
+- Cross-validated against scipy v1.17.0 (empirical) and Optim.jl v2.0.0 (from source)
+
+### Format evolution
+
+Based on these results, the **skill format is the canonical approach** going forward:
+
+| Format | First tested | Current status |
+|--------|-------------|----------------|
+| REF | Stage 1 | Superseded by SKILL (still available as Layer 4) |
+| SPEC | Stage 1 | Incorporated into SKILL as Layer 2 (spec.md) |
+| PROMPT | Stage 1 | Not recommended for production use |
+| SKILL | Stage 2 | **Canonical** — progressive disclosure with all layers |
+
 ## Scaling to Complex Libraries
 
-The whenwords experiment is the methodology shakedown. The real test is whether
-the approach scales. Each subsequent stage should increase complexity along
-specific dimensions:
+The whenwords experiment was the methodology shakedown. Stages 2 and 3 confirmed
+the approach scales. Each subsequent stage increased complexity along specific
+dimensions:
 
-### Stage 2: Library with Dependencies
+### Stage 2: Library with Dependencies (completed: mathexpr)
 
-Pick or build a small library (~10 nodes) where:
-- Nodes form a DAG (not all leaves)
-- Shared types exist across nodes
-- At least one interface/abstraction boundary
+**Completed.** mathexpr — a math expression parser/evaluator with 6 nodes:
+- Nodes form a DAG: token-types → parser → evaluator (shared types across nodes)
+- Tested with all 4 formats (REF, SPEC, PROMPT, SKILL) × 3 languages
+- Led to the design of the skill format (progressive disclosure)
 
-This tests whether `@depends-on` and topological ordering actually help, since
-whenwords has no inter-node dependencies.
+### Stage 3: Algorithmic Library (completed: optimize)
 
-Suggested candidates:
-- A small validation library (schema → validators → error types)
-- A state machine library (states, transitions, guards)
-- A simple expression parser (lexer → parser → evaluator)
+**Completed.** optimize — a numerical optimization library with 10 nodes:
+- Complex algorithms: Nelder-Mead, gradient descent, BFGS, L-BFGS
+- Strong inter-node dependencies (line-search, finite-diff shared across methods)
+- Cross-validated against scipy v1.17.0 and Optim.jl v2.0.0
+- Subset translation (3 of 10 nodes) confirmed de-bundling hypothesis
+- 11-library survey comparing defaults and algorithms across ecosystems
 
-### Stage 3: Algorithmic Library
-
-Pick or build a library with:
-- Generic types / type parameters
-- Mathematical operations
-- Complex algorithms where correctness is non-obvious
-
-This tests whether TypeScript as donor language can express algorithmic
-complexity clearly enough for translation.
-
-Suggested candidates:
-- Sorting algorithms with comparators
-- Graph algorithms (BFS, DFS, shortest path)
-- A subset of a numerical library
-
-### Stage 4: Extracted from Existing Code
+### Stage 4: Extracted from Existing Code (not yet attempted)
 
 Take a real, existing library and extract a Type-O reference from it:
 - Run the `build-type-o-reference` skill on an existing codebase
