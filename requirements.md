@@ -203,14 +203,37 @@ The sweet spot is **logic-heavy, platform-independent code**: business rules, pr
 
 ## Open Questions
 
-- **Single donor language or domain-dependent?** TypeScript is the current choice. It may not be optimal for all domains — numerical libraries might benefit from a language with stronger numeric generics (C#'s `IFloatingPoint<T>`). This should be revisited with data after the first translation experiments.
-- **Comment vocabulary.** The current tags (`@node`, `@depends-on`, `@contract`, `@hint`) are minimal and untested at scale. What metadata actually matters? What do agents need to know that they can't infer from the code itself? This should be driven by empirical observation of where agents struggle during translation.
-- **Interface nodes.** How are abstraction boundaries represented? When a node depends on "a gradient function" as an interface rather than a concrete implementation, how is that declared? TypeScript's own interface/type system may be sufficient, or it may need additional `@hint` support.
-- **Performance annotations.** What `@hint` vocabulary is needed to tell an agent "don't be naive about this — use platform-optimized implementations where available"? This bridges the boundary condition for performance-critical code.
-- **Granularity.** What's the right size for a node? A single function? A class? A small module? Too fine-grained and the comment overhead dominates; too coarse and you lose the unbundling benefit.
-- **Versioning and evolution.** How do nodes version? When a node's contract changes, how does that propagate through the graph?
-- **Empirical validation.** The "universal donor" hypothesis is testable. Take the same reference library, have agents translate it to multiple target languages, and measure first-pass test pass rate. The whenwords reference library is the first test case.
+### Answered by experiments
+
+- **Single donor language or domain-dependent?** TypeScript works well across domains tested (string/date, parsing, numerical optimization). The optimize library (10 nodes, complex numerical algorithms) showed no limitations from TypeScript as donor. Numeric generics were not needed — `number[]` with explicit loops was clear and translatable. **Answer: TypeScript is sufficient for the domains tested.**
+
+- **Comment vocabulary.** The `@node`, `@depends-on`, `@contract`, `@hint` tags are sufficient. We added `@provenance` for documenting where test vectors and defaults come from. The skill format (separate spec.md + to-{lang}.md files) supplements inline comments with richer context without changing the comment vocabulary. **Answer: minimal vocabulary works; provenance annotations are valuable.**
+
+- **Granularity.** One exported function or cohesive type set per node works well. The optimize library's 10 nodes range from small (vec-ops: 10 functions) to medium (nelder-mead: 1 function + options type + internal helper). This granularity enables subset extraction (3 of 10 nodes for "Just Nelder-Mead"). **Answer: one function/type-set per node; the node graph handles composition.**
+
+- **Empirical validation.** Done. Three reference libraries translated to 3 target languages across 4 formats. Key result: the skill format (progressive disclosure) is the canonical approach. All three layers (spec, hints, reference) are needed. See experiment results in `docs/` and `experiments/`.
+
+### Still open
+
+- **Interface nodes.** Not yet tested — all current nodes are concrete implementations. The optimize library uses TypeScript interfaces (OptimizeOptions, OptimizeResult) but these are concrete types, not abstraction boundaries.
+- **Performance annotations.** Not yet needed. The `@hint` vocabulary could support `perf:` tags but we haven't had a case where naive translation was unacceptable.
+- **Versioning and evolution.** Untested. No node has been versioned or had its contract changed yet.
+- **Agent-powered feedback loop.** Translation agents that hit spec ambiguities generate improvement signals. The mechanism for feeding these back (GitHub issues, PRs against a skills marketplace) is designed but not yet automated. See `docs/draft-issues/` for examples.
+- **Scale.** Current experiments use 5-10 node libraries. The approach needs testing with larger graphs (50+ nodes) and deeper dependency chains.
 
 ## Status
 
-First reference library implemented: [whenwords](reference/whenwords/) (5 nodes, 124 tests, 100% coverage). Next step is to test the translation skill — have an agent translate the whenwords reference to a target language and measure the results.
+Three reference libraries implemented and tested:
+
+| Library | Nodes | Tests | Coverage | Translations |
+|---------|-------|-------|----------|-------------|
+| [whenwords](reference/whenwords/) | 5 | 124 | 100% | 9 (3 formats × 3 langs) |
+| [mathexpr](reference/mathexpr/) | 6 | ~100 | 100% | 12 (4 formats × 3 langs) |
+| [optimize](reference/optimize/) | 10 | 191 | 100% | 3 (skill × 3 langs, NM subset) |
+
+Key milestones:
+- **Skill format designed and validated** — progressive disclosure with spec + hints + reference
+- **De-bundling confirmed** — subset extraction (3 of 10 nodes) produces correct, self-contained translations
+- **Cross-library validation** — optimize library empirically validated against scipy v1.17.0
+- **Translation feedback loop** — spec ambiguities detected by agents, documented as draft issues
+- **11-library survey** — comprehensive comparison across scipy, Optim.jl, Ceres, NLopt, dlib, and others

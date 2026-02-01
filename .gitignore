@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+bun.lock
+
+# Build artifacts
+__pycache__/
+*.pyc
+target/
+Cargo.lock
+cover.out
+*.o
+*.exe
+coverage/

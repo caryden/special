@@ -1,0 +1,344 @@
+{
+  "Sphere": {
+    "bfgs (analytic grad)": {
+      "x": [
+        0,
+        0
+      ],
+      "fun": 0,
+      "iterations": 1,
+      "functionCalls": 3,
+      "converged": true,
+      "message": "Converged: gradient norm 0.00e+0 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        0,
+        0
+      ],
+      "fun": 0,
+      "iterations": 1,
+      "functionCalls": 3,
+      "converged": true,
+      "message": "Converged: gradient norm 0.00e+0 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        0,
+        0
+      ],
+      "fun": 0,
+      "iterations": 1,
+      "functionCalls": 3,
+      "converged": true,
+      "message": "Converged: gradient norm 0.00e+0 below tolerance"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        -7.450580920664823e-9,
+        -7.450580920664823e-9
+      ],
+      "fun": 1.1102231211074939e-16,
+      "iterations": 2,
+      "functionCalls": 4,
+      "converged": true,
+      "message": "Converged: gradient norm 6.47e-16 below tolerance"
+    },
+    "nelder-mead": {
+      "x": [
+        -0.0000016850749254934439,
+        -4.4374396224651253e-7
+      ],
+      "fun": 3.0363862085569698e-12,
+      "iterations": 54,
+      "functionCalls": 101,
+      "converged": true,
+      "message": "Converged: simplex function spread 4.71e-13 below tolerance"
+    }
+  },
+  "Booth": {
+    "bfgs (analytic grad)": {
+      "x": [
+        0.9999999999804055,
+        3.000000000309737
+      ],
+      "fun": 4.330513591183288e-19,
+      "iterations": 7,
+      "functionCalls": 12,
+      "converged": true,
+      "message": "Converged: gradient norm 2.94e-9 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        1.000000000097737,
+        3.00000000033176
+      ],
+      "fun": 8.574869937735968e-19,
+      "iterations": 9,
+      "functionCalls": 14,
+      "converged": true,
+      "message": "Converged: gradient norm 4.10e-9 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        1.0000002709378513,
+        2.999999236447874
+      ],
+      "fun": 1.6270944638152677e-12,
+      "iterations": 36,
+      "functionCalls": 146,
+      "converged": true,
+      "message": "Converged: function change 6.02e-13 below tolerance"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        1.000000028954862,
+        2.9999999547784246
+      ],
+      "fun": 3.941798720610179e-15,
+      "iterations": 7,
+      "functionCalls": 12,
+      "converged": true,
+      "message": "Converged: gradient norm 2.94e-9 below tolerance"
+    },
+    "nelder-mead": {
+      "x": [
+        0.999999606528283,
+        3.000000785155385
+      ],
+      "fun": 1.384953353488796e-12,
+      "iterations": 58,
+      "functionCalls": 113,
+      "converged": true,
+      "message": "Converged: simplex function spread 3.59e-13 below tolerance"
+    }
+  },
+  "Rosenbrock": {
+    "bfgs (analytic grad)": {
+      "x": [
+        0.9999999999820666,
+        0.999999999826551
+      ],
+      "fun": 1.8932068998750342e-18,
+      "iterations": 34,
+      "functionCalls": 55,
+      "converged": true,
+      "message": "Converged: function change 2.23e-13 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        1.000000000022431,
+        1.0000000000440394
+      ],
+      "fun": 5.707902673415915e-22,
+      "iterations": 35,
+      "functionCalls": 65,
+      "converged": true,
+      "message": "Converged: gradient norm 3.74e-10 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        0.9727759362126368,
+        0.9460232983938479
+      ],
+      "fun": 0.0007484247354819688,
+      "iterations": 1000,
+      "functionCalls": 9834,
+      "converged": false,
+      "message": "Stopped: reached maximum iterations (1000)"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        0.9999955995527224,
+        0.9999911879473475
+      ],
+      "fun": 1.9376429806707616e-11,
+      "iterations": 35,
+      "functionCalls": 75,
+      "converged": false,
+      "message": "Stopped: line search failed to find acceptable step"
+    },
+    "nelder-mead": {
+      "x": [
+        1.0000009786377766,
+        1.0000018410414457
+      ],
+      "fun": 2.308790934319254e-12,
+      "iterations": 126,
+      "functionCalls": 242,
+      "converged": true,
+      "message": "Converged: simplex function spread 8.45e-13 below tolerance"
+    }
+  },
+  "Beale": {
+    "bfgs (analytic grad)": {
+      "x": [
+        2.9999999999310702,
+        0.49999999998486205
+      ],
+      "fun": 8.485881984727907e-22,
+      "iterations": 17,
+      "functionCalls": 32,
+      "converged": true,
+      "message": "Converged: gradient norm 9.01e-11 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        2.999999998943871,
+        0.4999999996935561
+      ],
+      "fun": 2.243225517002753e-19,
+      "iterations": 10,
+      "functionCalls": 16,
+      "converged": true,
+      "message": "Converged: gradient norm 2.06e-9 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        2.999602991328127,
+        0.4998933984799683
+      ],
+      "fun": 2.676658252104568e-8,
+      "iterations": 410,
+      "functionCalls": 2244,
+      "converged": true,
+      "message": "Converged: function change 3.28e-13 below tolerance"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        2.999999541668285,
+        0.4999998779986126
+      ],
+      "fun": 3.523167614901495e-14,
+      "iterations": 17,
+      "functionCalls": 53,
+      "converged": false,
+      "message": "Stopped: line search failed to find acceptable step"
+    },
+    "nelder-mead": {
+      "x": [
+        3.0000003228824506,
+        0.4999999067534524
+      ],
+      "fun": 7.094074817472859e-13,
+      "iterations": 61,
+      "functionCalls": 121,
+      "converged": true,
+      "message": "Converged: simplex function spread 7.12e-13 below tolerance"
+    }
+  },
+  "Himmelblau": {
+    "bfgs (analytic grad)": {
+      "x": [
+        2.9999999999337725,
+        2.0000000000582863
+      ],
+      "fun": 1.4283529106159125e-19,
+      "iterations": 10,
+      "functionCalls": 22,
+      "converged": true,
+      "message": "Converged: gradient norm 3.74e-9 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        2.999999999980418,
+        1.9999999998354157
+      ],
+      "fun": 5.391426477271827e-19,
+      "iterations": 11,
+      "functionCalls": 19,
+      "converged": true,
+      "message": "Converged: gradient norm 5.99e-9 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        3.000000048340103,
+        1.9999999643422979
+      ],
+      "fun": 7.360140600143339e-14,
+      "iterations": 22,
+      "functionCalls": 145,
+      "converged": true,
+      "message": "Converged: function change 5.06e-13 below tolerance"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        2.999999978145403,
+        1.9999999979738095
+      ],
+      "fun": 1.8627489863190522e-14,
+      "iterations": 10,
+      "functionCalls": 22,
+      "converged": true,
+      "message": "Converged: gradient norm 3.74e-9 below tolerance"
+    },
+    "nelder-mead": {
+      "x": [
+        3.0000002970892474,
+        2.0000001987665192
+      ],
+      "fun": 5.118361321930658e-12,
+      "iterations": 68,
+      "functionCalls": 131,
+      "converged": true,
+      "message": "Converged: simplex function spread 8.87e-13 below tolerance"
+    }
+  },
+  "Goldstein-Price": {
+    "bfgs (analytic grad)": {
+      "x": [
+        -2.863608782607978e-13,
+        -1.0000000000001263
+      ],
+      "fun": 2.999999999999936,
+      "iterations": 11,
+      "functionCalls": 34,
+      "converged": true,
+      "message": "Converged: gradient norm 1.17e-10 below tolerance"
+    },
+    "l-bfgs (analytic grad)": {
+      "x": [
+        -1.2844233221583102e-10,
+        -0.9999999999980719
+      ],
+      "fun": 3.0000000000000178,
+      "iterations": 12,
+      "functionCalls": 24,
+      "converged": true,
+      "message": "Converged: step size 9.13e-9 below tolerance"
+    },
+    "gradient-descent (analytic grad)": {
+      "x": [
+        3.386400721739747e-8,
+        -1.0000000723010831
+      ],
+      "fun": 3.0000000000031086,
+      "iterations": 108,
+      "functionCalls": 1085,
+      "converged": true,
+      "message": "Converged: function change 8.08e-13 below tolerance"
+    },
+    "bfgs (finite diff)": {
+      "x": [
+        -1.1581865872583735e-8,
+        -1.0000000135510987
+      ],
+      "fun": 3.000000000000093,
+      "iterations": 11,
+      "functionCalls": 36,
+      "converged": true,
+      "message": "Converged: step size 1.12e-9 below tolerance"
+    },
+    "nelder-mead": {
+      "x": [
+        1.5091787707874677e-9,
+        -0.9999999686657824
+      ],
+      "fun": 3.00000000000044,
+      "iterations": 51,
+      "functionCalls": 103,
+      "converged": true,
+      "message": "Converged: simplex function spread 7.62e-13 below tolerance"
+    }
+  }
+}

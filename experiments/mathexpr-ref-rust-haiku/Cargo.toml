@@ -1,0 +1,11 @@
+[package]
+name = "mathexpr"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[profile.test]
+opt-level = 0
+
+[dependencies]

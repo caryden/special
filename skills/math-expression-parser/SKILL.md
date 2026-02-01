@@ -1,0 +1,121 @@
+---
+name: math-expression-parser
+description: Generate a native math expression parser and evaluator — tokenizer, recursive descent parser, tree-walking evaluator — from a verified TypeScript reference
+argument-hint: "<nodes> [--lang <language>] — e.g. 'evaluate --lang python' or 'all --lang rust'"
+allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
+---
+
+# Math Expression Parser
+
+A math expression parser and evaluator. Takes a string like `"2 + 3 * (4 - 1)"`
+and returns the numeric result (`11`).
+
+## When to use this skill
+
+When you need to evaluate mathematical expressions from strings with correct
+operator precedence, parentheses, and error handling — without adding a dependency.
+
+## Node Graph
+
+```
+token-types ─────────────┬──→ tokenizer ──┐
+                         │                │
+ast-types ──┬────────────┤──→ parser ─────┤──→ evaluate (root: public API)
+            │            │                │
+            └────────────┴──→ evaluator ──┘
+```
+
+### Nodes
+
+| Node | Type | Depends On | Description |
+|------|------|-----------|-------------|
+| `token-types` | leaf | — | Token kind enum and Token data type |
+| `ast-types` | leaf | — | AST node types: NumberLiteral, UnaryExpr, BinaryExpr |
+| `tokenizer` | internal | token-types | Lexer: string → Token[] |
+| `parser` | internal | token-types, ast-types | Recursive descent: Token[] → AstNode |
+| `evaluator` | internal | ast-types | Tree walker: AstNode → number |
+| `evaluate` | root | tokenizer, parser, evaluator | Pipeline: string → number (`calc()`) |
+
+### Subset Extraction
+
+You can translate any subset by following the `depends-on` edges:
+
+- **Just the evaluator** (AST in, number out): `ast-types` + `evaluator`
+- **Parser only** (tokens in, AST out): `token-types` + `ast-types` + `parser`
+- **Full pipeline**: all 6 nodes
+
+## Supported Operations
+
+| Operator | Symbol | Precedence | Associativity |
+|----------|--------|-----------|---------------|
+| Addition | `+` | 1 (lowest) | Left |
+| Subtraction | `-` | 1 | Left |
+| Multiplication | `*` | 2 | Left |
+| Division | `/` | 2 | Left |
+| Modulo | `%` | 2 | Left |
+| Exponentiation | `**` | 3 | **Right** |
+| Unary minus | `-` (prefix) | 4 | Right (prefix) |
+
+**Important**: Unary minus binds tighter than exponentiation.
+`-2 ** 2` = `(-2)² = 4`, NOT `-(2²) = -4`.
+
+## $ARGUMENTS
+
+Format: `<nodes> [--lang <language>]`
+
+- **nodes**: One or more node names from the table above, or `all` for the full pipeline.
+  When specifying individual nodes, all transitive dependencies are included automatically.
+- **--lang**: Target language for the translation. Defaults to `typescript` if omitted.
+  Supported values include `python`, `rust`, `go`, and others for which translation
+  hints exist in `nodes/<name>/to-<lang>.md`.
+
+Examples:
+- `evaluate --lang python` — full pipeline translated to Python
+- `evaluator --lang rust` — evaluator + ast-types translated to Rust
+- `tokenizer parser --lang go` — tokenizer + parser + leaf dependencies translated to Go
+- `all` — all 6 nodes in TypeScript (identity, useful for validation)
+
+## How to Use This Skill
+
+1. Parse `$ARGUMENTS` to determine which nodes and target language are requested
+2. Read this file for overview, the node graph, and subset extraction rules
+3. For each node you need (respecting dependency order), read `nodes/<name>/spec.md`
+   for behavior and test vectors
+4. Read `nodes/<name>/to-<lang>.md` for language-specific translation guidance
+5. Generate implementation + tests for each node
+6. If the spec is ambiguous or insufficient, consult the TypeScript reference at
+   `reference/src/<name>.ts` for the canonical implementation
+
+The per-node specs are self-contained — you can build nodes in parallel as long as
+their dependencies are satisfied.
+
+## Reference Implementation
+
+The TypeScript reference lives at `reference/src/<name>.ts` with corresponding tests
+at `reference/src/<name>.test.ts`. The reference has **100% line and function coverage** —
+every code path is tested and verified. Tests serve as the behavioral contract: if the
+spec and translation hints leave something ambiguous, the reference + its tests are
+the source of truth.
+
+To run the reference tests:
+
+```bash
+cd reference && bun test --coverage
+```
+
+## Error Handling
+
+The parser and evaluator define several error cases that all translations must handle:
+
+| Error Condition | Stage | Expected Behavior |
+|----------------|-------|-------------------|
+| Empty or whitespace-only input | tokenizer/evaluate | Return an error indicating empty expression |
+| Unrecognized characters (`@`, `#`, etc.) | tokenizer | Error with the character and its position |
+| Unmatched parentheses | parser | Error indicating mismatched or missing parenthesis |
+| Trailing tokens after valid expression | parser | Error indicating unexpected tokens remain |
+| Division by zero | evaluator | Error indicating division by zero |
+| Modulo by zero | evaluator | Error indicating modulo by zero |
+
+All errors should include enough context (position, character, or operator) for the
+caller to produce a useful diagnostic message. See individual node specs for exact
+error semantics and test vectors.
