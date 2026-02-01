@@ -81,7 +81,7 @@ test-functions     │   finite-diff ──────────────�
 | `conjugate-gradient` | internal | vec-ops, result-types, hager-zhang, finite-diff | Nonlinear CG with Hager-Zhang beta and line search |
 | `newton` | internal | vec-ops, result-types, line-search, finite-diff, finite-hessian | Newton's method with Cholesky solve and modified Newton regularization |
 | `newton-trust-region` | internal | vec-ops, result-types, finite-diff, finite-hessian | Newton with dogleg trust region subproblem |
-| `minimize` | root | all algorithm nodes, result-types | Dispatcher: selects algorithm from method + gradient availability |
+| `minimize` | root | result-types, any-of(nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region) | Dispatcher: selects algorithm from method + gradient availability |
 
 ### Subset Extraction
 

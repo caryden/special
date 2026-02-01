@@ -107,7 +107,7 @@ Each node carries (via structured comments and the code itself):
 - **Identity.** A unique kebab-case identifier (`@node time-ago`).
 - **Reference implementation.** The exported function body — working, executable TypeScript.
 - **Tests.** A linked test file (`@contract time-ago.test.ts`) that defines the behavioral contract. **Tests must achieve 100% line and function coverage of the reference implementation — no exceptions.** Uncovered code is unverifiable after translation; if a line can't be covered, it shouldn't exist.
-- **Dependencies.** Declared edges to other node identifiers (`@depends-on`).
+- **Dependencies.** Declared edges to other node identifiers (`@depends-on`). Supports `any-of(a, b, c)` for dispatcher nodes that need at least one from a group rather than all.
 - **Metadata.** Translation hints (`@hint`), descriptions — anything that pre-computes knowledge an agent would otherwise need to derive.
 
 A node is either **pure** (no `@depends-on` — a leaf in the graph) or **composite** (depends on other nodes).

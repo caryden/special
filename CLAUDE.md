@@ -104,6 +104,17 @@ Node metadata is declared via JSDoc-style comments on exported functions:
 export function myFunction(...): ReturnType { ... }
 ```
 
+### @depends-on syntax
+
+- **All required**: `@depends-on a, b, c` — node needs all of a, b, and c
+- **At least one of**: `@depends-on any-of(a, b, c)` — node needs at least one from the group
+- **Mixed**: `@depends-on base-node, any-of(alg-a, alg-b, alg-c)` — base-node is always
+  required; at least one algorithm from the group is required
+
+The `any-of()` modifier is for dispatcher/aggregator nodes (like `minimize`) that import
+multiple implementations but only require one at translation time. When translating a
+subset, include only the `any-of` members you need.
+
 ## Conventions
 
 - Skill names use whole-word kebab-case nouns: `optimization`, `math-expression-parser`, `when-words`

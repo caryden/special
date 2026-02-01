@@ -5,7 +5,7 @@
  * whether a gradient function is provided.
  *
  * @node minimize
- * @depends-on nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region, result-types
+ * @depends-on result-types, any-of(nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region)
  * @contract minimize.test.ts
  * @hint composition: This is a thin dispatcher. The real logic lives in the
  *       algorithm nodes. Translate those first.
