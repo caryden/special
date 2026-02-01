@@ -229,6 +229,21 @@ This is a preliminary finding. Higher-complexity libraries with algorithmic subt
 state management, or error recovery may benefit more from having the reference
 implementation available.
 
+### 6. On-policy vs off-policy framing (added after mathexpr Stage 2)
+
+The 6 PROMPT failures are better understood through the lens of **on-policy vs off-policy
+tasks**. The whenwords thresholds and boundary conditions are arbitrary design decisions
+not predictable from training data (off-policy). The PROMPT agent fell back on its priors
+and guessed differently. By contrast, mathexpr (Stage 2) achieved 100% PROMPT correctness
+because recursive descent parsing is a textbook algorithm well-represented in training data
+(on-policy) — the model already "knows" the right answer regardless of format.
+
+This reframes the Type-O hypothesis: **the value of structured reference material (REF/SPEC)
+is proportional to how far the desired behavior diverges from the model's training
+distribution.** For on-policy tasks, any format works. For off-policy tasks, test vectors
+or reference code are essential to override model priors. See `mathexpr-experiment-results.md`
+for the full analysis.
+
 ## Limitations
 
 - **Single run per combination** — methodology calls for 3 runs to account for

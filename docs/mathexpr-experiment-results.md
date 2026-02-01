@@ -178,17 +178,43 @@ their own structural decisions.
 | PROMPT avg tokens | 213K (0.65x) | 129K (0.38x) | Much better ratio |
 | PROMPT correctness | ~95% (6 failures) | 100% | Better (unambiguous domain) |
 
-### Key Insight
+### Key Insight: The On-Policy Confound
 
-The **correctness vs cost tradeoff** depends on the **ambiguity of the specification domain**,
-not just complexity:
+The initial interpretation — that format value correlates with "specification ambiguity" —
+is incomplete. A stronger hypothesis:
 
-- **Whenwords** (ambiguous thresholds): PROMPT saves tokens but loses correctness
-- **Mathexpr** (mathematical semantics): PROMPT saves tokens AND maintains correctness
+**The model that generates the translations is the same model (or same family) that could
+generate the reference library from scratch.** Recursive descent parsing with precedence
+climbing is a textbook algorithm extensively represented in training data. When an agent
+receives a PROMPT saying "build a math expression parser," it is not truly *translating*
+from the source material — it is *recalling* a well-known pattern and fitting it to
+constraints. The source format is largely irrelevant because the desired behavior is
+already encoded in the model's parameters.
 
-This suggests the value of REF/SPEC is not proportional to algorithmic complexity, but to
-**specification ambiguity** — the number of arbitrary design decisions that test vectors
-or reference code can disambiguate.
+This is an **on-policy** task: the target behavior aligns with what the model would
+produce by default. The three formats converge not because "math is unambiguous" but
+because they all point at the same prior knowledge.
+
+By contrast, whenwords is **off-policy**: the specific thresholds (45 days → "about 2
+months"), unit choices (month/year units in `duration`), and boundary conditions (6-day
+vs 7-day window for "Last Monday") are arbitrary design decisions that cannot be predicted
+from training data. The PROMPT agent had to guess — and guessed differently.
+
+**The real variable is novelty relative to training distribution:**
+
+| Task type | Description | Format impact |
+|-----------|-------------|---------------|
+| **On-policy** | Desired behavior well-represented in training data (textbook algorithms, standard protocols) | Minimal — any reasonable description produces correct output |
+| **Off-policy** | Desired behavior involves arbitrary/novel decisions not predictable from training | High — test vectors or reference code are essential to override model priors |
+
+**Implication**: To properly test the Type-O hypothesis, Stage 3 needs a library where
+the desired behavior *diverges from what the model would produce by default*. This means:
+custom business logic, specific threshold values, unusual error handling conventions, or
+domain-specific decisions where a reasonable developer could make different choices.
+
+Whenwords was actually closer to the right test than mathexpr despite being "simpler" —
+its 6 PROMPT failures were genuine signal showing where model priors diverged from
+intended behavior.
 
 ## Summary Table
 
@@ -204,12 +230,13 @@ or reference code can disambiguate.
 
 ## Key Findings
 
-### 1. All formats achieve 100% correctness for unambiguous domains
+### 1. On-policy tasks mask format differences
 
-Unlike whenwords, where PROMPT diverged on ambiguous thresholds, all three formats
-produced mathematically correct implementations of mathexpr. This confirms that the
-REF/SPEC advantage is specifically in **disambiguation**, not in helping the agent
-understand algorithms.
+All three formats produced correct mathexpr implementations because recursive descent
+parsing is a well-known algorithm in the model's training distribution. This is an
+on-policy confound: the model doesn't need the source material to know how to build
+a correct parser. Format value only manifests for off-policy tasks where the desired
+behavior diverges from model priors (see Key Insight above).
 
 ### 2. REF provides architectural guidance that PROMPT does not
 
