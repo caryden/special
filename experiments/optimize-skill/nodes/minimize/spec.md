@@ -72,3 +72,24 @@ Options include:
 |------|----------|
 | maxIterations=3 on Rosenbrock via bfgs | iterations ≤ 3 |
 | custom gradTol=1e-4 on Sphere | converged=true |
+
+### Cross-library validation summary
+
+@provenance: scipy.optimize.minimize v1.17.0, all methods
+Empirically verified 2026-02-01 (Python 3, numpy 2.4.2).
+
+All 6 test functions × 5 method configurations (30 total runs) validated against
+scipy. Both libraries converge to the same minima. See individual algorithm specs
+for detailed per-function comparison tables.
+
+Key findings:
+- BFGS/L-BFGS: Both converge, ±5 iteration difference due to line search details
+- Nelder-Mead: Both converge, ±50% iteration difference due to simplex construction
+- Finite-diff BFGS: Our tighter gradTol=1e-8 causes formal non-convergence on
+  Rosenbrock/Beale where scipy's gtol=1e-5 succeeds. Actual f values are equivalent.
+- All Himmelblau runs (both libraries) converge to (3, 2) from starting point (0, 0).
+
+@provenance: optim.jl v2.0.0 (documented from source, not empirically run)
+- Default method with gradient: LBFGS (we use BFGS, scipy uses BFGS)
+- Default method without gradient: NelderMead (matches us; scipy uses BFGS+FD)
+- gradTol: 1e-8 (matches us; scipy uses 1e-5)

@@ -88,6 +88,27 @@ return r
 |------|----------|
 | Rosenbrock with memory=3 | converged=true, fun < 1e-6 |
 
+### Cross-library validated vectors
+
+@provenance: scipy.optimize.minimize v1.17.0, method='L-BFGS-B', jac=analytic
+Empirically verified 2026-02-01 (Python 3, numpy 2.4.2).
+
+| Function | scipy f | scipy nit | Our f | Our iter | Agreement |
+|----------|---------|-----------|-------|----------|-----------|
+| Sphere | 7.73e-29 | 2 | 0.0 | 1 | Both ≈ 0 |
+| Booth | 1.14e-12 | 5 | 8.57e-19 | 9 | Both ≈ 0 |
+| Rosenbrock | 2.81e-12 | 36 | 5.71e-22 | 35 | Both ≈ 0 |
+| Beale | 4.95e-16 | 13 | 2.24e-19 | 10 | Both ≈ 0 |
+| Himmelblau | 1.13e-14 | 10 | 5.39e-19 | 11 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 11 | 3.00 | 12 | Both → (0,-1) |
+
+Note: scipy uses L-BFGS-B (bounded variant) with slightly different internals.
+Both use memory=10 by default.
+
+@provenance: optim.jl v2.0.0 (documented, not empirically run)
+- L-BFGS is Optim.jl's default for gradient problems. Uses HagerZhang line search.
+- Memory default = 10 (same as ours and scipy).
+
 ### Behavioral tests
 
 | Test | Expected |

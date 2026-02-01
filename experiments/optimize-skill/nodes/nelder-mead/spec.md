@@ -64,6 +64,30 @@ Returns `OptimizeResult` with `gradient: null` and `gradientCalls: 0`.
 |----------|---------------|----------|
 | Himmelblau | [0, 0] | converged=true, fun < 1e-6, x close to one of four known minima |
 
+### Cross-library validated vectors
+
+@provenance: scipy.optimize.minimize v1.17.0, method='Nelder-Mead'
+Empirically verified 2026-02-01 (Python 3, numpy 2.4.2).
+
+| Function | scipy f | scipy nit | Our f | Our iter | Agreement |
+|----------|---------|-----------|-------|----------|-----------|
+| Sphere | 1.48e-9 | 44 | 3.04e-12 | 54 | Both ≈ 0 |
+| Booth | 2.50e-9 | 67 | 1.38e-12 | 58 | Both ≈ 0 |
+| Rosenbrock | 8.18e-10 | 85 | 2.31e-12 | 126 | Both ≈ 0 |
+| Beale | 5.53e-10 | 83 | 7.09e-13 | 61 | Both ≈ 0 |
+| Himmelblau | 1.43e-8 | 81 | 5.12e-12 | 68 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 39 | 3.00 | 51 | Both → (0,-1) |
+
+Note: Iteration counts differ significantly (±50%) due to different initial simplex
+construction. Our simplex uses `h = 0.05 × max(|xᵢ|, 1)`. scipy uses a different
+scheme. Both converge to the correct minima.
+
+@provenance: optim.jl v2.0.0 (documented, not empirically run)
+- NelderMead parameters: α=1, β=2, γ=0.5, δ=0.5 (same as ours and scipy).
+- Initial simplex: AffineSimplexer with a=0.025, b=0.5 (different from ours).
+- Some functions skipped in Optim.jl's NM test suite: Large Polynomial, Extended Powell,
+  Paraboloid Diagonal, Extended Rosenbrock.
+
 ### Behavioral tests
 
 | Test | Expected |

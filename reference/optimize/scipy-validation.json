@@ -1,0 +1,344 @@
+{
+  "Sphere": {
+    "BFGS (analytic grad)": {
+      "x": [
+        -8.881784197001252e-16,
+        4.440892098500626e-16
+      ],
+      "fun": 9.860761315262648e-31,
+      "nit": 3,
+      "nfev": 4,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        6.217248937900877e-15,
+        6.217248937900877e-15
+      ],
+      "fun": 7.730836871165916e-29,
+      "nit": 2,
+      "nfev": 3,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        1.4291107550097127e-08,
+        1.4291107550097127e-08
+      ],
+      "fun": 4.084715100168862e-16,
+      "nit": 3,
+      "nfev": 7,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        -1.501255941782631e-07,
+        -1.501255941782631e-07
+      ],
+      "fun": 4.5075388054753087e-14,
+      "nit": 3,
+      "nfev": 12,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        -3.33051318187616e-05,
+        -1.9382570999648685e-05
+      ],
+      "fun": 1.4849158640215086e-09,
+      "nit": 44,
+      "nfev": 80,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  },
+  "Booth": {
+    "BFGS (analytic grad)": {
+      "x": [
+        1.0000000000954752,
+        2.999999999931513
+      ],
+      "fun": 1.6719574065743432e-20,
+      "nit": 7,
+      "nfev": 8,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        1.0000002203090308,
+        3.0000002835548387
+      ],
+      "fun": 1.1444546112789728e-12,
+      "nit": 5,
+      "nfev": 6,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        0.9999999999999992,
+        2.999999999999999
+      ],
+      "fun": 1.4199496293978212e-29,
+      "nit": 2,
+      "nfev": 5,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        0.9999999959562611,
+        2.999999995792303
+      ],
+      "fun": 3.06401299798432e-16,
+      "nit": 7,
+      "nfev": 24,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        1.000018462214465,
+        2.9999657858162263
+      ],
+      "fun": 2.5039618826825238e-09,
+      "nit": 67,
+      "nfev": 132,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  },
+  "Rosenbrock": {
+    "BFGS (analytic grad)": {
+      "x": [
+        0.999999971001401,
+        0.9999999461190963
+      ],
+      "fun": 2.5353058002983588e-15,
+      "nit": 32,
+      "nfev": 39,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        0.9999989453492684,
+        0.9999980209057087
+      ],
+      "fun": 2.8076499614188035e-12,
+      "nit": 36,
+      "nfev": 44,
+      "success": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        1.0000000054848626,
+        0.999999997276165
+      ],
+      "fun": 1.8781442743066513e-14,
+      "nit": 36,
+      "nfev": 78,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        0.999993282482023,
+        0.999986554788798
+      ],
+      "fun": 4.5135493373514266e-11,
+      "nit": 31,
+      "nfev": 114,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        1.0000220217835696,
+        1.0000422197517715
+      ],
+      "fun": 8.177661197416674e-10,
+      "nit": 85,
+      "nfev": 159,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  },
+  "Beale": {
+    "BFGS (analytic grad)": {
+      "x": [
+        3.000000459042071,
+        0.5000001383818179
+      ],
+      "fun": 4.763271518400879e-14,
+      "nit": 13,
+      "nfev": 16,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        3.000000017038519,
+        0.4999999998129956
+      ],
+      "fun": 4.95396821651675e-16,
+      "nit": 13,
+      "nfev": 14,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        2.9999999436532807,
+        0.49999995977303463
+      ],
+      "fun": 1.6405513782509723e-14,
+      "nit": 10,
+      "nfev": 19,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        3.0000001193765473,
+        0.5000000467048354
+      ],
+      "fun": 9.027328141904564e-15,
+      "nit": 13,
+      "nfev": 48,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        2.9999419617076253,
+        0.4999848474280797
+      ],
+      "fun": 5.525325548786374e-10,
+      "nit": 83,
+      "nfev": 161,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  },
+  "Himmelblau": {
+    "BFGS (analytic grad)": {
+      "x": [
+        2.9999999477827064,
+        1.9999999956937438
+      ],
+      "fun": 1.0569835706588071e-13,
+      "nit": 10,
+      "nfev": 16,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        2.9999999970623645,
+        1.9999999762721052
+      ],
+      "fun": 1.1284597712615543e-14,
+      "nit": 10,
+      "nfev": 16,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        2.9999999267768,
+        1.9999999915190705
+      ],
+      "fun": 2.1202332558172697e-13,
+      "nit": 9,
+      "nfev": 22,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        2.9999999413180456,
+        1.9999999920458689
+      ],
+      "fun": 1.3782299200583033e-13,
+      "nit": 10,
+      "nfev": 48,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        3.000006324938478,
+        1.9999685321027905
+      ],
+      "fun": 1.4333178246209053e-08,
+      "nit": 81,
+      "nfev": 157,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  },
+  "Goldstein-Price": {
+    "BFGS (analytic grad)": {
+      "x": [
+        -5.657504968233764e-10,
+        -0.999999997462996
+      ],
+      "fun": 3.0000000000000187,
+      "nit": 13,
+      "nfev": 16,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "L-BFGS-B (analytic grad)": {
+      "x": [
+        2.4348653668468145e-10,
+        -0.9999999915905715
+      ],
+      "fun": 3.000000000000001,
+      "nit": 11,
+      "nfev": 13,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "CG (analytic grad)": {
+      "x": [
+        8.398278764766668e-10,
+        -0.9999999963760643
+      ],
+      "fun": 2.99999999999997,
+      "nit": 9,
+      "nfev": 20,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "BFGS (finite diff)": {
+      "x": [
+        -9.583642167715409e-09,
+        -1.0000000121830093
+      ],
+      "fun": 3.000000000000062,
+      "nit": 13,
+      "nfev": 48,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    },
+    "Nelder-Mead": {
+      "x": [
+        -3.558309376243168e-05,
+        -1.000010886788381
+      ],
+      "fun": 3.0000002866026145,
+      "nit": 39,
+      "nfev": 75,
+      "success": true,
+      "message": "Optimization terminated successfully."
+    }
+  }
+}

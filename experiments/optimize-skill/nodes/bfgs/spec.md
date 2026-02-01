@@ -78,6 +78,42 @@ If no gradient function is provided, uses forward finite differences.
 |----------|---------------|----------|
 | Rosenbrock (no grad) | [-1.2, 1.0] | fun < 1e-6, x≈[1,1] (may not formally converge due to FD noise) |
 
+### Cross-library validated vectors
+
+@provenance: scipy.optimize.minimize v1.17.0, method='BFGS', jac=analytic
+Empirically verified 2026-02-01 (Python 3, numpy 2.4.2).
+
+| Function | scipy f | scipy nit | Our f | Our iter | Agreement |
+|----------|---------|-----------|-------|----------|-----------|
+| Sphere | 9.86e-31 | 3 | 0.0 | 1 | Both ≈ 0 |
+| Booth | 1.67e-20 | 7 | 4.33e-19 | 7 | Both ≈ 0 |
+| Rosenbrock | 2.54e-15 | 32 | 1.89e-18 | 34 | Both ≈ 0 |
+| Beale | 4.76e-14 | 13 | 8.49e-22 | 17 | Both ≈ 0 |
+| Himmelblau | 1.06e-13 | 10 | 1.43e-19 | 10 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 13 | 3.00 | 11 | Both → (0,-1) |
+
+Notes:
+- Iteration counts differ due to line search (our Strong Wolfe vs scipy's Strong Wolfe
+  with cubic interpolation). All within ±5 iterations.
+- Our final f values are tighter due to gradTol=1e-8 vs scipy's gtol=1e-5.
+
+@provenance: optim.jl v2.0.0 (documented, not empirically run)
+- BFGS on Rosenbrock from [-1.2, 1.0]: expects 16 iterations, 53 f-calls
+  (uses HagerZhang line search, different from our Strong Wolfe)
+
+### Known behavioral difference: finite-diff on hard functions
+
+@provenance: scipy.optimize.minimize v1.17.0, method='BFGS', jac=None (finite diff)
+Empirically verified 2026-02-01.
+
+| Function | scipy f | scipy success | Our f | Our converged | Why different |
+|----------|---------|---------------|-------|---------------|---------------|
+| Rosenbrock | 4.51e-11 | true | 1.94e-11 | false | Our gradTol=1e-8 too tight for FD |
+| Beale | 9.03e-15 | true | 3.52e-14 | false | Same reason |
+
+With `gradTol=1e-5` (matching scipy), we also converge on both functions.
+This is a tolerance difference, not a correctness difference.
+
 ### Behavioral tests
 
 | Test | Expected |
