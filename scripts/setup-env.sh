@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# setup-env.sh — Install missing toolchains for Type-O translation experiments.
+# setup-env.sh — Install missing toolchains for special skill translation experiments.
 # Intended for Claude Code Web sessions (SessionStart hook) or manual use.
 # Skips anything already installed. Safe to re-run.
 
 set -euo pipefail
 
-echo "=== Type-O environment setup ==="
+echo "=== Special skill environment setup ==="
 
 # --- .NET SDK ---
 if command -v dotnet &>/dev/null; then

@@ -1,10 +1,10 @@
-# Evaluation Methodology: Type-O Translation Experiments
+# Evaluation Methodology: Special Skill Translation Experiments
 
 ## Objective
 
-Measure whether a Type-O annotated reference implementation produces better AI-generated
-code than alternative source formats, across multiple target languages and library
-complexities.
+Measure whether a special skill (annotated reference implementation with layered specs)
+produces better AI-generated code than alternative source formats, across multiple target
+languages and library complexities.
 
 "Better" means: higher first-pass correctness, fewer tokens consumed, fewer iterations
 to full test pass, and more idiomatic target-language output.
@@ -17,7 +17,7 @@ to full test pass, and more idiomatic target-language output.
 
 | Format | Label | Description |
 |--------|-------|-------------|
-| Type-O reference | `REF` | Annotated TypeScript source + colocated tests |
+| Special skill reference | `REF` | Annotated TypeScript source + colocated tests |
 | Markdown + YAML spec | `SPEC` | Behavioral spec + test vectors (dbreunig/whenwords style) |
 | Natural language prompt | `PROMPT` | Plain English description of the library |
 
@@ -92,7 +92,7 @@ Start with Python and Rust for whenwords. Add others as the methodology stabiliz
 
 **M8: Dependency count**
 - How many external dependencies does the generated code introduce?
-- The Type-O promise is zero external deps. Measure whether the agent adds any.
+- The special skill promise is zero external deps. Measure whether the agent adds any.
 
 ### Controls
 
@@ -121,7 +121,7 @@ For each combination of (source format × target language):
    (e.g., `cargo init` for Rust, `pip init` for Python).
 
 2. **Provide source material**: Give the agent the source material for the requested format.
-   - `REF`: The Type-O reference source files (implementation + tests).
+   - `REF`: The special skill reference source files (implementation + tests).
    - `SPEC`: The markdown spec + YAML test vectors.
    - `PROMPT`: A natural language description of the library.
 
@@ -198,9 +198,9 @@ REF    | Rust     | ...         | ...           | ...       | ...        | ...
 
 ## Preparing the Source Material
 
-### REF format (Type-O reference)
+### REF format (special skill reference)
 
-Already exists: `reference/whenwords/src/`. No preparation needed.
+Already exists: `skills/when-words/reference/src/`. No preparation needed.
 
 Provide the agent with all `.ts` source and test files for the requested nodes.
 
@@ -302,8 +302,8 @@ dimensions:
 
 ### Stage 4: Extracted from Existing Code (not yet attempted)
 
-Take a real, existing library and extract a Type-O reference from it:
-- Run the `build-type-o-reference` skill on an existing codebase
+Take a real, existing library and extract a special skill from it:
+- Run the `create-special-skill` skill on an existing codebase
 - Measure the effort to annotate vs. rewrite
 - Test translation quality against the original library's test suite
 
@@ -317,7 +317,7 @@ As complexity increases, track how each metric degrades:
 - Do `@hint` tags prevent common translation mistakes?
 - At what complexity level does the `PROMPT` format become unusable?
 
-These degradation curves are the real evidence for or against the Type-O hypothesis.
+These degradation curves are the real evidence for or against the special skill hypothesis.
 
 ## Running the Experiments
 
@@ -368,6 +368,6 @@ After each experiment stage, produce a summary that includes:
 1. **Results table** — all metrics, all formats, all languages
 2. **Key findings** — what surprised, what confirmed, what broke
 3. **Methodology adjustments** — what to change for the next stage
-4. **Decision impact** — does the data support, challenge, or refine the Type-O hypothesis?
+4. **Decision impact** — does the data support, challenge, or refine the special skill hypothesis?
 
 Store results in `experiments/<library-name>/results.md` alongside the raw data.

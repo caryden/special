@@ -4,7 +4,7 @@
 
 This document records the results of translating the **mathexpr** reference library
 (mathematical expression parser/evaluator) from three source formats into three target
-languages. This is Stage 2 of the Type-O experiments, chosen specifically because
+languages. This is Stage 2 of the special skill experiments, chosen specifically because
 mathexpr has properties that whenwords lacked:
 
 - **6-node dependency graph** with shared types flowing between nodes
@@ -16,7 +16,7 @@ mathexpr has properties that whenwords lacked:
 
 | Format | Description | Content |
 |--------|-------------|---------|
-| **REF** | Type-O annotated TypeScript reference + colocated test suite | 6 implementation files, 6 test files (96 tests), structured comments with `@node`, `@depends-on`, `@contract`, `@hint` |
+| **REF** | Annotated TypeScript reference + colocated test suite | 6 implementation files, 6 test files (96 tests), structured comments with `@node`, `@depends-on`, `@contract`, `@hint` |
 | **SPEC** | Markdown specification with architecture + per-node test vectors | Type definitions, function specs, precedence table, 83 test vectors organized by node |
 | **PROMPT** | Natural language description | Supported operations, precedence rules, error cases. Mentions pipeline structure but no types or test vectors |
 
@@ -207,7 +207,7 @@ from training data. The PROMPT agent had to guess — and guessed differently.
 | **On-policy** | Desired behavior well-represented in training data (textbook algorithms, standard protocols) | Minimal — any reasonable description produces correct output |
 | **Off-policy** | Desired behavior involves arbitrary/novel decisions not predictable from training | High — test vectors or reference code are essential to override model priors |
 
-**Implication**: To properly test the Type-O hypothesis, Stage 3 needs a library where
+**Implication**: To properly test the special skill hypothesis, Stage 3 needs a library where
 the desired behavior *diverges from what the model would produce by default*. This means:
 custom business logic, specific threshold values, unusual error handling conventions, or
 domain-specific decisions where a reasonable developer could make different choices.
@@ -482,7 +482,7 @@ because it's efficient across the board. Opus sits in between.
 Even within an "on-policy" library, there are micro-decisions where training data contains
 conflicting conventions. Python defines `**` as binding tighter than unary minus; most
 other languages and mathematical notation do the opposite. This is a genuine ambiguity
-that only test vectors can resolve — exactly what the Type-O hypothesis predicts.
+that only test vectors can resolve — exactly what the special skill hypothesis predicts.
 
 ---
 

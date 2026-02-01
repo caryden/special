@@ -3,7 +3,7 @@
 ## Goal
 
 A modular, pure, dependency-free optimization library covering the most commonly
-needed unconstrained minimization algorithms. Designed as a Type-O reference for
+needed unconstrained minimization algorithms. Designed as a special skill reference for
 translation into any target language via the skill architecture.
 
 ## Scope

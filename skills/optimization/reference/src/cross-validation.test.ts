@@ -160,7 +160,7 @@ describe("cross-validation: known behavioral differences from scipy", () => {
 
   test("BFGS finite-diff on Rosenbrock: our tighter gradTol causes 'line search failed'", () => {
     // scipy (gtol=1e-5): success=true, fun=4.51e-11
-    // Type-O (gradTol=1e-8): converged=false, fun=1.94e-11 (better value!)
+    // Ours (gradTol=1e-8): converged=false, fun=1.94e-11 (better value!)
     const ours = minimize(rosenbrock.f, [-1.2, 1.0], { method: "bfgs" });
 
     // We get a better function value than scipy despite reporting non-convergence

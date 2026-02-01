@@ -4,14 +4,14 @@
 
 This document records the results of translating the **whenwords** reference library
 from three source formats into three target languages, testing the core hypothesis of
-the Type-O project: that annotated reference implementations produce better agent
+the special skills project: that annotated reference implementations produce better agent
 translations than less-structured source formats.
 
 ### Source Formats
 
 | Format | Description | Content |
 |--------|-------------|---------|
-| **REF** | Type-O annotated TypeScript reference + colocated test suite | Implementation code, structured comments (`@node`, `@contract`, `@hint`), 124 test cases |
+| **REF** | Annotated TypeScript reference + colocated test suite | Implementation code, structured comments (`@node`, `@contract`, `@hint`), 124 test cases |
 | **SPEC** | Markdown specification with test vectors | Behavioral description, threshold tables, unit mappings, 124 test vectors with expected values |
 | **PROMPT** | Natural language description | Behavioral description, design intent, no test vectors |
 
@@ -81,7 +81,7 @@ window — the agent interpreted this as 7 days (inclusive) while the reference 
 6 days (exclusive). For `duration`, the prompt didn't specify month/year units
 explicitly, so the agent made a valid design choice to cap at days.
 
-These are exactly the kind of ambiguities the Type-O hypothesis predicts: without
+These are exactly the kind of ambiguities the special skill hypothesis predicts: without
 precise specifications or test vectors, the agent fills in reasonable defaults that
 don't match the intended behavior.
 
@@ -238,7 +238,7 @@ and guessed differently. By contrast, mathexpr (Stage 2) achieved 100% PROMPT co
 because recursive descent parsing is a textbook algorithm well-represented in training data
 (on-policy) — the model already "knows" the right answer regardless of format.
 
-This reframes the Type-O hypothesis: **the value of structured reference material (REF/SPEC)
+This reframes the special skill hypothesis: **the value of structured reference material (REF/SPEC)
 is proportional to how far the desired behavior diverges from the model's training
 distribution.** For on-policy tasks, any format works. For off-policy tasks, test vectors
 or reference code are essential to override model priors. See `mathexpr-experiment-results.md`

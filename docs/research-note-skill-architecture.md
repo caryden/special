@@ -3,7 +3,7 @@
 ## Context
 
 This note synthesizes findings from the whenwords and mathexpr experiments
-(Stages 1–2) and reframes the Type-O hypothesis based on observed results.
+(Stages 1–2) and reframes the special skill hypothesis based on observed results.
 It then proposes a refined skill architecture informed by prior work extracting
 and converting Optim.jl (a Julia optimization library) to TypeScript using
 claude-sonnet, and the subsequent one-shot conversion by GPT-Codex using a
@@ -91,7 +91,7 @@ in parallel using separate Task sub-agents, each receiving only the spec for its
 node plus the skill-level context from `skill.md`.
 
 **2. Hints extracted from code into markdown.**
-The `@hint` annotations in the Type-O reference code (e.g.,
+The `@hint` annotations in the reference code (e.g.,
 `@hint datetime: Use epoch-based arithmetic, not string parsing`) are moved into
 the per-node spec files and per-language translation guides. This means the agent
 doesn't need to parse TypeScript comments to get translation guidance — the
@@ -300,7 +300,7 @@ better models (execution quality) × richer skills (knowledge quality).
 
 ## Revised Hypothesis
 
-The original Type-O hypothesis: "Annotated reference implementations produce better
+The original hypothesis: "Annotated reference implementations produce better
 agent translations than less-structured source formats."
 
 **Revised**: A **skill** (progressive disclosure of prompt + per-node specs +
