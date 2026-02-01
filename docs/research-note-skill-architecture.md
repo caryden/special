@@ -235,6 +235,69 @@ improve, re-running the validation pipeline produces better translations
 with higher success rates. The knowledge (specs, test vectors) is stable;
 the execution (translation quality) improves with each model generation.
 
+### Agentic Open Knowledge: The Feedback Loop
+
+The lifecycle above is one-directional: skill → agent → code. But if skills are
+distributed as plugins, the plugin model enables **hooks** — and hooks close the
+feedback loop.
+
+**The consuming agent's lifecycle becomes a learning opportunity:**
+
+```
+Skill consumed → Agent generates code → Agent encounters friction or discovers insight
+    → Hook captures structured feedback as GitHub issue
+    → Maintainer agent triages, validates, and PRs the update
+    → Skill improved → Next consumer benefits automatically
+```
+
+**What hooks capture (structured, not freeform):**
+
+| Signal | Example | Skill update target |
+|--------|---------|-------------------|
+| Translation friction | "In Rust, `to-rust.md` for parser suggested `&[Token]` but borrow checker rejected recursive descent; switched to `Vec<Token>` with ownership" | `nodes/parser/to-rust.md` |
+| Missing test vectors | "Agent iterated 3 times on whitespace-in-exponent edge case before converging" | `nodes/tokenizer/spec.md` |
+| Precedence discovery | "PROMPT-Python-Sonnet diverged on `-2 ** 2`; add explicit test vector" | `nodes/evaluate/spec.md` |
+| Performance data | "Go evaluator 2.3x slower than Rust on same vectors; suggest `switch` over type assertion chain" | `nodes/evaluator/to-go.md` |
+| Correctness fix | "Division by zero check fails for `-0.0` in JavaScript; spec should clarify signed zero behavior" | `nodes/evaluator/spec.md` |
+
+**Why this works with skills specifically:**
+
+1. **Per-node specs give a precise address for feedback.** An issue doesn't say "the
+   library has a problem" — it says "`tokenizer/to-rust.md` needs a hint about
+   lifetime annotations." The node graph makes feedback actionable.
+
+2. **Test vectors are the stable contract.** Feedback is about *how to achieve* the
+   contract in a specific language, not *what* the contract is. Translation guides
+   evolve; behavioral specs are stable.
+
+3. **`to-{lang}.md` files are designed to accumulate wisdom.** They're explicitly the
+   place where translation experience is distilled. Each consumer's friction becomes
+   the next consumer's shortcut.
+
+4. **Cross-validation is the CI for skill PRs.** When a maintainer agent updates a
+   `to-rust.md`, the validation pipeline (translate to N languages, run tests) verifies
+   the change doesn't break anything. The existing experiment infrastructure IS the
+   quality gate.
+
+**Maintainer agents as PR authors:**
+
+- **Triage**: Is this a genuine gap or a one-off model quirk? Cross-reference: did
+  multiple consumers hit the same friction on the same `to-{lang}.md`?
+- **Fix**: Update the translation guide, add test vectors, add a `@pitfall` annotation.
+- **Validate**: Re-run cross-validation. Did the fix reduce iteration count for the
+  next consumer? Did it prevent the divergence?
+- **Merge**: Quality gate passes → PR merged → skill version bumped.
+
+**This is open source's contribution model applied to knowledge rather than code.**
+The unit of contribution is not a code patch — it's a learning: "when translating
+this node to this language, watch out for this." Skills become self-improving
+artifacts where every consumption is a potential contribution.
+
+The term for this: **Agentic Open Knowledge** — agents consume knowledge, generate
+code, and feed learnings back. The knowledge base improves with every consumption
+cycle, independent of model improvements. Two orthogonal improvement vectors:
+better models (execution quality) × richer skills (knowledge quality).
+
 ## Revised Hypothesis
 
 The original Type-O hypothesis: "Annotated reference implementations produce better
@@ -299,3 +362,8 @@ Poor skill candidates:
    a community-contributed skill is correct, complete, and actually translatable?
    Cross-validation results and per-language success rates could serve as quality
    metrics.
+
+6. **Can the feedback loop be demonstrated end-to-end?** Run a consuming agent with
+   hooks enabled, capture a structured learning (e.g., a translation friction event),
+   auto-file a GitHub issue, have a maintainer agent triage and PR the fix, then verify
+   the next consumer benefits. This would validate the Agentic Open Knowledge thesis.

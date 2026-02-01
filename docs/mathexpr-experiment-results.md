@@ -539,6 +539,16 @@ All 3 skill-format implementations pass their self-tests on first attempt.
 |--------|------|----|
 | **SKILL** | 50/50 pass | 39/39 pass |
 
+### Token Usage
+
+| Experiment | API Calls | Input Tokens | Est. Output | Est. Total |
+|------------|-----------|-------------|-------------|------------|
+| SKILL → Python | 6 | 134,097 | 6,191 | 140,288 |
+| SKILL → Rust | 5 | 115,265 | 7,783 | 123,048 |
+| SKILL → Go | 6 | 139,606 | 6,481 | 146,087 |
+
+**SKILL average: 5.7 calls, 136K total tokens (0.40x REF)**
+
 ### Four-Format Comparison (Opus)
 
 | Metric | REF | SPEC | PROMPT | SKILL |
@@ -547,6 +557,8 @@ All 3 skill-format implementations pass their self-tests on first attempt.
 | REF vector compliance | 100% | 100% | 100% | 100% |
 | Iterations needed | 1 | 1 | 1 | 1 |
 | External dependencies | 0 | 0 | 0 | 0 |
+| Avg total tokens | 337K (1.00x) | 205K (0.61x) | 129K (0.38x) | **136K (0.40x)** |
+| Avg API calls | 11.3 | 8.3 | 7.0 | **5.7** |
 | Architecture fidelity | Exact | Close | Variable | **Close** |
 
 ### Skill Format Analysis
@@ -573,7 +585,13 @@ trial-and-error iterations.
 - SKILL describes *what* (specs) + *how* (per-language guides) without coupling to any
   single implementation
 
-**5. Skills enable parallel execution.** Each per-node spec is self-contained — an
+**5. Token efficiency rivals PROMPT while preserving architecture.** At 136K avg tokens
+(0.40x REF), SKILL is nearly as cheap as PROMPT (129K, 0.38x) but with close-to-REF
+architecture fidelity. SKILL also used the fewest API calls (5.7 avg) of any format —
+fewer even than PROMPT (7.0). The per-language translation guides appear to reduce
+iteration: the agent doesn't waste calls discovering language-specific pitfalls.
+
+**6. Skills enable parallel execution.** Each per-node spec is self-contained — an
 orchestrating agent could dispatch 6 parallel sub-agents, each reading only its node's
 spec + translation guide + the top-level `skill.md`. This experiment used a single agent
 per language, but the architecture supports decomposition.
