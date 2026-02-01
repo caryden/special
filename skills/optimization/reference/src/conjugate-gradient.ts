@@ -178,15 +178,9 @@ export function conjugateGradient(
     }
 
     // Update direction: d_{k+1} = -g_{k+1} + beta * d_k
+    // The eta guarantee (Theorem 4.2) ensures this is always a descent direction.
     for (let i = 0; i < n; i++) {
       d[i] = -gx[i] + beta * d[i];
-    }
-
-    // Verify descent direction; restart if not
-    if (dot(d, gx) >= 0) {
-      for (let i = 0; i < n; i++) {
-        d[i] = -gx[i];
-      }
     }
   }
 

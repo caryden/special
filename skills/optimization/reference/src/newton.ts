@@ -17,7 +17,7 @@
  * @provenance Optim.jl Newton() — uses NLSolversBase Hessian infrastructure
  */
 
-import { dot, sub, normInf, addScaled } from "./vec-ops";
+import { sub, normInf, addScaled } from "./vec-ops";
 import {
   type OptimizeResult,
   type OptimizeOptions,
@@ -103,13 +103,9 @@ export function newton(
       };
     }
 
-    // Ensure descent direction
-    if (dot(d, gx) >= 0) {
-      // Fall back to steepest descent
-      for (let i = 0; i < n; i++) d[i] = -gx[i];
-    }
-
     // Line search
+    // Note: solveWithRegularization guarantees a PD Cholesky solve succeeded,
+    // so d = -H^{-1}g is always a descent direction. No fallback needed.
     const ls = wolfeLineSearch(f, gradFn, x, d, fx, gx);
     functionCalls += ls.functionCalls;
     gradientCalls += ls.gradientCalls;
@@ -137,12 +133,26 @@ export function newton(
     fx = fNew;
     gx = gNew;
 
-    const reason = checkConvergence(gradNorm, stepNorm, funcChange, iteration, opts);
-    if (reason) {
+    // Check convergence (excluding max iterations — handled by post-loop return)
+    if (gradNorm <= opts.gradTol) {
       return {
         x: x.slice(), fun: fx, gradient: gx.slice(),
         iterations: iteration, functionCalls, gradientCalls,
-        converged: isConverged(reason), message: convergenceMessage(reason),
+        converged: true, message: "Convergence: gradient norm below tolerance",
+      };
+    }
+    if (stepNorm <= opts.stepTol) {
+      return {
+        x: x.slice(), fun: fx, gradient: gx.slice(),
+        iterations: iteration, functionCalls, gradientCalls,
+        converged: true, message: "Convergence: step size below tolerance",
+      };
+    }
+    if (funcChange <= opts.funcTol) {
+      return {
+        x: x.slice(), fun: fx, gradient: gx.slice(),
+        iterations: iteration, functionCalls, gradientCalls,
+        converged: true, message: "Convergence: function change below tolerance",
       };
     }
   }

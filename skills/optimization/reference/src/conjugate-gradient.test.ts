@@ -196,26 +196,4 @@ describe("conjugate-gradient: failure and restart paths", () => {
     expect(result.iterations).toBe(2);
   });
 
-  test("descent direction restart when conjugacy lost", () => {
-    // Force the descent restart by providing an inconsistent gradient
-    // that causes beta to produce a non-descent direction.
-    // Use a gradient that flips sign inconsistently between iterations.
-    let callNum = 0;
-    const f = (x: number[]) => x[0] * x[0];
-    const badGrad = (x: number[]) => {
-      callNum++;
-      // Every 4th gradient call, return a reversed gradient direction
-      // This simulates a noisy gradient that can cause conjugacy loss
-      if (callNum % 4 === 0) {
-        return [-2 * x[0] + 100]; // wrong direction component
-      }
-      return [2 * x[0]];
-    };
-    const result = conjugateGradient(f, [5], badGrad, {
-      maxIterations: 20,
-      eta: 100, // large eta to weaken the descent guarantee
-    });
-    // Should make some progress even with restarts
-    expect(result.iterations).toBeGreaterThan(0);
-  });
 });

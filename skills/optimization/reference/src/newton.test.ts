@@ -216,4 +216,29 @@ describe("newton: edge cases", () => {
     expect(result.converged).toBe(false);
     expect(result.message).toContain("maximum iterations");
   });
+
+  test("converges via step tolerance", () => {
+    // Use Rosenbrock near the minimum — Newton oscillates with small steps
+    // but gradient stays relatively large due to the curved valley.
+    // stepTol=1 is very loose so it triggers before gradTol.
+    const result = newton(rosenbrock.f, [0.99, 0.98], rosenbrock.gradient, rosenbrockHessian, {
+      gradTol: 1e-30, // won't trigger
+      stepTol: 1,     // very loose — triggers on first small step
+      funcTol: 1e-30,
+    });
+    expect(result.converged).toBe(true);
+    expect(result.message).toContain("step size");
+  });
+
+  test("converges via function change tolerance", () => {
+    // Use Rosenbrock near the minimum where function changes are small
+    // but gradient is still nonzero.
+    const result = newton(rosenbrock.f, [0.99, 0.98], rosenbrock.gradient, rosenbrockHessian, {
+      gradTol: 1e-30, // won't trigger
+      stepTol: 1e-30, // won't trigger
+      funcTol: 1,     // very loose — triggers on first iteration
+    });
+    expect(result.converged).toBe(true);
+    expect(result.message).toContain("function change");
+  });
 });

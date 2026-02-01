@@ -208,25 +208,23 @@ function doglegStep(g: number[], H: number[][], delta: number): number[] {
   }
 
   // Dogleg: interpolate between Cauchy point and Newton point
-  if (pN) {
-    // Find tau in [0, 1] such that ||pC + tau*(pN - pC)|| = delta
-    const diff = new Array(n);
-    for (let i = 0; i < n; i++) diff[i] = pN[i] - pC[i];
+  // If Newton step failed (not PD), fall back to Cauchy
+  if (!pN) return pC;
 
-    const a = dot(diff, diff);
-    const b = 2 * dot(pC, diff);
-    const c = dot(pC, pC) - delta * delta;
-    const disc = b * b - 4 * a * c;
+  // Find tau in [0, 1] such that ||pC + tau*(pN - pC)|| = delta
+  const diff = new Array(n);
+  for (let i = 0; i < n; i++) diff[i] = pN[i] - pC[i];
 
-    if (disc >= 0 && a > 0) {
-      const tau = (-b + Math.sqrt(disc)) / (2 * a);
-      const tauClamped = Math.max(0, Math.min(1, tau));
-      return pC.map((pi, i) => pi + tauClamped * diff[i]);
-    }
-  }
+  const a = dot(diff, diff);
+  const b = 2 * dot(pC, diff);
+  const c = dot(pC, pC) - delta * delta;
+  const disc = b * b - 4 * a * c;
 
-  // Fallback: return Cauchy point
-  return pC;
+  if (disc < 0 || a <= 0) return pC;
+
+  const tau = (-b + Math.sqrt(disc)) / (2 * a);
+  const tauClamped = Math.max(0, Math.min(1, tau));
+  return pC.map((pi, i) => pi + tauClamped * diff[i]);
 }
 
 /** Matrix-vector multiply. */

@@ -286,25 +286,19 @@ describe("hager-zhang: secant/bisection narrowing", () => {
   });
 
   test("secant fallback to theta when derivative denominator is near zero", () => {
-    // Construct a function with nearly equal derivatives at bracket endpoints
-    // Step function-like: derivatives are ~0 inside a plateau
-    const f = (x: number[]) => {
-      const t = x[0];
-      // Smooth step: rises quickly at t=0, flat before and after
-      return 1.0 / (1.0 + Math.exp(-20 * (t - 2)));
-    };
-    const grad = (x: number[]) => {
-      const t = x[0];
-      const s = 1.0 / (1.0 + Math.exp(-20 * (t - 2)));
-      return [20 * s * (1 - s)];
-    };
+    // Use a function whose gradient is constant, so dphiAj === dphiBj.
+    // f(x) = (x-5)^2 brackets because phi goes up, but gradient always
+    // returns [-1] (a lie), so the line search sees identical phi' at
+    // both bracket endpoints, forcing the theta fallback on line 224.
+    const f = (x: number[]) => (x[0] - 5) * (x[0] - 5);
+    const constGrad = (_x: number[]) => [-1]; // constant directional deriv
     const x = [5];
-    const d = [-1];
+    const d = [1];
     const fx = f(x);
-    const gx = grad(x);
-    // Moving from 5 toward 0 along sigmoid
-    // At both endpoints of bracket, gradient w.r.t. alpha could be similar
-    const result = hagerZhangLineSearch(f, grad, x, d, fx, gx);
+    const gx = constGrad(x);
+    // phi(0)=0, dphi0=-1 (descent). At c=1: phi=1>0 → brackets [0,1].
+    // dphiAj=-1, dphiBj=-1 → denom=0 → theta fallback.
+    const result = hagerZhangLineSearch(f, constGrad, x, d, fx, gx);
     expect(result.alpha).toBeGreaterThan(0);
   });
 

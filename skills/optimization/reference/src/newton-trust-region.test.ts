@@ -186,22 +186,16 @@ describe("newton-trust-region: edge cases", () => {
   });
 
   test("post-loop max iterations when all steps rejected", () => {
-    // A function where the quadratic model always overestimates improvement,
-    // so rho < eta and steps are rejected. With large enough initial delta,
-    // delta won't shrink to 1e-15 in just 2 iterations.
-    // Use a function where f(x+p) > f(x) for every proposed step (ascending bowl).
-    // f(x) = -x^2 with positive definite Hessian → model predicts decrease but function increases
-    const f = (x: number[]) => -x[0] * x[0] - x[1] * x[1];
-    const grad = (x: number[]) => [-2 * x[0], -2 * x[1]];
-    // Provide WRONG Hessian (positive definite instead of negative definite)
+    // Provide a WRONG gradient (negated) so model predicts decrease but
+    // function actually increases → rho < 0 < eta → step always rejected.
+    // With large initial delta and only 2 iterations, delta stays above 1e-15.
+    // After 2 rejections: delta = 0.25 * pNorm each time, starting from 1e6.
+    const f = (x: number[]) => x[0] * x[0] + x[1] * x[1];
+    const wrongGrad = (x: number[]) => [-2 * x[0], -2 * x[1]]; // negated!
     const hess = (_x: number[]) => [[2, 0], [0, 2]];
-    const result = newtonTrustRegion(f, [5, 5], grad, hess, {
-      initialDelta: 1.0,
+    const result = newtonTrustRegion(f, [5, 5], wrongGrad, hess, {
+      initialDelta: 1e6,
       maxIterations: 2,
-      eta: 0.1,
-      gradTol: 1e-30,
-      stepTol: 1e-30,
-      funcTol: 1e-30,
     });
     expect(result.converged).toBe(false);
     expect(result.message).toContain("maximum iterations");
