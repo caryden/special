@@ -1,19 +1,19 @@
 # Cross-Library Validation Report
 
-Empirical comparison of our Type-O reference implementation against scipy.optimize v1.17.0.
+Empirical comparison of our Special skill reference implementation against scipy.optimize v1.17.0.
 Optim.jl v2.0.0 defaults documented from source (not empirically run).
 
 ## Environment
 
 | Library | Version | Language |
 |---------|---------|----------|
-| Type-O reference | 1.0.0 | TypeScript (bun 1.3.6) |
+| Special skill reference | 1.0.0 | TypeScript (bun 1.3.6) |
 | scipy.optimize | 1.17.0 | Python 3 (numpy 2.4.2) |
 | Optim.jl | 2.0.0 | Julia (documented, not run) |
 
 ## Default Parameter Comparison
 
-| Parameter | Type-O | scipy | Optim.jl |
+| Parameter | Our reference | scipy | Optim.jl |
 |-----------|--------|-------|----------|
 | Gradient tolerance | 1e-8 | 1e-5 (BFGS gtol) | 1e-8 (g_abstol) |
 | Step tolerance | 1e-8 | — (not used) | 0.0 (disabled) |
@@ -31,7 +31,7 @@ Optim.jl v2.0.0 defaults documented from source (not empirically run).
 All libraries converge to the known minimum. Iteration counts differ due to
 line search strategy (our Strong Wolfe vs scipy's Strong Wolfe vs Optim.jl's HagerZhang).
 
-| Function | Known min | Type-O f | scipy f | Type-O iter | scipy iter |
+| Function | Known min | Our reference f | scipy f | Our reference iter | scipy iter |
 |----------|-----------|----------|---------|-------------|------------|
 | Sphere | 0 | 0.00e+0 | 9.86e-31 | 1 | 3 |
 | Booth | 0 | 4.33e-19 | 1.67e-20 | 7 | 7 |
@@ -40,13 +40,13 @@ line search strategy (our Strong Wolfe vs scipy's Strong Wolfe vs Optim.jl's Hag
 | Himmelblau | 0 | 1.43e-19 | 1.06e-13 | 10 | 10 |
 | Goldstein-Price | 3 | 3.00e+0 | 3.00e+0 | 11 | 13 |
 
-**Analysis**: Both converge to correct minima. Type-O achieves tighter final f values
+**Analysis**: Both converge to correct minima. Our reference achieves tighter final f values
 on most functions (due to tighter gradTol=1e-8 vs scipy's gtol=1e-5). Iteration
 counts are comparable (within 2-5 of each other).
 
 ## L-BFGS with Analytic Gradient
 
-| Function | Known min | Type-O f | scipy f | Type-O iter | scipy iter |
+| Function | Known min | Our reference f | scipy f | Our reference iter | scipy iter |
 |----------|-----------|----------|---------|-------------|------------|
 | Sphere | 0 | 0.00e+0 | 7.73e-29 | 1 | 2 |
 | Booth | 0 | 8.57e-19 | 1.14e-12 | 9 | 5 |
@@ -55,13 +55,13 @@ counts are comparable (within 2-5 of each other).
 | Himmelblau | 0 | 5.39e-19 | 1.13e-14 | 11 | 10 |
 | Goldstein-Price | 3 | 3.00e+0 | 3.00e+0 | 12 | 11 |
 
-**Analysis**: Both converge. Type-O again reaches tighter f values on most functions
+**Analysis**: Both converge. Our reference again reaches tighter f values on most functions
 (tighter gradient tolerance). scipy uses L-BFGS-B (bounded variant) which has slightly
 different internals.
 
 ## BFGS with Finite Differences
 
-| Function | Known min | Type-O f | Type-O conv | scipy f | scipy conv |
+| Function | Known min | Our reference f | Our reference conv | scipy f | scipy conv |
 |----------|-----------|----------|-------------|---------|------------|
 | Sphere | 0 | 1.11e-16 | true | 4.51e-14 | true |
 | Booth | 0 | 3.94e-15 | true | 3.06e-16 | true |
@@ -70,7 +70,7 @@ different internals.
 | Himmelblau | 0 | 1.86e-14 | true | 1.38e-13 | true |
 | Goldstein-Price | 3 | 3.00e+0 | true | 3.00e+0 | true |
 
-*Type-O reports `converged=false` with "line search failed" on Rosenbrock and Beale
+*Our reference reports `converged=false` with "line search failed" on Rosenbrock and Beale
 because finite-diff gradients become unreliable near the minimum. The actual f values
 are excellent (< 1e-11). scipy succeeds because its gtol=1e-5 is looser than our 1e-8.
 
@@ -80,7 +80,7 @@ equally good solutions in terms of actual function value.
 
 ## Nelder-Mead
 
-| Function | Known min | Type-O f | scipy f | Type-O iter | scipy iter |
+| Function | Known min | Our reference f | scipy f | Our reference iter | scipy iter |
 |----------|-----------|----------|---------|-------------|------------|
 | Sphere | 0 | 3.04e-12 | 1.48e-9 | 54 | 44 |
 | Booth | 0 | 1.38e-12 | 2.50e-9 | 58 | 67 |
@@ -89,16 +89,16 @@ equally good solutions in terms of actual function value.
 | Himmelblau | 0 | 5.12e-12 | 1.43e-8 | 68 | 81 |
 | Goldstein-Price | 3 | 3.00e+0 | 3.00e+0 | 51 | 39 |
 
-**Analysis**: Both converge to correct minima. Type-O reaches tighter f values (1e-12
+**Analysis**: Both converge to correct minima. Our reference reaches tighter f values (1e-12
 range vs scipy's 1e-9 range). Iteration counts differ significantly — this is expected
 because NM is sensitive to initial simplex construction (we use `0.05*max(|x|,1)`,
 scipy uses a different scheme).
 
 ## Gradient Descent with Analytic Gradient
 
-Only Type-O provides standalone gradient descent (scipy doesn't expose it separately).
+Only our reference provides standalone gradient descent (scipy doesn't expose it separately).
 
-| Function | Known min | Type-O f | Converged | Iterations |
+| Function | Known min | Our reference f | Converged | Iterations |
 |----------|-----------|----------|-----------|------------|
 | Sphere | 0 | 0.00e+0 | true | 1 |
 | Booth | 0 | 1.63e-12 | true | 36 |
@@ -123,8 +123,8 @@ iterations for GradientDescent on Rosenbrock).
 - ✅ Gradient descent struggles with Rosenbrock (expected)
 
 ### Known differences (documented, not bugs):
-- Type-O uses tighter gradient tolerance (1e-8) than scipy (1e-5)
-- This causes Type-O to report `converged=false` on finite-diff BFGS for hard
+- Our reference uses tighter gradient tolerance (1e-8) than scipy (1e-5)
+- This causes Our reference to report `converged=false` on finite-diff BFGS for hard
   functions (Rosenbrock, Beale) where scipy declares success
 - Iteration counts differ ±50% due to line search differences (Strong Wolfe vs
   HagerZhang) and initial simplex construction
@@ -134,4 +134,4 @@ iterations for GradientDescent on Rosenbrock).
 - **scipy v1.17.0**: All 30 runs match expected minima (empirically verified)
 - **Optim.jl v2.0.0**: Default parameters documented from source; not empirically
   run (Julia not available in test environment)
-- **Type-O reference**: All 30 runs match expected minima
+- **Special skill reference**: All 30 runs match expected minima
