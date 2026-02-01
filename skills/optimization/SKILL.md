@@ -1,6 +1,6 @@
 ---
 name: optimization
-description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, gradient descent — from a verified TypeScript reference
+description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region — from a verified TypeScript reference
 argument-hint: "<nodes> [--lang <language>] — e.g. 'nelder-mead --lang python' or 'all --lang rust'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
@@ -8,8 +8,9 @@ allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 # Optimization Skill
 
 A modular numerical optimization library. Minimizes scalar functions of one or
-more variables using derivative-free (Nelder-Mead) and gradient-based (gradient
-descent, BFGS, L-BFGS) methods.
+more variables using derivative-free (Nelder-Mead, Brent 1D), first-order
+(gradient descent, BFGS, L-BFGS, conjugate gradient), and second-order
+(Newton, Newton Trust Region) methods.
 
 ## When to use this skill
 
@@ -34,19 +35,29 @@ Examples:
 ## Node Graph
 
 ```
-vec-ops ─────────────────────────┬──→ line-search ──────┐
-                                 │                      │
-result-types ──────┬─────────────┤                      │
-                   │             │                      │
-test-functions     │   finite-diff ─────────────────────┤
+vec-ops ─────────────────────────┬──→ line-search ──────┬──→ hager-zhang ──────┐
+                                 │                      │                      │
+result-types ──────┬─────────────┤                      │                      │
+                   │             │                      │                      │
+test-functions     │   finite-diff ─────────────────────┤                      │
+                   │             │                      │                      │
+                   │     finite-hessian ←───────────────┤                      │
+                   │             │                      │                      │
+                   ├──→ nelder-mead                     │                      │
+                   │                                    │                      │
+                   ├──→ brent-1d (standalone)            │                      │
+                   │                                    │                      │
+                   ├──→ gradient-descent ←──────────────┤                      │
+                   │                                    │                      │
+                   ├──→ bfgs ←─────────────────────────┤                      │
+                   │                                    │                      │
+                   ├──→ l-bfgs ←───────────────────────┤                      │
+                   │                                    │                      │
+                   ├──→ conjugate-gradient ←────────────┴──────────────────────┘
                    │                                    │
-                   ├──→ nelder-mead                     │
+                   ├──→ newton ←───────────────────────┤←── finite-hessian
                    │                                    │
-                   ├──→ gradient-descent ←──────────────┤
-                   │                                    │
-                   ├──→ bfgs ←─────────────────────────┤
-                   │                                    │
-                   ├──→ l-bfgs ←───────────────────────┤
+                   ├──→ newton-trust-region ←───────────┤←── finite-hessian
                    │                                    │
                    └──→ minimize (root: public API) ←──┘
 ```
@@ -59,18 +70,28 @@ test-functions     │   finite-diff ──────────────�
 | `result-types` | leaf | — | OptimizeResult, OptimizeOptions, convergence checking |
 | `test-functions` | leaf | — | Standard test functions (Sphere, Rosenbrock, etc.) with analytic gradients |
 | `finite-diff` | internal | vec-ops | Numerical gradient via forward/central differences |
+| `finite-hessian` | internal | — | Full Hessian via central differences + Hessian-vector product |
 | `line-search` | internal | vec-ops | Backtracking (Armijo) and Strong Wolfe line search |
+| `hager-zhang` | internal | vec-ops, line-search | Hager-Zhang line search with approximate Wolfe conditions |
+| `brent-1d` | leaf | — | Brent's method for 1D minimization on a bounded interval |
 | `nelder-mead` | internal | vec-ops, result-types | Derivative-free simplex optimizer |
 | `gradient-descent` | internal | vec-ops, result-types, line-search, finite-diff | Steepest descent with backtracking |
 | `bfgs` | internal | vec-ops, result-types, line-search, finite-diff | Full-memory quasi-Newton with Wolfe line search |
 | `l-bfgs` | internal | vec-ops, result-types, line-search, finite-diff | Limited-memory BFGS with two-loop recursion |
-| `minimize` | root | nelder-mead, gradient-descent, bfgs, l-bfgs, result-types | Dispatcher: selects algorithm from method + gradient availability |
+| `conjugate-gradient` | internal | vec-ops, result-types, hager-zhang, finite-diff | Nonlinear CG with Hager-Zhang beta and line search |
+| `newton` | internal | vec-ops, result-types, line-search, finite-diff, finite-hessian | Newton's method with Cholesky solve and modified Newton regularization |
+| `newton-trust-region` | internal | vec-ops, result-types, finite-diff, finite-hessian | Newton with dogleg trust region subproblem |
+| `minimize` | root | all algorithm nodes, result-types | Dispatcher: selects algorithm from method + gradient availability |
 
 ### Subset Extraction
 
 - **Just Nelder-Mead** (derivative-free): `vec-ops` + `result-types` + `nelder-mead`
 - **Just BFGS**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `bfgs`
-- **Full library**: all 10 nodes
+- **Just CG**: `vec-ops` + `result-types` + `line-search` + `hager-zhang` + `finite-diff` + `conjugate-gradient`
+- **Just Newton**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `finite-hessian` + `newton`
+- **Just Newton TR**: `vec-ops` + `result-types` + `finite-diff` + `finite-hessian` + `newton-trust-region`
+- **Just Brent 1D**: `brent-1d` (standalone, no dependencies)
+- **Full library**: all 16 nodes
 - **Test functions** are optional — only needed for validation
 
 ## Translation Workflow

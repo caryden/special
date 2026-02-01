@@ -5,7 +5,7 @@
  * whether a gradient function is provided.
  *
  * @node minimize
- * @depends-on nelder-mead, gradient-descent, bfgs, l-bfgs, result-types
+ * @depends-on nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region, result-types
  * @contract minimize.test.ts
  * @hint composition: This is a thin dispatcher. The real logic lives in the
  *       algorithm nodes. Translate those first.
@@ -19,8 +19,11 @@ import { nelderMead } from "./nelder-mead";
 import { gradientDescent } from "./gradient-descent";
 import { bfgs } from "./bfgs";
 import { lbfgs } from "./l-bfgs";
+import { conjugateGradient } from "./conjugate-gradient";
+import { newton } from "./newton";
+import { newtonTrustRegion } from "./newton-trust-region";
 
-export type Method = "nelder-mead" | "gradient-descent" | "bfgs" | "l-bfgs";
+export type Method = "nelder-mead" | "gradient-descent" | "bfgs" | "l-bfgs" | "conjugate-gradient" | "newton" | "newton-trust-region";
 
 /**
  * Minimize a scalar function of one or more variables.
@@ -65,5 +68,14 @@ export function minimize(
 
     case "l-bfgs":
       return lbfgs(f, x0, grad, opts);
+
+    case "conjugate-gradient":
+      return conjugateGradient(f, x0, grad, opts);
+
+    case "newton":
+      return newton(f, x0, grad, undefined, opts);
+
+    case "newton-trust-region":
+      return newtonTrustRegion(f, x0, grad, undefined, opts);
   }
 }

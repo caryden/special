@@ -22,6 +22,17 @@
       "converged": true,
       "f_calls": 26
     },
+    "Newton": {
+      "g_calls": 27,
+      "iterations": 9,
+      "fun": 6.366852393206296e-25,
+      "x": [
+        3.000000000000453,
+        0.5000000000002741
+      ],
+      "converged": true,
+      "f_calls": 27
+    },
     "NelderMead": {
       "iterations": 53,
       "fun": 2.0637074117548003e-9,
@@ -42,6 +53,17 @@
       ],
       "converged": false,
       "f_calls": 2502
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 11,
+      "iterations": 10,
+      "fun": 1.4271110073030307e-27,
+      "x": [
+        2.9999999999999196,
+        0.4999999999999842
+      ],
+      "converged": true,
+      "f_calls": 11
     },
     "BFGS": {
       "g_calls": 31,
@@ -78,6 +100,17 @@
       "converged": true,
       "f_calls": 3
     },
+    "Newton": {
+      "g_calls": 5,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
     "NelderMead": {
       "iterations": 37,
       "fun": 1.367981406291454e-9,
@@ -98,6 +131,17 @@
       ],
       "converged": true,
       "f_calls": 3
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 5,
+      "iterations": 4,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 5
     },
     "BFGS": {
       "g_calls": 3,
@@ -134,6 +178,17 @@
       "converged": true,
       "f_calls": 8
     },
+    "Newton": {
+      "g_calls": 2,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        1.0000000000000004,
+        2.9999999999999996
+      ],
+      "converged": true,
+      "f_calls": 2
+    },
     "NelderMead": {
       "iterations": 44,
       "fun": 2.8255506501096996e-10,
@@ -154,6 +209,17 @@
       ],
       "converged": true,
       "f_calls": 33
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 4,
+      "iterations": 3,
+      "fun": 0.0,
+      "x": [
+        0.9999999999999999,
+        3.0
+      ],
+      "converged": true,
+      "f_calls": 4
     },
     "BFGS": {
       "g_calls": 5,
@@ -190,6 +256,17 @@
       "converged": true,
       "f_calls": 34
     },
+    "Newton": {
+      "g_calls": 20,
+      "iterations": 7,
+      "fun": 5.100286155693031e-19,
+      "x": [
+        3.0000000001184963,
+        1.9999999999958675
+      ],
+      "converged": true,
+      "f_calls": 20
+    },
     "NelderMead": {
       "iterations": 57,
       "fun": 3.0209312975953717e-9,
@@ -210,6 +287,17 @@
       ],
       "converged": true,
       "f_calls": 82
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 10,
+      "iterations": 9,
+      "fun": 0.0,
+      "x": [
+        3.0,
+        2.0
+      ],
+      "converged": true,
+      "f_calls": 10
     },
     "BFGS": {
       "g_calls": 33,
@@ -246,6 +334,17 @@
       "converged": true,
       "f_calls": 85
     },
+    "Newton": {
+      "g_calls": 78,
+      "iterations": 23,
+      "fun": 1.1093356479670479e-29,
+      "x": [
+        1.0000000000000033,
+        1.0000000000000067
+      ],
+      "converged": true,
+      "f_calls": 78
+    },
     "NelderMead": {
       "iterations": 78,
       "fun": 4.657541291131408e-9,
@@ -266,6 +365,17 @@
       ],
       "converged": false,
       "f_calls": 2546
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 27,
+      "iterations": 26,
+      "fun": 7.927176954904439e-27,
+      "x": [
+        0.9999999999999304,
+        0.9999999999998552
+      ],
+      "converged": true,
+      "f_calls": 27
     },
     "BFGS": {
       "g_calls": 96,
@@ -302,6 +412,17 @@
       "converged": true,
       "f_calls": 32
     },
+    "Newton": {
+      "g_calls": 33,
+      "iterations": 7,
+      "fun": 30.0,
+      "x": [
+        -0.6000000000007235,
+        -0.3999999999998988
+      ],
+      "converged": true,
+      "f_calls": 33
+    },
     "NelderMead": {
       "iterations": 35,
       "fun": 3.0000000028496956,
@@ -322,6 +443,17 @@
       ],
       "converged": true,
       "f_calls": 66
+    },
+    "NewtonTrustRegion": {
+      "g_calls": 12,
+      "iterations": 11,
+      "fun": 3.0,
+      "x": [
+        -9.990832625415078e-17,
+        -1.0
+      ],
+      "converged": true,
+      "f_calls": 12
     },
     "BFGS": {
       "g_calls": 34,

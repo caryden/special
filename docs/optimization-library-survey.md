@@ -38,7 +38,7 @@ Last updated: 2026-02-01
 | **NEWUOA** | — | — | — | Yes | — | — | No |
 | **PRAXIS** | — | — | — | Yes | — | — | No |
 | **Sbplx** | — | — | — | Yes | — | — | No |
-| **Brent (1D)** | Yes | Yes | — | — | — | — | No |
+| **Brent (1D)** | Yes | Yes | — | — | — | — | **Yes** |
 | **Golden Section (1D)** | Yes | Yes | — | — | — | — | No |
 
 ### First-Order (Gradient-Based)
@@ -48,7 +48,7 @@ Last updated: 2026-02-01
 | **Gradient Descent** | — | Yes | Yes | — | — | SGD | **Yes** |
 | **BFGS** | Yes | Yes | Yes | — | Yes | — | **Yes** |
 | **L-BFGS** | L-BFGS-B | Yes | Yes | Yes | Yes | Yes | **Yes** |
-| **Conjugate Gradient** | CG | Yes (HZ) | NL-CG | — | PR | — | No |
+| **Conjugate Gradient** | CG | Yes (HZ) | NL-CG | — | PR | — | **Yes** |
 | **Momentum GD** | — | Yes | — | — | — | — | No |
 | **Accelerated GD** | — | Yes | — | — | — | — | No |
 | **NGMRES** | — | Yes | — | — | — | — | No |
@@ -64,8 +64,8 @@ Last updated: 2026-02-01
 
 | Algorithm | scipy | Optim.jl | Ceres | dlib | We Have? |
 |-----------|-------|----------|-------|------|----------|
-| **Newton** | Newton-CG | Yes | — | Yes | No |
-| **Newton Trust Region** | trust-ncg | Yes | — | Yes | No |
+| **Newton** | Newton-CG | Yes | — | Yes | **Yes** |
+| **Newton Trust Region** | trust-ncg | Yes | — | Yes | **Yes** |
 | **Krylov Trust Region** | trust-krylov | Yes | — | — | No |
 | **Levenberg-Marquardt** | least_sq | — | Yes | — | No |
 | **IPNewton** | — | Yes | — | — | No |
@@ -76,7 +76,7 @@ Last updated: 2026-02-01
 |-------------|-------|----------|-------|---------|----------|
 | **Backtracking (Armijo)** | — | Yes | Yes | Yes | **Yes** |
 | **Strong Wolfe** | Yes | Yes | Yes | Yes | **Yes** |
-| **HagerZhang** | — | Yes (default) | — | — | No |
+| **HagerZhang** | — | Yes (default) | — | — | **Yes** |
 | **MoreThuente** | — | Yes | — | Yes | No |
 | **Cubic interpolation** | Yes | — | Yes | — | No |
 

@@ -122,22 +122,60 @@ but gradient norm doesn't reach 1e-8), while ours converges at 410 iterations us
 function tolerance. This is because Optim.jl only checks g_tol by default (step_tol=0,
 f_tol=0), while our reference also checks funcTol=1e-12.
 
-## Conjugate Gradient (Optim.jl only)
+## Conjugate Gradient with Analytic Gradient
 
-Optim.jl provides ConjugateGradient (Hager-Zhang variant). We do not implement CG.
-These results are documented for future reference.
+| Function | Known min | Our f | Optim.jl f | Our iter | Optim.jl iter | Our f_calls | Optim.jl f_calls |
+|----------|-----------|-------|------------|----------|---------------|-------------|------------------|
+| Sphere | 0 | 0.00e+0 | 0.00e+0 | 1 | 1 | 3 | 3 |
+| Booth | 0 | 6.31e-30 | 1.42e-24 | 2 | 2 | 5 | 5 |
+| Rosenbrock | 0 | 2.01e-10 | 6.41e-19 | 219 | 33 | 811 | 88 |
+| Beale | 0 | 1.06e-11 | 6.60e-18 | 57 | 11 | 137 | 23 |
+| Himmelblau | 0 | 3.92e-18 | 1.94e-25 | 21 | 12 | 85 | 29 |
+| Goldstein-Price | 3 | 3.00e+0 | 3.00e+0 | 31 | 10 | 315 | 25 |
 
-| Function | Optim.jl f | Optim.jl conv | Optim.jl iter |
-|----------|------------|---------------|---------------|
-| Sphere | 0.00e+0 | true | 1 |
-| Booth | 1.42e-24 | true | 2 |
-| Rosenbrock | 6.41e-19 | true | 33 |
-| Beale | 6.60e-18 | true | 11 |
-| Himmelblau | 1.94e-25 | true | 12 |
-| Goldstein-Price | 3.00e+0 | true | 10 |
+**Analysis**: Both implementations converge to correct minima on all test functions. Optim.jl's
+CG is significantly more efficient, particularly on Rosenbrock (33 vs 219 iterations) and
+Goldstein-Price (10 vs 31 iterations). This is likely due to differences in the HZ line search
+implementation — Optim.jl uses a more aggressive initial step size strategy (quadratic
+interpolation from previous steps) while our implementation starts with alpha=1.0 each time.
+Both use the same HZ beta formula with eta=0.4 and the same line search conditions.
 
-**Analysis**: CG converges on all test functions with competitive iteration counts.
-Documented as a gap — see `docs/optimization-library-survey.md` Tier 1 algorithms.
+## Newton with Analytic Hessian (where available)
+
+Newton uses analytic Hessian for Sphere, Booth, Rosenbrock; finite-difference Hessian for others.
+Optim.jl uses analytic Hessians for all functions.
+
+| Function | Known min | Our f | Optim.jl f | Our iter | Optim.jl iter |
+|----------|-----------|-------|------------|----------|---------------|
+| Sphere | 0 | 1.58e-30 | 0.00e+0 | 1 | 1 |
+| Booth | 0 | 3.94e-30 | 0.00e+0 | 1 | 1 |
+| Rosenbrock | 0 | 8.64e-24 | 1.11e-29 | 21 | 23 |
+| Beale | 0 | 1.94e-19 | 6.37e-25 | 8 | 9 |
+| Himmelblau | 0 | 6.41e-21 | 5.10e-19 | 6 | 7 |
+| Goldstein-Price | 3 | 3.00e+0 | **3.00e+1** | 9 | 7 |
+
+**Analysis**: Both converge to correct minima on most functions. Notably, Optim.jl's
+Newton converges to a **local minimum** f=30 on Goldstein-Price at (-0.6, -0.4) instead of
+the global minimum f=3 at (0, -1). This is expected behavior — Newton's method is a local
+optimizer and converges to whichever stationary point the Newton steps lead to. Our Newton
+uses Strong Wolfe line search which helps avoid some saddle points. Both use Cholesky
+factorization for the linear solve. Iteration counts are very similar.
+
+## Newton Trust Region with Analytic Hessian (where available)
+
+| Function | Known min | Our f | Optim.jl f | Our iter | Optim.jl iter |
+|----------|-----------|-------|------------|----------|---------------|
+| Sphere | 0 | 2.67e-25 | 0.00e+0 | 4 | 4 |
+| Booth | 0 | 0.00e+0 | 0.00e+0 | 4 | 3 |
+| Rosenbrock | 0 | 9.48e-25 | 7.93e-27 | 25 | 26 |
+| Beale | 0 | 3.26e-22 | 1.43e-27 | 8 | 10 |
+| Himmelblau | 0 | 1.99e-27 | 0.00e+0 | 9 | 9 |
+| Goldstein-Price | 3 | 3.00e+0 | 3.00e+0 | 7 | 11 |
+
+**Analysis**: Both converge to correct minima on all functions including Goldstein-Price
+(unlike line-search Newton above). Trust region methods are more robust for multi-modal
+functions. Iteration counts are very similar between implementations (within ±4 iterations).
+Final function values are all within numerical precision of each other.
 
 ## Summary of Cross-Validation
 
@@ -149,6 +187,9 @@ Documented as a gap — see `docs/optimization-library-survey.md` Tier 1 algorit
 - ✅ Nelder-Mead converges on all functions (no gradient needed)
 - ✅ Gradient descent struggles with Rosenbrock (expected)
 - ✅ All Himmelblau runs converge to (3, 2) from starting point (0, 0)
+- ✅ Conjugate Gradient converges on all test functions
+- ✅ Newton converges on all test functions (except Goldstein-Price local minimum in Optim.jl)
+- ✅ Newton Trust Region converges on all test functions including Goldstein-Price
 
 ### Known differences (documented, not bugs):
 - Our reference uses tighter gradient tolerance (1e-8) than scipy (1e-5), matching Optim.jl
@@ -160,9 +201,15 @@ Documented as a gap — see `docs/optimization-library-survey.md` Tier 1 algorit
   iterations for BFGS and L-BFGS on most test functions
 - Optim.jl NM uses AffineSimplexer (a=0.025, b=0.5), different from our simplex and scipy's
 - Optim.jl GradientDescent does not converge on Beale (only checks g_tol, not f_tol)
-- All differences are in "how close to the minimum" not "which minimum"
+- Our CG uses more iterations than Optim.jl's CG (especially on Rosenbrock: 219 vs 33),
+  likely due to HZ line search initial step size differences
+- Optim.jl Newton converges to a local minimum (f=30) on Goldstein-Price; our Newton
+  reaches the global minimum (f=3) — Newton is a local method, behavior depends on
+  line search globalization strategy
+- All differences are in "how close to the minimum" not "which minimum" (except the
+  Goldstein-Price Newton case above)
 
 ### Cross-library test vector provenance:
 - **scipy v1.17.0**: All 30 runs match expected minima (empirically verified 2026-02-01)
-- **Optim.jl v2.0.0**: All 30 runs match expected minima (empirically verified 2026-02-01)
-- **Special skill reference**: All 30 runs match expected minima
+- **Optim.jl v2.0.0**: All 42 runs validated (empirically verified 2026-02-01)
+- **Special skill reference**: All 42 runs match expected minima

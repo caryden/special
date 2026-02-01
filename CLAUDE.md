@@ -15,7 +15,7 @@ the subset of nodes you need with zero external dependencies.
 skills/
   optimization/
     SKILL.md                — Skill entry point with frontmatter
-    reference/              — TypeScript reference (10 nodes, 191 tests, 100% coverage)
+    reference/              — TypeScript reference (16 nodes, 339 tests, 100% coverage)
       src/<node>.ts         — Implementation with @node structured comments
       src/<node>.test.ts    — Behavioral contract
     nodes/<node>/
@@ -53,7 +53,7 @@ tasks/
 
 | Skill | Nodes | Tests | Coverage | Cross-validated |
 |-------|-------|-------|----------|-----------------|
-| optimization | 10 | 209 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
+| optimization | 16 | 339 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 
