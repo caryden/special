@@ -2,7 +2,7 @@
 
 **Environment required:** Julia 1.10+ with Optim.jl v2.0.0, OptimTestProblems.jl
 **Estimated scope:** Run validation scripts, compare results, update spec files
-**Blocked by:** Julia not available in current environment
+**Status:** Completed 2026-02-01
 
 ## Context
 
@@ -164,9 +164,9 @@ Based on source analysis:
 
 ## Acceptance Criteria
 
-- [ ] Julia environment set up with Optim.jl v2.0.0
-- [ ] All 6 test functions × 5 methods validated (30 runs)
-- [ ] Raw results saved as JSON
-- [ ] Comparison tables updated in spec files and CROSS-VALIDATION.md
-- [ ] Cross-validation tests added to test suite
-- [ ] All existing tests still pass at 100% coverage
+- [x] Julia environment set up with Optim.jl v2.0.0
+- [x] All 6 test functions × 5 methods validated (30 runs)
+- [x] Raw results saved as JSON
+- [x] Comparison tables updated in spec files and CROSS-VALIDATION.md
+- [x] Cross-validation tests added to test suite (18 new tests, 209 total)
+- [x] All existing tests still pass at 100% coverage

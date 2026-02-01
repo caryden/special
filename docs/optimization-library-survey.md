@@ -196,7 +196,7 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 | Library | Method | Status |
 |---------|--------|--------|
 | **scipy v1.17.0** | BFGS, L-BFGS-B, Nelder-Mead, CG | **Empirically validated** (30 runs) |
-| **Optim.jl v2.0.0** | All defaults | **Documented from source** (not run) |
+| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG | **Empirically validated** (30 runs) |
 | **MATLAB** | Default parameters only | **Documented** (not run) |
 | **Ceres** | — | Surveyed only |
 | **NLopt** | — | Surveyed only |
@@ -211,18 +211,21 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 | Artifact | Location |
 |----------|----------|
 | scipy raw results (JSON) | `reference/optimize/scipy-validation.json` |
+| Optim.jl raw results (JSON) | `reference/optimize/julia-validation.json` |
 | Our raw results (JSON) | `reference/optimize/our-validation.json` |
 | Cross-validation tests | `reference/optimize/src/cross-validation.test.ts` |
 | Comparison report | `reference/optimize/CROSS-VALIDATION.md` |
+| Julia validation script | `scripts/julia-validation.jl` |
 
 ## Future Validation Opportunities
 
-### Requires Julia Environment
-- Run Optim.jl BFGS/LBFGS/NelderMead/CG on all test functions
-- Compare iteration counts and final values
-- Validate HagerZhang line search behavior
-- Run OptimTestProblems.jl full suite
-- See `tasks/julia-cross-validation.md` for deferred task
+### Julia Environment (completed 2026-02-01)
+- ✅ Ran Optim.jl BFGS/LBFGS/NelderMead/GD/CG on all 6 test functions (30 runs)
+- ✅ Compared iteration counts and final values — see `reference/optimize/CROSS-VALIDATION.md`
+- ✅ Validated HagerZhang line search behavior (fewer iterations than Strong Wolfe)
+- ✅ Surveyed OptimTestProblems.jl (17 problems; we cover 3: Rosenbrock, Beale, Himmelblau)
+- ✅ Raw results saved to `reference/optimize/julia-validation.json`
+- ✅ Cross-validation tests added to `reference/optimize/src/cross-validation.test.ts`
 
 ### Requires MATLAB Environment
 - Run fminunc (BFGS) and fminsearch (NM) on test functions

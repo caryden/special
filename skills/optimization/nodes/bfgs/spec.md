@@ -97,9 +97,19 @@ Notes:
   with cubic interpolation). All within ±5 iterations.
 - Our final f values are tighter due to gradTol=1e-8 vs scipy's gtol=1e-5.
 
-@provenance: optim.jl v2.0.0 (documented, not empirically run)
-- BFGS on Rosenbrock from [-1.2, 1.0]: expects 16 iterations, 53 f-calls
-  (uses HagerZhang line search, different from our Strong Wolfe)
+@provenance: optim.jl v2.0.0, empirically verified 2026-02-01 (Julia 1.10.7, g_tol=1e-8)
+
+| Function | Optim.jl f | Optim.jl iter | Our f | Our iter | Agreement |
+|----------|-----------|---------------|-------|----------|-----------|
+| Sphere | 0.0 | 1 | 0.0 | 1 | Both = 0 |
+| Booth | 7.89e-31 | 2 | 4.33e-19 | 7 | Both ≈ 0 |
+| Rosenbrock | 4.00e-21 | 29 | 1.89e-18 | 34 | Both ≈ 0 |
+| Beale | 1.26e-27 | 11 | 8.49e-22 | 17 | Both ≈ 0 |
+| Himmelblau | 2.08e-23 | 10 | 1.43e-19 | 10 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 8 | 3.00 | 11 | Both → (0,-1) |
+
+Note: Optim.jl BFGS uses HagerZhang line search (vs our Strong Wolfe), resulting in
+fewer iterations on most functions. Both use g_tol=1e-8.
 
 ### Known behavioral difference: finite-diff on hard functions
 

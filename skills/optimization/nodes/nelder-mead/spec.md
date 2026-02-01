@@ -82,11 +82,22 @@ Note: Iteration counts differ significantly (±50%) due to different initial sim
 construction. Our simplex uses `h = 0.05 × max(|xᵢ|, 1)`. scipy uses a different
 scheme. Both converge to the correct minima.
 
-@provenance: optim.jl v2.0.0 (documented, not empirically run)
-- NelderMead parameters: α=1, β=2, γ=0.5, δ=0.5 (same as ours and scipy).
-- Initial simplex: AffineSimplexer with a=0.025, b=0.5 (different from ours).
-- Some functions skipped in Optim.jl's NM test suite: Large Polynomial, Extended Powell,
-  Paraboloid Diagonal, Extended Rosenbrock.
+@provenance: optim.jl v2.0.0, empirically verified 2026-02-01 (Julia 1.10.7)
+
+| Function | Optim.jl f | Optim.jl iter | Our f | Our iter | Agreement |
+|----------|-----------|---------------|-------|----------|-----------|
+| Sphere | 1.37e-9 | 37 | 3.04e-12 | 54 | Both ≈ 0 |
+| Booth | 2.83e-10 | 44 | 1.38e-12 | 58 | Both ≈ 0 |
+| Rosenbrock | 4.66e-9 | 78 | 2.31e-12 | 126 | Both ≈ 0 |
+| Beale | 2.06e-9 | 53 | 7.09e-13 | 61 | Both ≈ 0 |
+| Himmelblau | 3.02e-9 | 57 | 5.12e-12 | 68 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 35 | 3.00 | 51 | Both → (0,-1) |
+
+Note: NelderMead parameters: α=1, β=2, γ=0.5, δ=0.5 (same as ours and scipy).
+Initial simplex: AffineSimplexer with a=0.025, b=0.5 (different from ours).
+Optim.jl converges in fewer iterations but to looser f values due to simplex construction.
+Some functions skipped in Optim.jl's NM test suite: Large Polynomial, Extended Powell,
+Paraboloid Diagonal, Extended Rosenbrock.
 
 ### Behavioral tests
 

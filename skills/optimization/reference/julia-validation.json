@@ -1,0 +1,338 @@
+{
+  "beale": {
+    "ConjugateGradient": {
+      "g_calls": 13,
+      "iterations": 11,
+      "fun": 6.596740169994074e-18,
+      "x": [
+        2.9999999935840895,
+        0.4999999983904322
+      ],
+      "converged": true,
+      "f_calls": 23
+    },
+    "LBFGS": {
+      "g_calls": 26,
+      "iterations": 10,
+      "fun": 7.477486536310986e-21,
+      "x": [
+        2.9999999998334013,
+        0.49999999997016054
+      ],
+      "converged": true,
+      "f_calls": 26
+    },
+    "NelderMead": {
+      "iterations": 53,
+      "fun": 2.0637074117548003e-9,
+      "x": [
+        3.000044398344032,
+        0.5000197153136617
+      ],
+      "converged": true,
+      "f_calls": 102
+    },
+    "GradientDescent": {
+      "g_calls": 2502,
+      "iterations": 1000,
+      "fun": 6.16075853505599e-16,
+      "x": [
+        2.9999999384471145,
+        0.4999999840902413
+      ],
+      "converged": false,
+      "f_calls": 2502
+    },
+    "BFGS": {
+      "g_calls": 31,
+      "iterations": 11,
+      "fun": 1.2639030815837899e-27,
+      "x": [
+        2.9999999999999147,
+        0.49999999999998096
+      ],
+      "converged": true,
+      "f_calls": 31
+    }
+  },
+  "sphere": {
+    "ConjugateGradient": {
+      "g_calls": 2,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 3
+    },
+    "LBFGS": {
+      "g_calls": 3,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 3
+    },
+    "NelderMead": {
+      "iterations": 37,
+      "fun": 1.367981406291454e-9,
+      "x": [
+        -2.484807470564643e-5,
+        2.7396251380691995e-5
+      ],
+      "converged": true,
+      "f_calls": 72
+    },
+    "GradientDescent": {
+      "g_calls": 3,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 3
+    },
+    "BFGS": {
+      "g_calls": 3,
+      "iterations": 1,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 3
+    }
+  },
+  "booth": {
+    "ConjugateGradient": {
+      "g_calls": 4,
+      "iterations": 2,
+      "fun": 1.4225094830352634e-24,
+      "x": [
+        0.9999999999991543,
+        3.0000000000008407
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
+    "LBFGS": {
+      "g_calls": 8,
+      "iterations": 2,
+      "fun": 7.888609052210118e-31,
+      "x": [
+        1.0000000000000004,
+        3.0
+      ],
+      "converged": true,
+      "f_calls": 8
+    },
+    "NelderMead": {
+      "iterations": 44,
+      "fun": 2.8255506501096996e-10,
+      "x": [
+        1.0000084245371434,
+        2.9999988246128764
+      ],
+      "converged": true,
+      "f_calls": 88
+    },
+    "GradientDescent": {
+      "g_calls": 33,
+      "iterations": 11,
+      "fun": 3.104698031173193e-17,
+      "x": [
+        1.0000000039636276,
+        2.999999996085006
+      ],
+      "converged": true,
+      "f_calls": 33
+    },
+    "BFGS": {
+      "g_calls": 5,
+      "iterations": 2,
+      "fun": 7.888609052210118e-31,
+      "x": [
+        0.9999999999999998,
+        3.0000000000000004
+      ],
+      "converged": true,
+      "f_calls": 5
+    }
+  },
+  "himmelblau": {
+    "ConjugateGradient": {
+      "g_calls": 19,
+      "iterations": 12,
+      "fun": 1.9376001554038492e-25,
+      "x": [
+        3.0000000000000395,
+        1.9999999999998845
+      ],
+      "converged": true,
+      "f_calls": 29
+    },
+    "LBFGS": {
+      "g_calls": 34,
+      "iterations": 10,
+      "fun": 8.877553261106713e-22,
+      "x": [
+        2.9999999999951914,
+        2.0000000000059748
+      ],
+      "converged": true,
+      "f_calls": 34
+    },
+    "NelderMead": {
+      "iterations": 57,
+      "fun": 3.0209312975953717e-9,
+      "x": [
+        2.999997967010201,
+        2.000014239464575
+      ],
+      "converged": true,
+      "f_calls": 113
+    },
+    "GradientDescent": {
+      "g_calls": 82,
+      "iterations": 29,
+      "fun": 4.407733469115248e-19,
+      "x": [
+        2.99999999995872,
+        2.0000000001753078
+      ],
+      "converged": true,
+      "f_calls": 82
+    },
+    "BFGS": {
+      "g_calls": 33,
+      "iterations": 10,
+      "fun": 2.0803177938189043e-23,
+      "x": [
+        2.999999999999253,
+        2.0000000000008895
+      ],
+      "converged": true,
+      "f_calls": 33
+    }
+  },
+  "rosenbrock": {
+    "ConjugateGradient": {
+      "g_calls": 63,
+      "iterations": 33,
+      "fun": 6.414738238724135e-19,
+      "x": [
+        0.9999999991990798,
+        0.9999999983982387
+      ],
+      "converged": true,
+      "f_calls": 88
+    },
+    "LBFGS": {
+      "g_calls": 85,
+      "iterations": 29,
+      "fun": 4.930380657631324e-30,
+      "x": [
+        1.0000000000000022,
+        1.0000000000000044
+      ],
+      "converged": true,
+      "f_calls": 85
+    },
+    "NelderMead": {
+      "iterations": 78,
+      "fun": 4.657541291131408e-9,
+      "x": [
+        1.0000117499532974,
+        1.0000167773369513
+      ],
+      "converged": true,
+      "f_calls": 149
+    },
+    "GradientDescent": {
+      "g_calls": 2546,
+      "iterations": 1000,
+      "fun": 0.005259860162477084,
+      "x": [
+        0.9276234808243342,
+        0.8600216451932747
+      ],
+      "converged": false,
+      "f_calls": 2546
+    },
+    "BFGS": {
+      "g_calls": 96,
+      "iterations": 29,
+      "fun": 3.9956019802824305e-21,
+      "x": [
+        0.9999999999380992,
+        0.9999999998774786
+      ],
+      "converged": true,
+      "f_calls": 96
+    }
+  },
+  "goldstein_price": {
+    "ConjugateGradient": {
+      "g_calls": 16,
+      "iterations": 10,
+      "fun": 2.9999999999999503,
+      "x": [
+        -2.727415290602604e-17,
+        -1.0000000000000002
+      ],
+      "converged": true,
+      "f_calls": 25
+    },
+    "LBFGS": {
+      "g_calls": 32,
+      "iterations": 7,
+      "fun": 3.0,
+      "x": [
+        -5.657702719781693e-12,
+        -1.0000000000023412
+      ],
+      "converged": true,
+      "f_calls": 32
+    },
+    "NelderMead": {
+      "iterations": 35,
+      "fun": 3.0000000028496956,
+      "x": [
+        3.662635031069634e-7,
+        -1.0000024631595275
+      ],
+      "converged": true,
+      "f_calls": 72
+    },
+    "GradientDescent": {
+      "g_calls": 66,
+      "iterations": 22,
+      "fun": 3.0000000000000533,
+      "x": [
+        4.403461929808504e-12,
+        -0.9999999999930489
+      ],
+      "converged": true,
+      "f_calls": 66
+    },
+    "BFGS": {
+      "g_calls": 34,
+      "iterations": 8,
+      "fun": 2.999999999999975,
+      "x": [
+        6.558477240669279e-14,
+        -0.999999999999946
+      ],
+      "converged": true,
+      "f_calls": 34
+    }
+  }
+}

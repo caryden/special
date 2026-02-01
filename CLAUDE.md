@@ -53,7 +53,7 @@ tasks/
 
 | Skill | Nodes | Tests | Coverage | Cross-validated |
 |-------|-------|-------|----------|-----------------|
-| optimization | 10 | 191 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
+| optimization | 10 | 209 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 
