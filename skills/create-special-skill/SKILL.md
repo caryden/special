@@ -65,13 +65,61 @@ bun init -y
 ```
 
 For each node in topological order (leaves first):
-1. Write `src/<node>.ts` with structured JSDoc comments (`@node`, `@depends-on`, `@contract`, `@hint`)
+1. Write `src/<node>.ts` with structured JSDoc comments (see format below)
 2. Write `src/<node>.test.ts` with comprehensive tests
 3. Run `bun test src/<node>.test.ts` — must pass
 4. After all nodes: `bun test --coverage` — must be **100% line and function coverage**
 
 The reference code and tests are in TypeScript. This is the authoritative source.
 Translation agents consult it when specs are ambiguous.
+
+#### Structured comment format
+
+Node metadata is declared via JSDoc-style comments on exported functions:
+
+```typescript
+/**
+ * Description of what this function does.
+ *
+ * @node kebab-case-id
+ * @depends-on other-node-a, other-node-b
+ * @contract this-node.test.ts
+ * @hint category: Translation guidance for the agent
+ * @provenance source-library vX.Y.Z, verified YYYY-MM-DD
+ */
+export function myFunction(...): ReturnType { ... }
+```
+
+| Tag | Required | Purpose |
+|-----|----------|---------|
+| `@node` | yes | Unique kebab-case identifier for this node |
+| `@depends-on` | if deps exist | Comma-separated list of node IDs this node requires |
+| `@contract` | yes | Test file that defines the behavioral contract |
+| `@hint` | optional | `category: guidance` pairs for translation agents |
+| `@provenance` | optional | Source and verification date for algorithms/test vectors |
+
+#### @depends-on syntax
+
+- **All required**: `@depends-on a, b, c` — node needs all of a, b, and c
+- **At least one of**: `@depends-on any-of(a, b, c)` — node needs at least one from the group
+- **Mixed**: `@depends-on base-node, any-of(alg-a, alg-b, alg-c)` — base-node is always
+  required; at least one from the group is required
+
+The `any-of()` modifier is for dispatcher/aggregator nodes that import multiple
+implementations but only require one at translation time. When translating a subset,
+include only the `any-of` members you need.
+
+Example — a `minimize` dispatcher that can dispatch to any algorithm:
+```typescript
+/**
+ * @node minimize
+ * @depends-on result-types, any-of(bfgs, l-bfgs, nelder-mead, newton)
+ */
+```
+
+When computing the transitive closure for subset extraction, `any-of` members are
+included only if explicitly requested. Plain (non-`any-of`) dependencies are always
+included.
 
 ### 5. Write per-node specs
 

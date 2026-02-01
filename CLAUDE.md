@@ -7,6 +7,20 @@ generation recipes backed by verified TypeScript reference implementations. Each
 translates a tested reference into native code in any target language, generating only
 the subset of nodes you need with zero external dependencies.
 
+## Plugin architecture
+
+This repository is a **Claude Code plugin** (manifest at `.claude-plugin/plugin.json`).
+Skills within the plugin are designed to be **fully self-contained** — they must operate
+without any help from this project's CLAUDE.md. When installed via a plugin marketplace,
+users get only the skill directories; they do not get the host project's CLAUDE.md,
+docs/, experiments/, or tasks/.
+
+**Implications for skill authors:**
+- All conventions, structured comment format docs, and process instructions must live
+  inside each skill's own SKILL.md (or in the `create-special-skill` meta-skill)
+- The canonical reference for creating skills is `skills/create-special-skill/SKILL.md`
+- This CLAUDE.md is for contributors working on the repository itself, not for plugin consumers
+
 ## Repository structure
 
 ```
@@ -89,12 +103,14 @@ cd experiments/<lib>-skill-go && go test -v ./...
 
 ## Structured comment format
 
+> **Canonical reference**: `skills/create-special-skill/SKILL.md` § "Structured comment format".
+> That is the authoritative source — it ships with the plugin and is available to skill
+> authors who do not have access to this CLAUDE.md. The summary below is for contributors.
+
 Node metadata is declared via JSDoc-style comments on exported functions:
 
 ```typescript
 /**
- * Description of what this function does.
- *
  * @node kebab-case-id
  * @depends-on other-node-a, other-node-b
  * @contract this-node.test.ts
