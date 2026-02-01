@@ -365,6 +365,127 @@ correctness reason to use a more expensive format or model.
 
 ---
 
+## Sonnet Model Experiment (claude-sonnet)
+
+### Self-Test Results
+
+| Format | Python | Rust | Go |
+|--------|--------|------|----|
+| **REF** | 96/96 (100%) | 96/96 (100%) | **FAIL** (1 error msg mismatch) |
+| **SPEC** | 88/88 (100%) | 88/88 (100%) | All pass (100%) |
+| **PROMPT** | 47/47 (100%) | 29/29 (100%) | All pass (100%) |
+
+REF→Go-Sonnet has 1 self-test failure: the implementation returns "Unexpected end of
+input" for whitespace-only strings, but the test expects "Empty expression". The actual
+behavior is correct (it rejects invalid input); this is a test-wording mismatch the
+agent didn't resolve before timing out.
+
+### Cross-Validation (Python, 41 REF vectors)
+
+| Format | Passed | Failed | Rate |
+|--------|--------|--------|------|
+| **REF** | 41/41 | 0 | **100%** |
+| **SPEC** | 41/41 | 0 | **100%** |
+| **PROMPT** | 40/41 | 1 | **97.6%** |
+
+**First cross-validation failure on mathexpr!** PROMPT-Python-Sonnet gets `calc('-2 ** 2')`
+wrong: returns `-4` instead of the REF-expected `4`.
+
+The REF defines unary minus as binding tighter than `**` (so `-2 ** 2` = `(-2)² = 4`).
+Sonnet's PROMPT implementation follows Python's own precedence rules where `**` binds
+tighter than unary minus (so `-2 ** 2` = `-(2²) = -4`). Without test vectors or reference
+code, sonnet defaulted to the target language's native semantics rather than the intended
+semantics.
+
+**This is exactly the off-policy signal we hypothesized would emerge.** The unary-minus
+vs power precedence ordering is an arbitrary design decision — both choices are valid,
+but the REF chose one and the PROMPT agent chose the other. The SPEC and REF formats
+both prevent this divergence because they include test vectors covering this case.
+
+### Token Usage
+
+| Experiment | API Calls | Input Tokens | Est. Output | Est. Total |
+|------------|-----------|-------------|-------------|------------|
+| REF → Python | 8 | 128,199 | 8,383 | 136,582 |
+| REF → Rust | 10 | 172,386 | 9,891 | 182,277 |
+| REF → Go | 10 | 172,200 | 9,533 | 181,733 |
+| SPEC → Python | 8 | 123,619 | 9,997 | 133,616 |
+| SPEC → Rust | 7 | 97,186 | 9,127 | 106,313 |
+| SPEC → Go | 9 | 139,919 | 5,869 | 145,788 |
+| PROMPT → Python | 10 | 136,808 | 8,411 | 145,219 |
+| PROMPT → Rust | 10 | 104,954 | 5,100 | 110,054 |
+| PROMPT → Go | 9 | 104,518 | 7,850 | 112,368 |
+
+### By Source Format (sonnet averages)
+
+| Format | Avg API Calls | Avg Est. Total | vs REF |
+|--------|--------------|----------------|--------|
+| **REF** | 9.3 | 167K | 1.00x |
+| **SPEC** | 8.0 | 129K | **0.77x** |
+| **PROMPT** | 9.7 | 122K | **0.73x** |
+
+---
+
+## Three-Model Comparison
+
+### Token Usage Across Models
+
+| Model | REF Avg | SPEC Avg | PROMPT Avg | REF API Calls |
+|-------|---------|----------|------------|---------------|
+| **Opus** | 337K | 205K (0.61x) | 129K (0.38x) | 11.3 |
+| **Sonnet** | 167K | 129K (0.77x) | 122K (0.73x) | 9.3 |
+| **Haiku** | 756K | 383K (0.51x) | 192K (0.25x) | 28.3 |
+
+### Cross-Validation Accuracy
+
+| Model | REF | SPEC | PROMPT |
+|-------|-----|------|--------|
+| **Opus** | 100% | 100% | 100% |
+| **Sonnet** | 100% | 100% | **97.6%** (1 failure) |
+| **Haiku** | 100% | 100% | 100% |
+
+### Key Findings from Three-Model Comparison
+
+**1. Sonnet found the needle that opus and haiku missed.**
+PROMPT-Python-Sonnet diverged on `-2 ** 2` precedence — the first cross-validation
+failure on mathexpr. This is significant: the task is *mostly* on-policy but has a
+small off-policy edge case (unary minus vs power precedence is a genuine design
+decision). Opus and haiku happened to match the REF's choice; sonnet chose Python's
+native semantics instead. This demonstrates that even "on-policy" tasks can have
+off-policy corners that only surface with enough experimental runs.
+
+**2. Haiku is the most expensive despite being the cheapest per-token model.**
+Haiku's iteration penalty (28.3 API calls vs opus's 11.3) means REF-haiku costs 756K
+tokens — more than double REF-opus at 337K. The per-token price advantage of haiku is
+partially offset by consuming more tokens. For REF format especially, a more capable
+model may be cheaper in total cost.
+
+**3. Sonnet is the most efficient model overall.**
+At 167K avg for REF (vs 337K opus, 756K haiku), sonnet achieves near-opus correctness
+at roughly half the tokens. The format cost ratios are also flatter (0.77x/0.73x vs
+opus's 0.61x/0.38x), meaning format choice matters less with sonnet — it's efficient
+across all formats.
+
+**4. Format value varies by model capability in unexpected ways.**
+
+| Model | SPEC/REF ratio | PROMPT/REF ratio | PROMPT accuracy |
+|-------|---------------|-----------------|-----------------|
+| Opus | 0.61x | 0.38x | 100% |
+| Sonnet | 0.77x | 0.73x | 97.6% |
+| Haiku | 0.51x | 0.25x | 100% |
+
+The relationship isn't monotonic. Haiku has the widest format gap (REF costs 4x PROMPT)
+because it needs many more iterations with larger context. Sonnet has the narrowest gap
+because it's efficient across the board. Opus sits in between.
+
+**5. The `-2 ** 2` divergence validates the on-policy/off-policy framework.**
+Even within an "on-policy" library, there are micro-decisions where training data contains
+conflicting conventions. Python defines `**` as binding tighter than unary minus; most
+other languages and mathematical notation do the opposite. This is a genuine ambiguity
+that only test vectors can resolve — exactly what the Type-O hypothesis predicts.
+
+---
+
 ## Limitations
 
 - **Single run per combination** — no account for non-determinism
@@ -372,19 +493,17 @@ correctness reason to use a more expensive format or model.
 - **Cross-validation limited to end-to-end** — did not test per-node contracts for
   Rust/Go (only Python cross-validated against REF vectors; Rust/Go validated via
   self-tests only)
-- **On-policy domain only** — need to repeat the haiku experiment on an off-policy
+- **On-policy domain (mostly)** — need to repeat multi-model experiment on an off-policy
   library (like whenwords) to see whether format value increases with weaker models
   on ambiguous tasks
 
 ## Next Steps
 
-1. **Sonnet experiment** — run the same 3×3 matrix with claude-sonnet for a third
-   capability data point
-2. **Haiku on whenwords (off-policy)** — test whether format matters more for weaker
-   models when the task is off-policy
-3. **Stage 3: library with both complexity AND ambiguity** — a domain with arbitrary
-   design decisions combined with algorithmic depth
-4. **Repeat 3x** — account for non-determinism
+1. **Multi-model on whenwords (off-policy)** — test whether format matters more for
+   weaker models when the task is off-policy
+2. **Stage 3: library with both complexity AND ambiguity** — a domain with arbitrary
+   design decisions combined with algorithmic depth (e.g., extracted from a real library)
+3. **Repeat 3x** — account for non-determinism
 
 ## Experiment Artifacts
 
@@ -395,24 +514,10 @@ experiments/
     PROMPT.md                  — Natural language format source material
   mathexpr-cross-validate.py   — Python cross-validation (41 REF vectors)
   mathexpr-cross-validate-all.sh — Full cross-validation runner
-  mathexpr-extract-tokens.py   — Token usage extraction (opus)
-  mathexpr-extract-tokens-haiku.py — Token usage extraction (haiku)
-  mathexpr-ref-python/         — REF → Python (opus)
-  mathexpr-ref-rust/           — REF → Rust (opus)
-  mathexpr-ref-go/             — REF → Go (opus)
-  mathexpr-spec-python/        — SPEC → Python (opus)
-  mathexpr-spec-rust/          — SPEC → Rust (opus)
-  mathexpr-spec-go/            — SPEC → Go (opus)
-  mathexpr-prompt-python/      — PROMPT → Python (opus)
-  mathexpr-prompt-rust/        — PROMPT → Rust (opus)
-  mathexpr-prompt-go/          — PROMPT → Go (opus)
-  mathexpr-ref-python-haiku/   — REF → Python (haiku)
-  mathexpr-ref-rust-haiku/     — REF → Rust (haiku)
-  mathexpr-ref-go-haiku/       — REF → Go (haiku)
-  mathexpr-spec-python-haiku/  — SPEC → Python (haiku)
-  mathexpr-spec-rust-haiku/    — SPEC → Rust (haiku)
-  mathexpr-spec-go-haiku/      — SPEC → Go (haiku)
-  mathexpr-prompt-python-haiku/  — PROMPT → Python (haiku)
-  mathexpr-prompt-rust-haiku/    — PROMPT → Rust (haiku)
-  mathexpr-prompt-go-haiku/      — PROMPT → Go (haiku)
+  mathexpr-extract-tokens.py        — Token usage extraction (opus)
+  mathexpr-extract-tokens-haiku.py  — Token usage extraction (haiku)
+  mathexpr-extract-tokens-sonnet.py — Token usage extraction (sonnet)
+  mathexpr-{ref,spec,prompt}-{python,rust,go}/         — Opus translations
+  mathexpr-{ref,spec,prompt}-{python,rust,go}-haiku/   — Haiku translations
+  mathexpr-{ref,spec,prompt}-{python,rust,go}-sonnet/  — Sonnet translations
 ```
