@@ -486,6 +486,100 @@ that only test vectors can resolve — exactly what the Type-O hypothesis predic
 
 ---
 
+## Skill Format Experiment (4th Format: Hybrid)
+
+### Motivation
+
+The experiments above tested three formats in isolation: REF, SPEC, and PROMPT. The
+research note on skill architecture argued these aren't competing formats — they're
+complementary layers. A **skill** combines:
+- `skill.md` — progressive disclosure overview (like PROMPT)
+- Per-node `spec.md` files — behavioral contracts with test vectors (like SPEC)
+- Per-language `to-{lang}.md` — translation-specific guidance (new: not in any prior format)
+
+The skill format omits reference TypeScript code entirely. Instead, it encodes the
+*knowledge distilled from* the reference into structured markdown. The agent reads
+the skill overview, per-node specs, and language-specific hints — but never sees
+implementation code.
+
+### Skill Structure
+
+```
+experiments/mathexpr-skill/
+  skill.md                          — Overview, node graph, operations table
+  nodes/
+    token-types/spec.md + to-{python,rust,go}.md
+    ast-types/spec.md + to-{python,rust,go}.md
+    tokenizer/spec.md + to-{python,rust,go}.md
+    parser/spec.md + to-{python,rust,go}.md
+    evaluator/spec.md + to-{python,rust,go}.md
+    evaluate/spec.md + to-{python,rust,go}.md
+```
+
+25 markdown files total. Each agent reads `skill.md` + 12 node-specific files (6 specs
++ 6 translation guides for their target language).
+
+### Self-Test Results
+
+| Format | Python | Rust | Go |
+|--------|--------|------|----|
+| **SKILL** | 83/83 (100%) | 50/50 (100%) | 39/39 (100%) |
+
+All 3 skill-format implementations pass their self-tests on first attempt.
+
+### Cross-Validation (Python, 41 REF vectors)
+
+| Format | Passed | Failed | Rate |
+|--------|--------|--------|------|
+| **SKILL** | 41/41 | 0 | **100%** |
+
+### Cross-Validation (Rust, Go — self-tests)
+
+| Format | Rust | Go |
+|--------|------|----|
+| **SKILL** | 50/50 pass | 39/39 pass |
+
+### Four-Format Comparison (Opus)
+
+| Metric | REF | SPEC | PROMPT | SKILL |
+|--------|-----|------|--------|-------|
+| Self-test pass rate | 100% | 100% | 100% | 100% |
+| REF vector compliance | 100% | 100% | 100% | 100% |
+| Iterations needed | 1 | 1 | 1 | 1 |
+| External dependencies | 0 | 0 | 0 | 0 |
+| Architecture fidelity | Exact | Close | Variable | **Close** |
+
+### Skill Format Analysis
+
+**1. Correctness matches REF and SPEC.** 100% cross-validation on all 3 languages.
+The per-node specs with test vectors provide the same disambiguation as SPEC format,
+and the `to-{lang}.md` guides explicitly warn about the `-2 ** 2` precedence pitfall
+that tripped sonnet's PROMPT implementation.
+
+**2. Architecture fidelity is high.** The skill's node graph and per-node structure
+naturally guide the agent to preserve the 6-node modular architecture — similar to REF
+but without providing implementation code.
+
+**3. Per-language guides encode translation-specific knowledge.** The `to-python.md`,
+`to-rust.md`, and `to-go.md` files provide language-specific hints (e.g., "use
+`Box<AstNode>` for recursive enum variants" in Rust, "use `nonlocal` for parser state"
+in Python). This is knowledge that would otherwise require the agent to discover through
+trial-and-error iterations.
+
+**4. The skill format is the first to separate "what to build" from "how to implement."**
+- PROMPT describes *what* (but no *how*)
+- SPEC describes *what* with behavioral contracts (but no implementation guidance)
+- REF shows *how* via code (but couples spec to one implementation)
+- SKILL describes *what* (specs) + *how* (per-language guides) without coupling to any
+  single implementation
+
+**5. Skills enable parallel execution.** Each per-node spec is self-contained — an
+orchestrating agent could dispatch 6 parallel sub-agents, each reading only its node's
+spec + translation guide + the top-level `skill.md`. This experiment used a single agent
+per language, but the architecture supports decomposition.
+
+---
+
 ## Limitations
 
 - **Single run per combination** — no account for non-determinism
@@ -512,6 +606,10 @@ experiments/
   mathexpr/
     SPEC.md                    — Specification format source material
     PROMPT.md                  — Natural language format source material
+  mathexpr-skill/              — Skill format source material (25 markdown files)
+    skill.md                   — Progressive disclosure overview
+    nodes/<name>/spec.md       — Per-node behavioral contracts
+    nodes/<name>/to-{lang}.md  — Per-language translation guides
   mathexpr-cross-validate.py   — Python cross-validation (41 REF vectors)
   mathexpr-cross-validate-all.sh — Full cross-validation runner
   mathexpr-extract-tokens.py        — Token usage extraction (opus)
@@ -520,4 +618,5 @@ experiments/
   mathexpr-{ref,spec,prompt}-{python,rust,go}/         — Opus translations
   mathexpr-{ref,spec,prompt}-{python,rust,go}-haiku/   — Haiku translations
   mathexpr-{ref,spec,prompt}-{python,rust,go}-sonnet/  — Sonnet translations
+  mathexpr-skill-{python,rust,go}/                     — Skill format translations (opus)
 ```
