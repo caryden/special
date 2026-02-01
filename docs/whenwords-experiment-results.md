@@ -107,6 +107,63 @@ the "zero external dependencies" instruction across all formats.
 All implementations passed their self-tests on the first attempt. No iteration was
 needed for any combination.
 
+## Results: Token Usage (M3/M4/M5)
+
+Token counts extracted from subagent JSONL session logs. Input tokens include
+fresh input + prompt cache writes + cache reads (effective context processed).
+Output tokens estimated from generated content character count (÷4 heuristic)
+since the logs don't capture final output usage.
+
+### Per-Experiment
+
+| Experiment | API Calls | Input Tokens | Est. Output | Est. Total |
+|------------|-----------|-------------|-------------|------------|
+| REF → Python | 12 | 308,095 | 5,956 | 314,051 |
+| REF → Rust | 16 | 348,327 | 8,631 | 356,958 |
+| REF → Go | 15 | 304,012 | 6,224 | 310,236 |
+| SPEC → Python | 6 | 114,422 | 4,902 | 119,324 |
+| SPEC → Rust | 9 | 267,176 | 12,497 | 279,673 |
+| SPEC → Go | 11 | 230,874 | 5,589 | 236,463 |
+| PROMPT → Python | 10 | 179,090 | 7,828 | 186,918 |
+| PROMPT → Rust | 9 | 273,850 | 15,452 | 289,302 |
+| PROMPT → Go | 8 | 157,684 | 6,200 | 163,884 |
+
+### By Source Format (averages)
+
+| Format | Avg API Calls | Avg Input | Avg Est. Output | Avg Est. Total | vs REF |
+|--------|--------------|-----------|-----------------|----------------|--------|
+| **REF** | 14.3 | 320,145 | 6,937 | 327,082 | 1.00x |
+| **SPEC** | 8.7 | 204,157 | 7,663 | 211,820 | **0.65x** |
+| **PROMPT** | 9.0 | 203,541 | 9,827 | 213,368 | **0.65x** |
+
+### By Target Language (averages)
+
+| Language | Avg API Calls | Avg Input | Avg Est. Output | Avg Est. Total |
+|----------|--------------|-----------|-----------------|----------------|
+| Python | 9.3 | 200,536 | 6,229 | 206,764 |
+| Rust | 11.3 | 296,451 | 12,193 | 308,644 |
+| Go | 11.3 | 230,857 | 6,004 | 236,861 |
+
+### Token Analysis
+
+**REF uses ~1.5x more input tokens than SPEC or PROMPT.** This is expected — the
+REF format includes full implementation code plus test files, while SPEC is a compact
+markdown document and PROMPT is even shorter. The REF agents also made more API calls
+(14.3 avg vs 8.7–9.0), likely because the larger input prompted more careful
+step-by-step translation.
+
+**SPEC and PROMPT are nearly identical in total token usage** despite SPEC including
+124 precise test vectors. The test vectors are compact (timestamp → expected string
+tables), adding minimal input overhead while providing critical disambiguation value.
+
+**Rust consistently uses the most tokens** across all formats — likely because
+implementing UTC date/time operations without an external crate requires significantly
+more generated code (civil date algorithms from scratch).
+
+**Output tokens are similar across formats** — the agent generates roughly the same
+amount of code regardless of source format. The difference is overwhelmingly in
+input tokens (how much context the agent needs to process).
+
 ## Results: Idiomatic Quality (M6, Qualitative)
 
 All translations demonstrated idiomatic adaptation:
@@ -130,6 +187,8 @@ correctly, on the first attempt.
 | REF vector compliance | 100% | 100% | ~95% |
 | Iterations needed | 1 | 1 | 1 |
 | External dependencies | 0 | 0 | 0 |
+| Avg total tokens | 327K | 212K (0.65x) | 213K (0.65x) |
+| Avg API calls | 14.3 | 8.7 | 9.0 |
 | Idiomatic quality | High | High | High |
 
 ## Key Findings
@@ -174,7 +233,9 @@ implementation available.
 
 - **Single run per combination** — methodology calls for 3 runs to account for
   non-determinism. This is a pilot.
-- **Token counts not captured** — need API-level instrumentation for M3/M4/M5.
+- **Token counts are approximate** — output tokens estimated from content chars (÷4),
+  not from API usage response. Input tokens are from API usage fields but may be
+  affected by prompt caching behavior.
 - **Same model for all** — did not vary the model; results may differ for smaller models.
 - **Whenwords is low complexity** — all pure functions, no dependencies between nodes,
   no state. Higher-complexity libraries are needed to stress-test the hypothesis.
@@ -188,12 +249,13 @@ implementation available.
 
 1. **Run cross-validation for Go and Rust PROMPT** — write harnesses or use a polyglot
    test runner
-2. **Capture token metrics** — instrument at the API level
-3. **Repeat 3x** — account for non-determinism
-4. **Stage 2: library with dependencies** — test a library where nodes depend on each
+2. **Repeat 3x** — account for non-determinism
+3. **Stage 2: library with dependencies** — test a library where nodes depend on each
    other (the node graph becomes meaningful)
-5. **Test with smaller models** — try claude-sonnet to see if format differences
+4. **Test with smaller models** — try claude-sonnet to see if format differences
    amplify with less capable models
+5. **Improve token instrumentation** — capture exact output tokens from API responses
+   rather than estimating from content chars
 
 ## Experiment Artifacts
 
@@ -204,6 +266,7 @@ experiments/
     PROMPT.md            — Natural language format source material
     results.md           — Initial REF-only results (superseded by this document)
     cross-validate.py    — Python cross-validation script
+  extract-tokens.py      — Token usage extraction from subagent JSONL logs
   whenwords-ref-python/  — REF → Python translation
   whenwords-ref-rust/    — REF → Rust translation
   whenwords-ref-go/      — REF → Go translation
