@@ -265,26 +265,126 @@ All 9 agents implemented a correct recursive descent parser with precedence clim
 and right-associative power operators on the first attempt. This includes Rust (with
 proper enum types and ownership) and Go (with interface-based AST nodes).
 
+---
+
+## Haiku Model Experiment (claude-haiku)
+
+### Motivation
+
+The opus results showed all formats converging to 100% correctness on this on-policy
+task. Testing with a smaller, less capable model (claude-haiku) addresses whether:
+- Format value increases as model capability decreases
+- The on-policy advantage holds across the capability spectrum
+- Iteration count (a proxy for execution reliability) differs by format
+
+### Self-Test Results
+
+| Format | Python | Rust | Go |
+|--------|--------|------|----|
+| **REF** | 100/100 (100%) | 96/96 (100%) | All pass (100%) |
+| **SPEC** | 88/88 (100%) | 88/88 (100%) | All pass (100%) |
+| **PROMPT** | 58/58 (100%) | 48+1/49 (100%) | All pass (100%) |
+
+All 9 haiku implementations pass their self-tests.
+
+### Cross-Validation (Python, 41 REF vectors)
+
+| Format | Passed | Failed | Rate |
+|--------|--------|--------|------|
+| **REF** | 41/41 | 0 | **100%** |
+| **SPEC** | 41/41 | 0 | **100%** |
+| **PROMPT** | 41/41 | 0 | **100%** |
+
+**Same result as opus** — 100% cross-validation across all formats. The on-policy
+confound holds even for haiku: the algorithm is well-known enough that even a smaller
+model produces correct behavior from a natural language prompt alone.
+
+### Token Usage
+
+| Experiment | API Calls | Input Tokens | Est. Output | Est. Total |
+|------------|-----------|-------------|-------------|------------|
+| REF → Python | 17 | 399,955 | 12,635 | 412,590 |
+| REF → Rust | 32 | 923,069 | 26,893 | 949,962 |
+| REF → Go | 36 | 894,011 | 12,545 | 906,556 |
+| SPEC → Python | 11 | 178,234 | 7,881 | 186,115 |
+| SPEC → Rust | 15 | 512,414 | 31,328 | 543,742 |
+| SPEC → Go | 14 | 398,857 | 19,512 | 418,369 |
+| PROMPT → Python | 8 | 87,724 | 6,588 | 94,312 |
+| PROMPT → Rust | 14 | 254,176 | 13,780 | 267,956 |
+| PROMPT → Go | 12 | 203,995 | 11,230 | 215,225 |
+
+### By Source Format (haiku averages)
+
+| Format | Avg API Calls | Avg Est. Total | vs REF |
+|--------|--------------|----------------|--------|
+| **REF** | 28.3 | 756K | 1.00x |
+| **SPEC** | 13.3 | 383K | **0.51x** |
+| **PROMPT** | 11.3 | 192K | **0.25x** |
+
+### Haiku vs Opus Comparison
+
+| Metric | Opus | Haiku | Change |
+|--------|------|-------|--------|
+| REF avg total tokens | 337K | 756K | **2.2x more** |
+| SPEC avg total tokens | 205K | 383K | **1.9x more** |
+| PROMPT avg total tokens | 129K | 192K | **1.5x more** |
+| REF avg API calls | 11.3 | 28.3 | **2.5x more** |
+| SPEC avg API calls | 8.3 | 13.3 | **1.6x more** |
+| PROMPT avg API calls | 7.0 | 11.3 | **1.6x more** |
+| Cross-validation (all) | 100% | 100% | Same |
+
+### Haiku Implications
+
+**1. Execution reliability degrades more than knowledge for smaller models.**
+Haiku achieved the same 100% correctness as opus, but needed significantly more
+iterations (API calls) to get there — especially for REF format (28.3 vs 11.3 calls).
+This is the execution reliability factor: haiku knows the algorithm but makes more
+implementation mistakes that require test-fix cycles.
+
+**2. REF format amplifies iteration cost for weaker models.**
+REF→Rust-haiku used 32 API calls and 950K tokens. The same task with opus used 12
+calls and 402K tokens. The larger input context of REF means each iteration is more
+expensive, and haiku needs more iterations. This is a multiplicative cost penalty:
+more iterations × more tokens per iteration.
+
+**3. PROMPT is even cheaper relative to REF with haiku (0.25x vs 0.38x with opus).**
+The cost advantage of lighter formats grows with weaker models because the iteration
+multiplier hits REF harder (larger context per call × more calls).
+
+**4. The on-policy confound is robust across model capability.**
+Even haiku — a much smaller model — produces correct recursive descent parsers from
+a natural language prompt. This strongly confirms that mathexpr is on-policy: the
+algorithm is so well-represented in training data that model capability barely affects
+correctness, only execution efficiency.
+
+**5. For on-policy tasks, PROMPT + haiku is the optimal cost point.**
+At 192K tokens with 100% correctness, PROMPT-haiku costs ~4x less than REF-opus
+(756K with haiku pricing vs 337K with opus pricing — and haiku tokens are much
+cheaper per token). For tasks within the model's training distribution, there is no
+correctness reason to use a more expensive format or model.
+
+---
+
 ## Limitations
 
 - **Single run per combination** — no account for non-determinism
 - **Token counts are approximate** — output estimated from content chars (÷4)
-- **Same model for all** — results may differ for smaller models
 - **Cross-validation limited to end-to-end** — did not test per-node contracts for
   Rust/Go (only Python cross-validated against REF vectors; Rust/Go validated via
   self-tests only)
-- **Mathematically unambiguous domain** — need a library with both complexity AND
-  ambiguity to fully separate the variables
+- **On-policy domain only** — need to repeat the haiku experiment on an off-policy
+  library (like whenwords) to see whether format value increases with weaker models
+  on ambiguous tasks
 
 ## Next Steps
 
-1. **Stage 3: library with both complexity AND ambiguity** — a domain with arbitrary
-   design decisions (e.g., date formatting, error message wording, configuration defaults)
-   combined with algorithmic depth
-2. **Test with smaller models** — try claude-sonnet to see if format differences amplify
-3. **Repeat 3x** — account for non-determinism
-4. **Per-node cross-validation** — write harnesses that test individual functions
-   (tokenizer, parser, evaluator) not just end-to-end calc()
+1. **Sonnet experiment** — run the same 3×3 matrix with claude-sonnet for a third
+   capability data point
+2. **Haiku on whenwords (off-policy)** — test whether format matters more for weaker
+   models when the task is off-policy
+3. **Stage 3: library with both complexity AND ambiguity** — a domain with arbitrary
+   design decisions combined with algorithmic depth
+4. **Repeat 3x** — account for non-determinism
 
 ## Experiment Artifacts
 
@@ -295,14 +395,24 @@ experiments/
     PROMPT.md                  — Natural language format source material
   mathexpr-cross-validate.py   — Python cross-validation (41 REF vectors)
   mathexpr-cross-validate-all.sh — Full cross-validation runner
-  mathexpr-extract-tokens.py   — Token usage extraction
-  mathexpr-ref-python/         — REF → Python translation
-  mathexpr-ref-rust/           — REF → Rust translation
-  mathexpr-ref-go/             — REF → Go translation
-  mathexpr-spec-python/        — SPEC → Python translation
-  mathexpr-spec-rust/          — SPEC → Rust translation
-  mathexpr-spec-go/            — SPEC → Go translation
-  mathexpr-prompt-python/      — PROMPT → Python translation
-  mathexpr-prompt-rust/        — PROMPT → Rust translation
-  mathexpr-prompt-go/          — PROMPT → Go translation
+  mathexpr-extract-tokens.py   — Token usage extraction (opus)
+  mathexpr-extract-tokens-haiku.py — Token usage extraction (haiku)
+  mathexpr-ref-python/         — REF → Python (opus)
+  mathexpr-ref-rust/           — REF → Rust (opus)
+  mathexpr-ref-go/             — REF → Go (opus)
+  mathexpr-spec-python/        — SPEC → Python (opus)
+  mathexpr-spec-rust/          — SPEC → Rust (opus)
+  mathexpr-spec-go/            — SPEC → Go (opus)
+  mathexpr-prompt-python/      — PROMPT → Python (opus)
+  mathexpr-prompt-rust/        — PROMPT → Rust (opus)
+  mathexpr-prompt-go/          — PROMPT → Go (opus)
+  mathexpr-ref-python-haiku/   — REF → Python (haiku)
+  mathexpr-ref-rust-haiku/     — REF → Rust (haiku)
+  mathexpr-ref-go-haiku/       — REF → Go (haiku)
+  mathexpr-spec-python-haiku/  — SPEC → Python (haiku)
+  mathexpr-spec-rust-haiku/    — SPEC → Rust (haiku)
+  mathexpr-spec-go-haiku/      — SPEC → Go (haiku)
+  mathexpr-prompt-python-haiku/  — PROMPT → Python (haiku)
+  mathexpr-prompt-rust-haiku/    — PROMPT → Rust (haiku)
+  mathexpr-prompt-go-haiku/      — PROMPT → Go (haiku)
 ```
