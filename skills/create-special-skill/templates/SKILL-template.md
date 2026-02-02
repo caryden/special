@@ -1,7 +1,7 @@
 ---
 name: {{SKILL_NAME}}
 description: {{ONE_LINE_DESCRIPTION}}
-argument-hint: "<nodes> [--lang <language>] — specify nodes to generate and target language (default: typescript)"
+argument-hint: "<nodes> [--lang <language>] or 'help' — specify nodes to generate, target language, or get guidance"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
@@ -12,13 +12,22 @@ allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ## Input
 
 `$ARGUMENTS` accepts:
+- **`help`**: Interactive guide to choosing the right nodes and language for your use case
 - **Nodes**: space-separated node names to generate (or `all` for the full library)
 - **--lang \<language\>**: target language (default: `typescript`). Supported: `python`, `rust`, `go`, `typescript`
 
 Examples:
+- `help` — walk through choosing which nodes you need
 - `{{EXAMPLE_NODE}}` — generate one node in TypeScript
 - `{{EXAMPLE_NODE}} --lang python` — generate one node in Python
 - `all --lang rust` — generate the full library in Rust
+
+## Handling `help`
+
+When `$ARGUMENTS` is `help`, read `HELP.md` and use it to guide the user through
+node and language selection. The help guide contains a decision tree and common
+use-case recipes. Walk through it interactively, asking the user about their
+requirements, then recommend specific nodes and a target language.
 
 ## Node Graph
 
@@ -51,12 +60,13 @@ Include provenance for each choice.}}
 
 ## Process
 
-1. Read this file for the node graph and design decisions
-2. For each requested node (in dependency order), read `nodes/<name>/spec.md`
-3. Read `nodes/<name>/to-<lang>.md` for target-language translation hints
-4. Generate implementation + tests
-5. If the spec is ambiguous, consult `reference/src/<name>.ts` (track what you consulted and why)
-6. Run tests — all must pass before proceeding to the next node
+1. If `$ARGUMENTS` is `help`, read `HELP.md` and guide the user interactively
+2. Read this file for the node graph and design decisions
+3. For each requested node (in dependency order), read `nodes/<name>/spec.md`
+4. Read `nodes/<name>/to-<lang>.md` for target-language translation hints
+5. Generate implementation + tests
+6. If the spec is ambiguous, consult `reference/src/<name>.ts` (track what you consulted and why)
+7. Run tests — all must pass before proceeding to the next node
 
 ## Error Handling
 

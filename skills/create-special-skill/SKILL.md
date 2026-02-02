@@ -24,6 +24,7 @@ or behavioral description.
 ```
 skills/$ARGUMENTS/
   SKILL.md              ← you will generate this (use template below)
+  HELP.md               ← interactive guide for node/language selection
   reference/
     package.json
     tsconfig.json
@@ -121,7 +122,22 @@ When computing the transitive closure for subset extraction, `any-of` members ar
 included only if explicitly requested. Plain (non-`any-of`) dependencies are always
 included.
 
-### 5. Write per-node specs
+### 5. Write the HELP.md
+
+Create `skills/$ARGUMENTS/HELP.md` using the template at
+`skills/create-special-skill/templates/HELP-template.md`.
+
+The help guide provides an interactive decision tree for consumers who don't know
+which nodes they need. Include:
+- Quick start recipes for common use cases
+- A decision tree walking through key choices (what info is available, what constraints exist, etc.)
+- Language/platform notes
+- Pre-computed node recipes with dependency sets
+- FAQ
+
+See `skills/optimization/HELP.md` for a concrete reference example.
+
+### 6. Write per-node specs
 
 For each node, create `nodes/<node>/spec.md` using the template at
 `skills/create-special-skill/templates/spec-template.md`.
@@ -133,7 +149,7 @@ Include:
 - Function signatures
 - Test vectors with `@provenance` annotations
 
-### 6. Write translation hints
+### 7. Write translation hints
 
 For each node × target language, create `nodes/<node>/to-<lang>.md` using
 the template at `skills/create-special-skill/templates/to-lang-template.md`.
@@ -144,7 +160,7 @@ Keep hints concise — 3-8 bullet points covering:
 - Data structure choices
 - Error handling patterns
 
-### 7. Validate
+### 8. Validate
 
 - [ ] All tests pass: `cd skills/$ARGUMENTS/reference && bun test --coverage`
 - [ ] 100% line and function coverage
@@ -152,4 +168,5 @@ Keep hints concise — 3-8 bullet points covering:
 - [ ] No circular dependencies
 - [ ] SKILL.md node graph matches actual code
 - [ ] Each node has spec.md + at least to-python.md, to-rust.md, to-go.md
+- [ ] HELP.md exists with decision tree and node recipes
 - [ ] Zero dead code in reference implementation

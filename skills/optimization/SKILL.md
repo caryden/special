@@ -1,7 +1,7 @@
 ---
 name: optimization
 description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente, Fminbox, Simulated Annealing, Krylov Trust Region, IPNewton — from a verified TypeScript reference
-argument-hint: "<nodes> [--lang <language>] — e.g. 'nelder-mead --lang python' or 'all --lang rust'"
+argument-hint: "<nodes> [--lang <language>] or 'help' — e.g. 'nelder-mead --lang python' or 'help'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
@@ -114,14 +114,23 @@ test-functions     │   finite-diff ──────────────�
 - **Full library**: all 21 nodes
 - **Test functions** are optional — only needed for validation
 
+## Handling `help`
+
+When `$ARGUMENTS` is `help`, read `HELP.md` and use it to guide the user through
+node and language selection. The help guide contains a decision tree covering
+derivative availability, constraint types, problem scale, and language idioms.
+Walk through it interactively, asking the user about their requirements, then
+recommend specific nodes and a target language.
+
 ## Translation Workflow
 
 For each node in dependency order:
 
-1. Read the node spec at `nodes/<name>/spec.md` for behavior, API, and test vectors
-2. Read language-specific hints at `nodes/<name>/to-<lang>.md` if available
-3. Generate the implementation and tests in the target language
-4. If the spec is ambiguous, consult the TypeScript reference at `reference/src/<name>.ts`
+1. If `$ARGUMENTS` is `help`, read `HELP.md` and guide the user interactively
+2. Read the node spec at `nodes/<name>/spec.md` for behavior, API, and test vectors
+3. Read language-specific hints at `nodes/<name>/to-<lang>.md` if available
+4. Generate the implementation and tests in the target language
+5. If the spec is ambiguous, consult the TypeScript reference at `reference/src/<name>.ts`
 
 The reference code is TypeScript with 100% line and function coverage. Every node
 has a corresponding test file at `reference/src/<name>.test.ts` that serves as the
