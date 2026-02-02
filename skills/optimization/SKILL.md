@@ -1,6 +1,6 @@
 ---
 name: optimization
-description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente, Fminbox — from a verified TypeScript reference
+description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente, Fminbox, Simulated Annealing, Krylov Trust Region — from a verified TypeScript reference
 argument-hint: "<nodes> [--lang <language>] — e.g. 'nelder-mead --lang python' or 'all --lang rust'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
@@ -8,9 +8,9 @@ allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 # Optimization Skill
 
 A modular numerical optimization library. Minimizes scalar functions of one or
-more variables using derivative-free (Nelder-Mead, Brent 1D), first-order
-(gradient descent, BFGS, L-BFGS, conjugate gradient), and second-order
-(Newton, Newton Trust Region) methods.
+more variables using derivative-free (Nelder-Mead, Brent 1D, Simulated Annealing),
+first-order (gradient descent, BFGS, L-BFGS, conjugate gradient), and second-order
+(Newton, Newton Trust Region, Krylov Trust Region) methods.
 
 ## When to use this skill
 
@@ -63,6 +63,10 @@ test-functions     │   finite-diff ──────────────�
                    │                                    │
                    ├──→ fminbox ←──────────────────────┤
                    │                                    │
+                   ├──→ simulated-annealing               │
+                   │                                    │
+                   ├──→ krylov-trust-region ←──────────┤←── finite-hessian
+                   │                                    │
                    └──→ minimize (root: public API) ←──┘
 ```
 
@@ -87,6 +91,8 @@ test-functions     │   finite-diff ──────────────�
 | `newton` | internal | vec-ops, result-types, line-search, finite-diff, finite-hessian | Newton's method with Cholesky solve and modified Newton regularization |
 | `newton-trust-region` | internal | vec-ops, result-types, finite-diff, finite-hessian | Newton with dogleg trust region subproblem |
 | `fminbox` | internal | vec-ops, result-types, any-of(bfgs, l-bfgs, conjugate-gradient, gradient-descent) | Box-constrained optimization via log-barrier method |
+| `simulated-annealing` | internal | result-types | Derivative-free stochastic global optimizer with Metropolis criterion |
+| `krylov-trust-region` | internal | vec-ops, result-types, finite-diff, finite-hessian | Newton-type optimizer using Steihaug-Toint truncated CG (Hessian-vector products only) |
 | `minimize` | root | result-types, any-of(nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region) | Dispatcher: selects algorithm from method + gradient availability |
 
 ### Subset Extraction
@@ -98,7 +104,9 @@ test-functions     │   finite-diff ──────────────�
 - **Just Newton TR**: `vec-ops` + `result-types` + `finite-diff` + `finite-hessian` + `newton-trust-region`
 - **Just Brent 1D**: `brent-1d` (standalone, no dependencies)
 - **Just Fminbox (BFGS)**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `bfgs` + `fminbox`
-- **Full library**: all 18 nodes
+- **Just Simulated Annealing**: `result-types` + `simulated-annealing`
+- **Just Krylov TR**: `vec-ops` + `result-types` + `finite-diff` + `finite-hessian` + `krylov-trust-region`
+- **Full library**: all 20 nodes
 - **Test functions** are optional — only needed for validation
 
 ## Translation Workflow

@@ -32,7 +32,7 @@ Last updated: 2026-02-01
 | **COBYLA** | Yes | — | — | Yes | — | — | No |
 | **BOBYQA** | — | — | — | Yes | Yes | Yes | No |
 | **CMA-ES** | — | — | — | — | — | Yes | No |
-| **Simulated Annealing** | dual_ann | SA+SAMIN | — | — | — | — | No |
+| **Simulated Annealing** | dual_ann | SA+SAMIN | — | — | — | — | **Yes** |
 | **Particle Swarm** | — | Yes | — | — | — | — | No |
 | **DIRECT** | Yes | — | — | Yes | — | — | No |
 | **NEWUOA** | — | — | — | Yes | — | — | No |
@@ -66,7 +66,7 @@ Last updated: 2026-02-01
 |-----------|-------|----------|-------|------|----------|
 | **Newton** | Newton-CG | Yes | — | Yes | **Yes** |
 | **Newton Trust Region** | trust-ncg | Yes | — | Yes | **Yes** |
-| **Krylov Trust Region** | trust-krylov | Yes | — | — | No |
+| **Krylov Trust Region** | trust-krylov | Yes | — | — | **Yes** |
 | **Levenberg-Marquardt** | least_sq | — | Yes | — | No |
 | **IPNewton** | — | Yes | — | — | No |
 
@@ -130,22 +130,20 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 
 ## Optim.jl Full Algorithm Coverage Gap
 
-### Already Implemented (4/19)
-- NelderMead, GradientDescent, BFGS, LBFGS
+### Already Implemented (14/19)
+- NelderMead, GradientDescent, BFGS, LBFGS, ConjugateGradient, Newton,
+  NewtonTrustRegion, HagerZhang, MoreThuente, Brent1D, Fminbox,
+  SimulatedAnnealing, KrylovTrustRegion, Minimize (dispatcher)
 
-### Tier 1: Essential (implement next)
-- **ConjugateGradient** — in 4 libraries (scipy CG, Ceres NL-CG, dlib PR, Optim.jl HZ)
-- **NewtonTrustRegion** — in 3 libraries (scipy trust-ncg, Optim.jl, dlib)
-- **Newton** — in 3 libraries (scipy Newton-CG, Optim.jl, dlib)
-- **HagerZhang line search** — default for Optim.jl CG and L-BFGS
-- **Brent (1D)** — in scipy, Optim.jl; standard univariate method
+### Tier 1: Essential (all implemented)
+- ~~ConjugateGradient~~ ✅
+- ~~NewtonTrustRegion~~ ✅
+- ~~Newton~~ ✅
+- ~~HagerZhang line search~~ ✅
+- ~~Brent (1D)~~ ✅
 
 ### Tier 2: Useful
-- **Fminbox** — box constraints wrapper (essential for constrained problems)
 - **SAMIN** — simulated annealing with bounds (Optim.jl specific)
-- **SimulatedAnnealing** — global optimization (2+ libraries)
-- **KrylovTrustRegion** — large-scale second-order
-- **MoreThuente line search** — better bracketing (in LBFGSPP, Optim.jl)
 - **IPNewton** — general nonlinear constraints
 
 ### Tier 3: Nice to Have
@@ -196,7 +194,7 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 | Library | Method | Status |
 |---------|--------|--------|
 | **scipy v1.17.0** | BFGS, L-BFGS-B, Nelder-Mead, CG | **Empirically validated** (30 runs) |
-| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG, Newton, NTR, MoreThuente, Fminbox | **Empirically validated** (54 runs) |
+| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG, Newton, NTR, MoreThuente, Fminbox, KrylovTR | **Empirically validated** (60 runs) |
 | **MATLAB** | Default parameters only | **Documented** (not run) |
 | **Ceres** | — | Surveyed only |
 | **NLopt** | — | Surveyed only |

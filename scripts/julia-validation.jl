@@ -96,6 +96,7 @@ methods_with_grad = [
     ("ConjugateGradient", ConjugateGradient()),
     ("BFGS_MoreThuente", BFGS(linesearch=MoreThuente())),
     ("LBFGS_MoreThuente", LBFGS(linesearch=MoreThuente())),
+    ("KrylovTrustRegion", Optim.KrylovTrustRegion()),
 ]
 
 methods_with_hessian = [
@@ -221,7 +222,7 @@ println("=" ^ 100)
 
 all_methods = ["BFGS", "LBFGS", "GradientDescent", "ConjugateGradient",
                 "BFGS_MoreThuente", "LBFGS_MoreThuente",
-                "Newton", "NewtonTrustRegion", "NelderMead"]
+                "KrylovTrustRegion", "Newton", "NewtonTrustRegion", "NelderMead"]
 
 for (name, _, _, _, _) in functions
     println("\n--- $name ---")

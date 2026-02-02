@@ -44,6 +44,17 @@
       "converged": true,
       "f_calls": 17
     },
+    "KrylovTrustRegion": {
+      "g_calls": 9,
+      "iterations": 8,
+      "fun": 2.1626498301810607e-22,
+      "x": [
+        3.0000000000183067,
+        0.5000000000071949
+      ],
+      "converged": true,
+      "f_calls": 9
+    },
     "Newton": {
       "g_calls": 27,
       "iterations": 9,
@@ -140,6 +151,17 @@
       "x": [
         0.0,
         0.0
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
+    "KrylovTrustRegion": {
+      "g_calls": 5,
+      "iterations": 4,
+      "fun": 8.22507568631133e-18,
+      "x": [
+        -2.0279393095345988e-9,
+        -2.0279393095345988e-9
       ],
       "converged": true,
       "f_calls": 5
@@ -244,6 +266,17 @@
       "converged": true,
       "f_calls": 6
     },
+    "KrylovTrustRegion": {
+      "g_calls": 5,
+      "iterations": 4,
+      "fun": 3.8309802394489914e-23,
+      "x": [
+        1.0000000000027998,
+        2.99999999999996
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
     "Newton": {
       "g_calls": 2,
       "iterations": 1,
@@ -343,6 +376,17 @@
       ],
       "converged": true,
       "f_calls": 20
+    },
+    "KrylovTrustRegion": {
+      "g_calls": 9,
+      "iterations": 9,
+      "fun": 1.2530575852005398e-23,
+      "x": [
+        3.00000000000047,
+        1.9999999999991467
+      ],
+      "converged": true,
+      "f_calls": 10
     },
     "Newton": {
       "g_calls": 20,
@@ -606,6 +650,17 @@
       "converged": true,
       "f_calls": 52
     },
+    "KrylovTrustRegion": {
+      "g_calls": 23,
+      "iterations": 1000,
+      "fun": 1.1459992347703297e-15,
+      "x": [
+        0.9999999661743965,
+        0.9999999322135986
+      ],
+      "converged": false,
+      "f_calls": 26
+    },
     "Newton": {
       "g_calls": 78,
       "iterations": 23,
@@ -705,6 +760,9 @@
       ],
       "converged": true,
       "f_calls": 26
+    },
+    "KrylovTrustRegion": {
+      "error": "AssertionError(\"state.m_diff <= 0\")"
     },
     "Newton": {
       "g_calls": 33,
