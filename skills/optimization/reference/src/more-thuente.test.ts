@@ -6,6 +6,13 @@
  * validates on standard test functions.
  *
  * @contract more-thuente.test.ts
+ * @provenance Moré & Thuente 1994, "Line search algorithms with guaranteed
+ *   sufficient decrease" — strong Wolfe conditions, four-case cubic/quadratic/secant
+ *   step selection (cstep), modified/standard stage transition
+ * @provenance Optim.jl v2.0.0 MoreThuente(), verified 2026-02-02 — 6 test functions
+ *   cross-validated via BFGS with MoreThuente line search
+ * @provenance mathematical-definition — strong Wolfe: decrease phi(a) ≤ phi(0)+c1·a·phi'(0),
+ *   curvature |phi'(a)| ≤ c2·|phi'(0)|
  */
 
 import { describe, test, expect } from "bun:test";

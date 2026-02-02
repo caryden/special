@@ -1,3 +1,17 @@
+/**
+ * Tests for Simulated Annealing global optimizer.
+ *
+ * @contract simulated-annealing.test.ts
+ * @provenance mathematical-definition — test function minima: sphere→(0,0),
+ *   rosenbrock→(1,1), rastrigin→(0,0); Boltzmann acceptance probability
+ *   P=exp(-Δf/T); log temperature schedule T(t)=T0/ln(t+1)
+ * @provenance Optim.jl v2.0.0 SimulatedAnnealing(), verified 2026-02-02 —
+ *   sphere, rosenbrock, rastrigin cross-validated (stochastic: verify convergence
+ *   to correct basin, not exact values)
+ * @provenance Kirkpatrick, Gelatt & Vecchi 1983, "Optimization by Simulated Annealing"
+ * @provenance mulberry32 PRNG: Tommy Ettinger, public domain 32-bit hash
+ */
+
 import { describe, test, expect } from "bun:test";
 import {
   simulatedAnnealing,

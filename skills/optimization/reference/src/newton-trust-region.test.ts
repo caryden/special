@@ -5,6 +5,12 @@
  * and edge cases.
  *
  * @contract newton-trust-region.test.ts
+ * @provenance mathematical-definition — test function minima: sphere→(0,0),
+ *   booth→(1,3), rosenbrock→(1,1), beale→(3,0.5), goldstein-price→(0,-1) f=3
+ * @provenance Optim.jl v2.0.0 NewtonTrustRegion(), verified 2026-02-02 —
+ *   6 test functions cross-validated, all converge to same minima
+ * @provenance Nocedal & Wright, Numerical Optimization, 2nd ed., Ch. 4 (trust region),
+ *   Powell 1970 (dogleg method)
  */
 
 import { describe, test, expect } from "bun:test";

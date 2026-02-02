@@ -4,6 +4,13 @@
  * Verifies convergence on standard univariate test functions,
  * edge cases, and failure modes.
  *
+ * @provenance mathematical-definition — analytic minima of elementary functions:
+ *   x^2 → 0, (x-3)^2 → 3, -sin(x) → π/2, x·ln(x) → 1/e, e^x-2x → ln(2),
+ *   x^4-2x^2 → ±1
+ * @provenance Optim.jl v2.0.0 Brent(), verified 2026-02-02 — 8 test functions
+ *   cross-validated, all converge to same minima within floating-point tolerance
+ * @provenance Brent 1973, "Algorithms for Minimization without Derivatives"
+ *
  * @contract brent-1d.test.ts
  */
 

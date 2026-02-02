@@ -7,6 +7,13 @@
  * narrowing, and failure modes.
  *
  * @contract hager-zhang.test.ts
+ * @provenance Hager & Zhang 2005, "A new conjugate gradient method with guaranteed
+ *   descent and an efficient line search" — approximate Wolfe conditions (§2),
+ *   bracket-secant-bisection algorithm (§4)
+ * @provenance mathematical-definition — Wolfe conditions: sufficient decrease
+ *   phi(a) ≤ phi(0)+δ·a·phi'(0), curvature phi'(a) ≥ σ·phi'(0)
+ * @provenance Implicitly cross-validated via Optim.jl v2.0.0 BFGS/L-BFGS/CG
+ *   tests which use HagerZhang() as default line search, verified 2026-02-02
  */
 
 import { describe, test, expect } from "bun:test";

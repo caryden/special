@@ -1,3 +1,16 @@
+/**
+ * Tests for Krylov Trust Region (Steihaug-Toint CG) optimizer.
+ *
+ * @contract krylov-trust-region.test.ts
+ * @provenance mathematical-definition — test function minima: sphere→(0,0),
+ *   rosenbrock→(1,1), booth→(1,3), beale→(3,0.5), himmelblau→local min
+ * @provenance Optim.jl v2.0.0 KrylovTrustRegion(), verified 2026-02-02 —
+ *   5 test functions cross-validated (Goldstein-Price excluded: triggers
+ *   assertion error in Optim.jl TrustRegion code)
+ * @provenance Steihaug 1983, "The conjugate gradient method and trust regions in
+ *   large scale optimization"; Nocedal & Wright, Numerical Optimization, §7.2
+ */
+
 import { describe, test, expect } from "bun:test";
 import { krylovTrustRegion, steihaugCG } from "./krylov-trust-region";
 

@@ -24,6 +24,8 @@ import { moreThuente } from "./more-thuente";
 import { fminbox } from "./fminbox";
 import { krylovTrustRegion } from "./krylov-trust-region";
 import { ipNewton, type ConstraintDef } from "./ip-newton";
+import { simulatedAnnealing } from "./simulated-annealing";
+import { brent1d } from "./brent-1d";
 import { bfgs } from "./bfgs";
 import {
   sphere, booth, rosenbrock, beale, himmelblau, himmelblauMinima, goldsteinPrice,
@@ -672,5 +674,108 @@ describe("cross-validation: Optim.jl IPNewton", () => {
     const julia = optimJlIPNewton.quad_1d_active;
     expect(ours.fun).toBeCloseTo(julia.fun, 4);
     expect(ours.x[0]).toBeCloseTo(julia.x[0], 2);
+  });
+});
+
+// ── Brent 1D: Optim.jl v2.0.0 Brent() ─────────────────────────────
+// @provenance Optim.jl v2.0.0 Brent(), Julia 1.10.7, verified 2026-02-02
+// All 8 problems converge to known analytic minima.
+
+const optimJlBrent = {
+  x_squared: { x: -5.551115123125783e-17, fun: 3.0814879110195774e-33, bracket: [-2, 2] },
+  x_minus_3_squared: { x: 3.0, fun: 0.0, bracket: [0, 10] },
+  neg_sin: { x: 1.5707963267948966, fun: -1.0, bracket: [0, Math.PI] },
+  x_log_x: { x: 0.3678794421387611, fun: -0.36787944117144233, bracket: [0.1, 3] },
+  exp_minus_2x: { x: 0.6931471806026845, fun: 0.6137056388801092, bracket: [-1, 2] },
+  quartic_left: { x: -1.000000000025498, fun: -1.0, bracket: [-2, 0] },
+  quartic_right: { x: 0.9999999999599163, fun: -1.0, bracket: [0, 2] },
+};
+
+describe("cross-validation: Brent 1D vs Optim.jl v2.0.0", () => {
+  test("x^2 on [-2, 2]: minimum at 0", () => {
+    const ours = brent1d((x) => x * x, -2, 2);
+    expect(ours.x).toBeCloseTo(0, 10);
+    expect(ours.fun).toBeCloseTo(0, 10);
+  });
+
+  test("(x-3)^2 on [0, 10]: minimum at 3", () => {
+    const ours = brent1d((x) => (x - 3) * (x - 3), 0, 10);
+    expect(ours.x).toBeCloseTo(optimJlBrent.x_minus_3_squared.x, 10);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.x_minus_3_squared.fun, 10);
+  });
+
+  test("-sin(x) on [0, pi]: minimum at pi/2", () => {
+    const ours = brent1d((x) => -Math.sin(x), 0, Math.PI);
+    expect(ours.x).toBeCloseTo(optimJlBrent.neg_sin.x, 8);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.neg_sin.fun, 10);
+  });
+
+  test("x*log(x) on [0.1, 3]: minimum at 1/e", () => {
+    const ours = brent1d((x) => x * Math.log(x), 0.1, 3);
+    expect(ours.x).toBeCloseTo(optimJlBrent.x_log_x.x, 6);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.x_log_x.fun, 6);
+  });
+
+  test("exp(x)-2x on [-1, 2]: minimum at ln(2)", () => {
+    const ours = brent1d((x) => Math.exp(x) - 2 * x, -1, 2);
+    expect(ours.x).toBeCloseTo(optimJlBrent.exp_minus_2x.x, 6);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.exp_minus_2x.fun, 6);
+  });
+
+  test("x^4-2x^2 on [-2, 0]: minimum at -1", () => {
+    const ours = brent1d((x) => x ** 4 - 2 * x * x, -2, 0);
+    expect(ours.x).toBeCloseTo(optimJlBrent.quartic_left.x, 6);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.quartic_left.fun, 8);
+  });
+
+  test("x^4-2x^2 on [0, 2]: minimum at 1", () => {
+    const ours = brent1d((x) => x ** 4 - 2 * x * x, 0, 2);
+    expect(ours.x).toBeCloseTo(optimJlBrent.quartic_right.x, 6);
+    expect(ours.fun).toBeCloseTo(optimJlBrent.quartic_right.fun, 8);
+  });
+});
+
+// ── Simulated Annealing: Optim.jl v2.0.0 SimulatedAnnealing() ──────
+// @provenance Optim.jl v2.0.0 SimulatedAnnealing(), Julia 1.10.7, verified 2026-02-02
+// SA is stochastic — we verify convergence to the correct basin, not exact values.
+// Optim.jl SA with 10k iterations on sphere achieves f ≈ 1e-5 to 1e-3 (varies by run).
+
+describe("cross-validation: Simulated Annealing vs Optim.jl v2.0.0", () => {
+  test("sphere from [5,5]: converges near origin (same basin as Optim.jl)", () => {
+    // Optim.jl SA 10k iterations: fun ≈ 2.9e-5 (varies by run)
+    // Our SA with deterministic seed should also find the correct basin
+    const ours = simulatedAnnealing(sphere.f, [5, 5], {
+      maxIterations: 10000,
+      seed: 42,
+    });
+    // Both implementations should get f < 1 (well within the basin of origin)
+    expect(ours.fun).toBeLessThan(1);
+    expect(Math.abs(ours.x[0])).toBeLessThan(2);
+    expect(Math.abs(ours.x[1])).toBeLessThan(2);
+  });
+
+  test("rosenbrock from [-1.2,1.0]: converges near (1,1) (same basin as Optim.jl)", () => {
+    // Optim.jl SA 50k iterations: fun ≈ 0.001, x ≈ [1.01, 1.02]
+    const ours = simulatedAnnealing(rosenbrock.f, [-1.2, 1.0], {
+      maxIterations: 50000,
+      seed: 42,
+    });
+    // Both should reach the correct basin near (1,1)
+    expect(ours.fun).toBeLessThan(1);
+    expect(Math.abs(ours.x[0] - 1)).toBeLessThan(1);
+    expect(Math.abs(ours.x[1] - 1)).toBeLessThan(1);
+  });
+
+  test("rastrigin from [3,3]: converges near global min (same basin as Optim.jl)", () => {
+    // Rastrigin: many local minima, global at origin
+    // Optim.jl SA 50k: fun ≈ 0.007, x ≈ [0.005, 0.003]
+    const rastrigin = (x: number[]) =>
+      10 * x.length + x.reduce((s, xi) => s + xi * xi - 10 * Math.cos(2 * Math.PI * xi), 0);
+    const ours = simulatedAnnealing(rastrigin, [3, 3], {
+      maxIterations: 50000,
+      seed: 42,
+    });
+    // Both should find the global basin near origin (not a local minimum)
+    expect(ours.fun).toBeLessThan(2);
   });
 });

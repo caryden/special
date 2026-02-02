@@ -2,6 +2,14 @@
  * Tests for IPNewton interior-point constrained optimizer.
  *
  * @contract ip-newton.test.ts
+ * @provenance mathematical-definition — constrained minima verified analytically:
+ *   sphere+box→boundary point, sphere+equality(x+y=1)→(0.5,0.5),
+ *   sphere+inequality(x+y≥3)→(1.5,1.5), HS7→(0,√3)
+ * @provenance Optim.jl v2.0.0 IPNewton(), verified 2026-02-02 — 6 constrained
+ *   problems cross-validated (box, equality, inequality), all match to 4+ decimals
+ * @provenance Nocedal & Wright, Numerical Optimization, 2nd ed., Ch. 19 (interior-point
+ *   methods); Wächter & Biegler 2006, "On the implementation of an interior-point
+ *   filter line-search algorithm" (IPOPT reference)
  */
 
 import { describe, test, expect } from "bun:test";

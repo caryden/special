@@ -5,6 +5,11 @@
  * against Optim.jl CG results, and exercises edge cases.
  *
  * @contract conjugate-gradient.test.ts
+ * @provenance mathematical-definition — test function minima: sphere→(0,0),
+ *   booth→(1,3), rosenbrock→(1,1), beale→(3,0.5), goldstein-price→(0,-1) f=3
+ * @provenance Optim.jl v2.0.0 ConjugateGradient(; eta=0.4, linesearch=HagerZhang()),
+ *   verified 2026-02-02 — 6 test functions cross-validated
+ * @provenance Hager & Zhang 2006, "Algorithm 851: CG_DESCENT" (beta formula, eta restart)
  */
 
 import { describe, test, expect } from "bun:test";

@@ -1,3 +1,15 @@
+/**
+ * Tests for Fminbox log-barrier box-constrained optimizer.
+ *
+ * @contract fminbox.test.ts
+ * @provenance mathematical-definition — barrier function: -log(x-l)-log(u-x),
+ *   gradient: -1/(x-l)+1/(u-x), projected gradient norm per Bertsekas 1999
+ * @provenance Optim.jl v2.0.0 Fminbox(LBFGS()), verified 2026-02-02 —
+ *   7 cross-validation tests (interior + boundary-active), all match
+ * @provenance Test functions: sphere f(x)=Σx², rosenbrock f=100(y-x²)²+(1-x)²
+ *   with known minima at origin and (1,1) respectively
+ */
+
 import { describe, test, expect } from "bun:test";
 import {
   fminbox,

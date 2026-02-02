@@ -1,3 +1,11 @@
+/**
+ * Tests for vector operations (dot, norm, add, scale, etc.).
+ *
+ * @contract vec-ops.test.ts
+ * @provenance mathematical-definition — all expected values are elementary
+ *   linear algebra identities (e.g. dot([1,2,3],[4,5,6])=32, norm([3,4])=5)
+ */
+
 import { describe, test, expect } from "bun:test";
 import {
   dot, norm, normInf, scale, add, sub, negate, clone, zeros, addScaled,

@@ -29,7 +29,7 @@ docs/, experiments/, or tasks/.
 skills/
   optimization/
     SKILL.md                — Skill entry point with frontmatter
-    reference/              — TypeScript reference (21 nodes, 523 tests, 100% coverage)
+    reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
       src/<node>.ts         — Implementation with @node structured comments
       src/<node>.test.ts    — Behavioral contract
     nodes/<node>/
@@ -67,7 +67,7 @@ tasks/
 
 | Skill | Nodes | Tests | Coverage | Cross-validated |
 |-------|-------|-------|----------|-----------------|
-| optimization | 21 | 523 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
+| optimization | 21 | 539 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 

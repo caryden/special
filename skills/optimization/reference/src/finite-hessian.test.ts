@@ -5,6 +5,11 @@
  * against analytic Hessians of standard test functions.
  *
  * @contract finite-hessian.test.ts
+ * @provenance mathematical-definition — analytic Hessians derived by hand:
+ *   sphere H=2I, booth H=[[10,8],[8,10]], rosenbrock H(1,1)=[[802,-400],[-400,200]],
+ *   rosenbrock H(-1.2,1)=[[1330,480],[480,200]]
+ * @provenance Central-difference Hessian approximation: Nocedal & Wright,
+ *   Numerical Optimization, 2nd ed., §8.1
  */
 
 import { describe, test, expect } from "bun:test";
