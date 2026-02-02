@@ -1,6 +1,6 @@
 ---
 name: optimization
-description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region — from a verified TypeScript reference
+description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente — from a verified TypeScript reference
 argument-hint: "<nodes> [--lang <language>] — e.g. 'nelder-mead --lang python' or 'all --lang rust'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
@@ -36,6 +36,8 @@ Examples:
 
 ```
 vec-ops ─────────────────────────┬──→ line-search ──────┬──→ hager-zhang ──────┐
+                                 │                      │                      │
+                                 ├──→ more-thuente      │                      │
                                  │                      │                      │
 result-types ──────┬─────────────┤                      │                      │
                    │             │                      │                      │
@@ -73,6 +75,7 @@ test-functions     │   finite-diff ──────────────�
 | `finite-hessian` | internal | — | Full Hessian via central differences + Hessian-vector product |
 | `line-search` | internal | vec-ops | Backtracking (Armijo) and Strong Wolfe line search |
 | `hager-zhang` | internal | vec-ops, line-search | Hager-Zhang line search with approximate Wolfe conditions |
+| `more-thuente` | internal | vec-ops, line-search | More-Thuente line search with cubic interpolation and strong Wolfe conditions |
 | `brent-1d` | leaf | — | Brent's method for 1D minimization on a bounded interval |
 | `nelder-mead` | internal | vec-ops, result-types | Derivative-free simplex optimizer |
 | `gradient-descent` | internal | vec-ops, result-types, line-search, finite-diff | Steepest descent with backtracking |
@@ -91,7 +94,7 @@ test-functions     │   finite-diff ──────────────�
 - **Just Newton**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `finite-hessian` + `newton`
 - **Just Newton TR**: `vec-ops` + `result-types` + `finite-diff` + `finite-hessian` + `newton-trust-region`
 - **Just Brent 1D**: `brent-1d` (standalone, no dependencies)
-- **Full library**: all 16 nodes
+- **Full library**: all 17 nodes
 - **Test functions** are optional — only needed for validation
 
 ## Translation Workflow

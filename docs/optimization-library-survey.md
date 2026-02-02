@@ -77,7 +77,7 @@ Last updated: 2026-02-01
 | **Backtracking (Armijo)** | — | Yes | Yes | Yes | **Yes** |
 | **Strong Wolfe** | Yes | Yes | Yes | Yes | **Yes** |
 | **HagerZhang** | — | Yes (default) | — | — | **Yes** |
-| **MoreThuente** | — | Yes | — | Yes | No |
+| **MoreThuente** | — | Yes | — | Yes | **Yes** |
 | **Cubic interpolation** | Yes | — | Yes | — | No |
 
 ## Default Parameter Comparison
