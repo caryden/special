@@ -240,7 +240,7 @@ generation, to measure correctness. The agent doesn't see them during generation
 ### Stage 1: whenwords (5 nodes, no inter-node deps)
 
 9 runs: 3 formats (REF, SPEC, PROMPT) × 3 languages (Python, Rust, Go).
-See `docs/whenwords-experiment-results.md` for full results.
+See `results/whenwords-experiment-results.md` for full results.
 
 - REF format produced the highest first-pass accuracy
 - PROMPT format diverged on 6/116 Python tests (ambiguous threshold behavior)
@@ -250,7 +250,7 @@ See `docs/whenwords-experiment-results.md` for full results.
 ### Stage 2: mathexpr (6 nodes, DAG with shared types)
 
 12 runs: 4 formats (REF, SPEC, PROMPT, SKILL) × 3 languages.
-See `docs/mathexpr-experiment-results.md` for full results.
+See `results/mathexpr-experiment-results.md` for full results.
 
 - All formats achieved 100% test pass rate (parser/evaluator domain is well-understood)
 - SKILL format designed based on Stage 1-2 findings: hybrid of SPEC + REF with progressive disclosure
@@ -259,12 +259,12 @@ See `docs/mathexpr-experiment-results.md` for full results.
 ### Stage 3: optimize (10 nodes, numerical algorithms) — partial
 
 3 runs: SKILL format × 3 languages (Python, Rust, Go), nelder-mead subset only.
-See `experiments/optimize-skill-nelder-mead-experiment.md` for full results.
+See `results/optimize-nelder-mead-results.md` for full results.
 
 - **108/108 tests pass** across all 3 languages
 - **De-bundling confirmed**: subset (3 of 10 nodes) extracted and translated cleanly
 - **Progressive disclosure validated**: all agents used all 4 layers (skill.md → spec → hints → reference)
-- **3 spec ambiguities identified** via translation feedback (see `docs/draft-issues/`)
+- **3 spec ambiguities identified** via translation feedback (see `draft-issues/`)
 - Cross-validated against scipy v1.17.0 (empirical) and Optim.jl v2.0.0 (from source)
 
 ### Format evolution

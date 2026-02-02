@@ -69,4 +69,4 @@ Additionally, C# attributes are the more capable annotation system, and annotati
 - [.NET Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math) — `INumber<T>`, `IFloatingPoint<T>`
 - [C# Attributes](https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/)
 - [Kotlin Annotations](https://kotlinlang.org/docs/annotations.html)
-- [requirements.md](../../requirements.md) — project requirements and evaluation rubric
+- [hypothesis.md](../hypothesis.md) — project hypothesis and evaluation rubric

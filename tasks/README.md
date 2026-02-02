@@ -16,11 +16,26 @@ Each task file includes:
 
 | Task | Environment | Status |
 |------|-------------|--------|
-| [Julia cross-validation](julia-cross-validation.md) | Julia 1.10+ with Optim.jl | Pending |
+| [Julia cross-validation](julia-cross-validation.md) | Julia 1.10+ with Optim.jl | Partial (Brent-1D + SA done, others pending) |
 | [MATLAB cross-validation](matlab-cross-validation.md) | MATLAB R2024+ | Pending |
 | [C++ cross-validation](cpp-cross-validation.md) | CMake + Ceres/dlib/LBFGSPP | Pending |
 | [NLopt cross-validation](nlopt-cross-validation.md) | NLopt 2.10.0 | Pending |
+| [Cross-validate new algorithms](cross-validate-new-algorithms.md) | Various | Pending |
 | [Performance benchmarks](performance-benchmarks.md) | Node.js + Python (scipy) | Pending |
+
+## Completed Tasks
+
+Archived in `completed/`. These implementation tasks have been finished — the
+corresponding nodes are in `skills/optimization/reference/src/` with 100% coverage.
+
+| Task | Completed |
+|------|-----------|
+| implement-brent-1d | Brent 1D optimizer |
+| implement-conjugate-gradient | Hager-Zhang conjugate gradient |
+| implement-finite-hessian | Finite-difference Hessian |
+| implement-hager-zhang | Hager-Zhang line search |
+| implement-newton | Newton's method with line search |
+| implement-newton-trust-region | Newton trust-region (dogleg) |
 
 ## Usage
 

@@ -13,7 +13,7 @@ This repository is a **Claude Code plugin** (manifest at `.claude-plugin/plugin.
 Skills within the plugin are designed to be **fully self-contained** — they must operate
 without any help from this project's CLAUDE.md. When installed via a plugin marketplace,
 users get only the skill directories; they do not get the host project's CLAUDE.md,
-docs/, experiments/, or tasks/.
+research/, or tasks/.
 
 **Implications for skill authors:**
 - All conventions, structured comment format docs, and process instructions must live
@@ -50,15 +50,16 @@ skills/
     templates/              — SKILL-template.md, spec-template.md, to-lang-template.md
   propose-special-skill/
     SKILL.md                — Meta-skill: package and propose via GitHub issue
-experiments/
-  <library>-skill-<lang>/   — Generated translation outputs and results
-  optimize-skill-nelder-mead-experiment.md
-docs/
+research/
+  README.md                 — Research summary and reading order
+  hypothesis.md             — Core hypothesis and motivation
+  evaluation-methodology.md — Experimental design and metrics
+  skill-architecture.md     — From format comparison to skill design
+  optimization-library-survey.md — Algorithm survey across 11 libraries
   decisions/                — Architecture Decision Records
+  results/                  — Detailed experiment results by stage
   draft-issues/             — Spec improvements from translation feedback
-  evaluation-methodology.md
-  research-note-skill-architecture.md
-  optimization-library-survey.md
+  experiments/              — Raw experiment outputs (historical)
 tasks/
   *.md                      — Durable tasks for deferred work
 ```
@@ -92,13 +93,13 @@ cd skills/<skill-name>/reference && bun test --coverage
 bun test skills/<skill-name>/reference/src/<node>.test.ts
 
 # Run Python translation tests
-cd experiments/<lib>-skill-python && python -m pytest -v
+cd research/experiments/<lib>-skill-python && python -m pytest -v
 
 # Run Rust translation tests
-cd experiments/<lib>-skill-rust && cargo test
+cd research/experiments/<lib>-skill-rust && cargo test
 
 # Run Go translation tests
-cd experiments/<lib>-skill-go && go test -v ./...
+cd research/experiments/<lib>-skill-go && go test -v ./...
 ```
 
 ## Structured comment format

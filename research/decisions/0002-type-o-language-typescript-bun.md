@@ -122,4 +122,4 @@ revisited with data.
 
 - [Bun Test Runner](https://bun.sh/docs/cli/test)
 - [ADR-0001](0001-type-o-language-csharp.md) — original C# decision (superseded)
-- [requirements.md](../../requirements.md) — project requirements and evaluation rubric
+- [hypothesis.md](../hypothesis.md) — project hypothesis and evaluation rubric

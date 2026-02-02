@@ -2,5 +2,8 @@
   "name": "special",
   "version": "0.1.0",
   "description": "Special skills — modular code generation from verified references. Each skill translates a tested TypeScript reference into native implementations in any target language, generating only the subset of nodes you need with zero external dependencies.",
+  "repository": "https://github.com/caryden/special",
+  "author": "caryden",
+  "license": "MIT",
   "skills": "skills/"
 }
