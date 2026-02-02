@@ -72,6 +72,33 @@ describe("minimize — explicit method selection", () => {
     expect(result.converged).toBe(true);
     expect(result.fun).toBeCloseTo(0, 6);
   });
+
+  test("conjugate-gradient on rosenbrock", () => {
+    const result = minimize(rosenbrock.f, rosenbrock.startingPoint, {
+      method: "conjugate-gradient",
+      grad: rosenbrock.gradient,
+    });
+    expect(result.converged).toBe(true);
+    expect(result.fun).toBeLessThan(1e-8);
+  });
+
+  test("newton on sphere", () => {
+    const result = minimize(sphere.f, sphere.startingPoint, {
+      method: "newton",
+      grad: sphere.gradient,
+    });
+    expect(result.converged).toBe(true);
+    expect(result.fun).toBeLessThan(1e-10);
+  });
+
+  test("newton-trust-region on sphere", () => {
+    const result = minimize(sphere.f, sphere.startingPoint, {
+      method: "newton-trust-region",
+      grad: sphere.gradient,
+    });
+    expect(result.converged).toBe(true);
+    expect(result.fun).toBeLessThan(1e-10);
+  });
 });
 
 describe("minimize — all test functions with bfgs", () => {

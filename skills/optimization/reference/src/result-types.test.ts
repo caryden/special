@@ -1,3 +1,13 @@
+/**
+ * Tests for optimization result types, convergence checking, and message formatting.
+ *
+ * @contract result-types.test.ts
+ * @provenance API design — default tolerances (gradTol=1e-8, stepTol=1e-8, funcTol=1e-12,
+ *   maxIterations=1000) match Optim.jl v2.0.0 conventions
+ * @provenance Convergence criteria follow standard numerical optimization practice
+ *   (Nocedal & Wright, Numerical Optimization, 2nd ed., Ch. 3)
+ */
+
 import { describe, test, expect } from "bun:test";
 import {
   defaultOptions,

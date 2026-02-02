@@ -1,0 +1,55 @@
+{
+  "sphere_box_upper": {
+    "iterations": 35,
+    "fun": 2.000000000000001,
+    "x": [
+      -1.0000000000000002,
+      -1.0000000000000002
+    ],
+    "converged": true
+  },
+  "sphere_box_lower": {
+    "iterations": 35,
+    "fun": 2.000000000000001,
+    "x": [
+      1.0000000000000002,
+      1.0000000000000002
+    ],
+    "converged": true
+  },
+  "sphere_eq_xpy1": {
+    "iterations": 32,
+    "fun": 0.5,
+    "x": [
+      0.5,
+      0.5
+    ],
+    "converged": true
+  },
+  "sphere_box_interior": {
+    "iterations": 29,
+    "fun": 2.058657940570236e-17,
+    "x": [
+      3.208315711218455e-9,
+      3.208315711218455e-9
+    ],
+    "converged": true
+  },
+  "quad_1d_active": {
+    "iterations": 32,
+    "fun": 1.0000000000000036,
+    "x": [
+      4.000000000000002
+    ],
+    "converged": true
+  },
+  "sphere_ineq_xpy3": {
+    "iterations": 30,
+    "fun": 4.500000000000032,
+    "x": [
+      1.500000000000005,
+      1.5000000000000053
+    ],
+    "converged": true
+  }
+}

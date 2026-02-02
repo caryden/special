@@ -105,9 +105,20 @@ Empirically verified 2026-02-01 (Python 3, numpy 2.4.2).
 Note: scipy uses L-BFGS-B (bounded variant) with slightly different internals.
 Both use memory=10 by default.
 
-@provenance: optim.jl v2.0.0 (documented, not empirically run)
-- L-BFGS is Optim.jl's default for gradient problems. Uses HagerZhang line search.
-- Memory default = 10 (same as ours and scipy).
+@provenance: optim.jl v2.0.0, empirically verified 2026-02-01 (Julia 1.10.7, g_tol=1e-8)
+
+| Function | Optim.jl f | Optim.jl iter | Our f | Our iter | Agreement |
+|----------|-----------|---------------|-------|----------|-----------|
+| Sphere | 0.0 | 1 | 0.0 | 1 | Both = 0 |
+| Booth | 7.89e-31 | 2 | 8.57e-19 | 9 | Both ≈ 0 |
+| Rosenbrock | 4.93e-30 | 29 | 5.71e-22 | 35 | Both ≈ 0 |
+| Beale | 7.48e-21 | 10 | 2.24e-19 | 10 | Both ≈ 0 |
+| Himmelblau | 8.88e-22 | 10 | 5.39e-19 | 11 | Both → (3,2) |
+| Goldstein-Price | 3.00 | 7 | 3.00 | 12 | Both → (0,-1) |
+
+Note: L-BFGS is Optim.jl's default for gradient problems. Uses HagerZhang line search.
+Memory default = 10 (same as ours and scipy). Optim.jl reaches tighter f values on
+Rosenbrock (4.93e-30) due to HagerZhang line search efficiency.
 
 ### Behavioral tests
 

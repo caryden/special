@@ -7,6 +7,20 @@ generation recipes backed by verified TypeScript reference implementations. Each
 translates a tested reference into native code in any target language, generating only
 the subset of nodes you need with zero external dependencies.
 
+## Plugin architecture
+
+This repository is a **Claude Code plugin** (manifest at `.claude-plugin/plugin.json`).
+Skills within the plugin are designed to be **fully self-contained** — they must operate
+without any help from this project's CLAUDE.md. When installed via a plugin marketplace,
+users get only the skill directories; they do not get the host project's CLAUDE.md,
+docs/, experiments/, or tasks/.
+
+**Implications for skill authors:**
+- All conventions, structured comment format docs, and process instructions must live
+  inside each skill's own SKILL.md (or in the `create-special-skill` meta-skill)
+- The canonical reference for creating skills is `skills/create-special-skill/SKILL.md`
+- This CLAUDE.md is for contributors working on the repository itself, not for plugin consumers
+
 ## Repository structure
 
 ```
@@ -15,7 +29,7 @@ the subset of nodes you need with zero external dependencies.
 skills/
   optimization/
     SKILL.md                — Skill entry point with frontmatter
-    reference/              — TypeScript reference (10 nodes, 191 tests, 100% coverage)
+    reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
       src/<node>.ts         — Implementation with @node structured comments
       src/<node>.test.ts    — Behavioral contract
     nodes/<node>/
@@ -53,7 +67,7 @@ tasks/
 
 | Skill | Nodes | Tests | Coverage | Cross-validated |
 |-------|-------|-------|----------|-----------------|
-| optimization | 10 | 191 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
+| optimization | 21 | 539 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 
@@ -89,12 +103,14 @@ cd experiments/<lib>-skill-go && go test -v ./...
 
 ## Structured comment format
 
+> **Canonical reference**: `skills/create-special-skill/SKILL.md` § "Structured comment format".
+> That is the authoritative source — it ships with the plugin and is available to skill
+> authors who do not have access to this CLAUDE.md. The summary below is for contributors.
+
 Node metadata is declared via JSDoc-style comments on exported functions:
 
 ```typescript
 /**
- * Description of what this function does.
- *
  * @node kebab-case-id
  * @depends-on other-node-a, other-node-b
  * @contract this-node.test.ts
@@ -103,6 +119,17 @@ Node metadata is declared via JSDoc-style comments on exported functions:
  */
 export function myFunction(...): ReturnType { ... }
 ```
+
+### @depends-on syntax
+
+- **All required**: `@depends-on a, b, c` — node needs all of a, b, and c
+- **At least one of**: `@depends-on any-of(a, b, c)` — node needs at least one from the group
+- **Mixed**: `@depends-on base-node, any-of(alg-a, alg-b, alg-c)` — base-node is always
+  required; at least one algorithm from the group is required
+
+The `any-of()` modifier is for dispatcher/aggregator nodes (like `minimize`) that import
+multiple implementations but only require one at translation time. When translating a
+subset, include only the `any-of` members you need.
 
 ## Conventions
 

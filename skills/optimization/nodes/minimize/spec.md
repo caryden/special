@@ -89,7 +89,17 @@ Key findings:
   Rosenbrock/Beale where scipy's gtol=1e-5 succeeds. Actual f values are equivalent.
 - All Himmelblau runs (both libraries) converge to (3, 2) from starting point (0, 0).
 
-@provenance: optim.jl v2.0.0 (documented from source, not empirically run)
+@provenance: optim.jl v2.0.0, empirically verified 2026-02-01 (Julia 1.10.7)
+All 6 test functions × 5 method configurations validated against Optim.jl.
+Both libraries converge to the same minima. See individual algorithm specs
+for detailed per-function comparison tables.
+
+Key findings:
+- BFGS: Optim.jl converges in fewer iterations (HagerZhang vs Strong Wolfe line search)
+- L-BFGS: Optim.jl reaches tighter f values, especially on Rosenbrock (4.93e-30)
+- Nelder-Mead: Optim.jl converges faster (AffineSimplexer), our reference reaches tighter f
+- Gradient Descent: Both fail on Rosenbrock at 1000 iter. Optim.jl fails on Beale (no f_tol)
+- Conjugate Gradient: Optim.jl-only (we don't implement CG). Converges on all functions.
 - Default method with gradient: LBFGS (we use BFGS, scipy uses BFGS)
 - Default method without gradient: NelderMead (matches us; scipy uses BFGS+FD)
 - gradTol: 1e-8 (matches us; scipy uses 1e-5)
