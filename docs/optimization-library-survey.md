@@ -130,10 +130,10 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 
 ## Optim.jl Full Algorithm Coverage Gap
 
-### Already Implemented (14/19)
+### Already Implemented (15/19)
 - NelderMead, GradientDescent, BFGS, LBFGS, ConjugateGradient, Newton,
   NewtonTrustRegion, HagerZhang, MoreThuente, Brent1D, Fminbox,
-  SimulatedAnnealing, KrylovTrustRegion, Minimize (dispatcher)
+  SimulatedAnnealing, KrylovTrustRegion, IPNewton, Minimize (dispatcher)
 
 ### Tier 1: Essential (all implemented)
 - ~~ConjugateGradient~~ ✅
@@ -143,24 +143,86 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 - ~~Brent (1D)~~ ✅
 
 ### Tier 2: Useful
-- **SAMIN** — simulated annealing with bounds (Optim.jl specific)
 - ~~IPNewton~~ ✅
+- **SAMIN** — **DECLINED**: Optim.jl-specific variant of simulated annealing with
+  box-bound enforcement. Our `simulated-annealing` already covers the core
+  Metropolis-Hastings algorithm, and box bounds can be enforced by clamping
+  perturbations at the call site. Not worth a separate node for a minor variant
+  only one library implements.
 
-### Tier 3: Nice to Have
-- **ParticleSwarm** — global optimization
-- **MomentumGradientDescent** — historical interest
-- **AcceleratedGradientDescent** — Nesterov's method
-- **NGMRES/OACCEL** — advanced acceleration
-- **GoldenSection (1D)** — simple univariate
-- **Preconditioner support** — performance enhancement
+### Tier 3: Nice to Have — all DECLINED
+- **ParticleSwarm** — **DECLINED**: Global optimizer, but fundamentally different
+  problem class (population-based stochastic search). Only Optim.jl implements it
+  among surveyed libraries. Users needing global optimization are better served by
+  simulated annealing (which we have) or domain-specific tools.
+- **MomentumGradientDescent** — **DECLINED**: Historical interest only. L-BFGS
+  strictly dominates for smooth unconstrained problems. No library defaults to it.
+- **AcceleratedGradientDescent** — **DECLINED**: Nesterov's method has theoretical
+  optimal convergence rate, but L-BFGS is faster in practice on all standard test
+  functions. Only relevant for very large-scale problems where Hessian approximation
+  is infeasible — but then L-BFGS (O(mn) memory) already handles that.
+- **NGMRES/OACCEL** — **DECLINED**: Advanced nonlinear acceleration methods. Very
+  specialized, only Optim.jl implements them, and they're primarily useful for
+  accelerating fixed-point iterations rather than general optimization.
+- **GoldenSection (1D)** — **DECLINED**: Strictly inferior to Brent's method (which
+  we have) in both convergence rate and practical performance. Brent supersedes it.
+- **Preconditioner support** — **DECLINED**: Performance enhancement, not a new
+  algorithm. Would add complexity to existing nodes (BFGS, CG, L-BFGS) without
+  changing behavioral contracts. Better handled as a translation-time optimization.
 
-### Tier 4: Out of Scope (for now)
-- Manifold optimization — very specialized
-- Complex-valued optimization — niche
-- Adam/AdaGrad/RMSProp — deep learning (different problem class)
-- BOBYQA/COBYLA/NEWUOA — NLopt-specific derivative-free
-- Levenberg-Marquardt — nonlinear least squares (different API)
-- DIRECT — global optimization with very different structure
+### Tier 4: Out of Scope — all DECLINED with rationale
+- **Manifold optimization** — Very specialized (Riemannian geometry). Different
+  mathematical framework, would require new base types. Out of scope for a
+  general-purpose scalar minimization library.
+- **Complex-valued optimization** — Niche. Would require complex number support
+  throughout vec-ops and all algorithms. Not justified by demand.
+- **Adam/AdaGrad/RMSProp/Lion** (Optax) — **Different problem class**. These are
+  stochastic gradient methods for mini-batch training, not deterministic optimizers.
+  They operate on noisy gradient estimates and don't converge to exact optima. Would
+  be a separate skill entirely (`stochastic-optimization`), not an extension of this one.
+- **COBYLA** (scipy, NLopt) — Derivative-free constrained optimization. Fills a
+  genuine capability gap (constrained without gradients), but the algorithm is complex
+  (linear approximation of constraints via simplex) and only scipy/NLopt implement it.
+  IPNewton covers constrained optimization for the common case where gradients are
+  available or can be finite-differenced.
+- **SLSQP** (scipy, NLopt) — Sequential quadratic programming. Same problem class as
+  IPNewton (general nonlinear constraints) with a different approach. Redundant
+  given IPNewton already covers this.
+- **Powell** (scipy, Commons Math) — Direction-set derivative-free method. Alternative
+  to Nelder-Mead but not clearly better. Only 2 of 11 libraries implement it.
+- **BOBYQA/NEWUOA** (NLopt) — Model-based derivative-free methods. Sophisticated but
+  NLopt-specific. Nelder-Mead covers the derivative-free case adequately.
+- **Levenberg-Marquardt** (scipy `least_squares`, Ceres) — **Different API shape**.
+  Takes a vector of residuals r(x) and minimizes ||r(x)||², not a scalar f(x).
+  Widely used for curve fitting and calibration, but would require new types
+  (`LeastSquaresResult`, residual/Jacobian interfaces). If pursued, should be a
+  separate skill (`nonlinear-least-squares`), not an extension of this one.
+- **DIRECT** (scipy, NLopt) — Global optimization by recursive partitioning.
+  Very different structure (no gradient, no local convergence). Niche.
+- **CMA-ES** (Commons Math) — Covariance matrix adaptation evolution strategy.
+  Population-based global optimizer. Only Commons Math implements it among surveyed
+  libraries. Same reasoning as ParticleSwarm.
+- **MMA** (NLopt) — Method of Moving Asymptotes. Specialized for structural
+  optimization. Very niche, only NLopt implements it.
+- **L-BFGS-B** (scipy) — L-BFGS with built-in box constraints. Functionally
+  equivalent to our Fminbox(L-BFGS). No capability gap.
+
+## Coverage Summary
+
+The library now covers every major algorithm class for deterministic scalar
+minimization:
+
+| Class | Algorithms | Coverage |
+|-------|-----------|----------|
+| Derivative-free | Nelder-Mead, Brent 1D, Simulated Annealing | Complete |
+| First-order | GD, BFGS, L-BFGS, CG | Complete |
+| Second-order | Newton, Newton TR, Krylov TR | Complete |
+| Box-constrained | Fminbox | Complete |
+| General constrained | IPNewton | Complete |
+| Line searches | Backtracking, Strong Wolfe, Hager-Zhang, More-Thuente | Complete |
+
+**Not in scope**: stochastic/mini-batch optimizers (Optax), nonlinear least squares
+(Levenberg-Marquardt), global optimization (DIRECT, CMA-ES), manifold optimization.
 
 ## Test Function Cross-Reference
 
@@ -194,7 +256,7 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 | Library | Method | Status |
 |---------|--------|--------|
 | **scipy v1.17.0** | BFGS, L-BFGS-B, Nelder-Mead, CG | **Empirically validated** (30 runs) |
-| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG, Newton, NTR, MoreThuente, Fminbox, KrylovTR | **Empirically validated** (60 runs) |
+| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG, Newton, NTR, MoreThuente, Fminbox, KrylovTR, IPNewton | **Empirically validated** (66 runs) |
 | **MATLAB** | Default parameters only | **Documented** (not run) |
 | **Ceres** | — | Surveyed only |
 | **NLopt** | — | Surveyed only |
