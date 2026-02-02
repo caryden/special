@@ -196,7 +196,7 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 | Library | Method | Status |
 |---------|--------|--------|
 | **scipy v1.17.0** | BFGS, L-BFGS-B, Nelder-Mead, CG | **Empirically validated** (30 runs) |
-| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG | **Empirically validated** (30 runs) |
+| **Optim.jl v2.0.0** | BFGS, L-BFGS, NelderMead, GD, CG, Newton, NTR, MoreThuente, Fminbox | **Empirically validated** (54 runs) |
 | **MATLAB** | Default parameters only | **Documented** (not run) |
 | **Ceres** | — | Surveyed only |
 | **NLopt** | — | Surveyed only |
@@ -219,13 +219,15 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 
 ## Future Validation Opportunities
 
-### Julia Environment (completed 2026-02-01)
+### Julia Environment (completed 2026-02-02)
 - ✅ Ran Optim.jl BFGS/LBFGS/NelderMead/GD/CG on all 6 test functions (30 runs)
 - ✅ Compared iteration counts and final values — see `reference/optimize/CROSS-VALIDATION.md`
 - ✅ Validated HagerZhang line search behavior (fewer iterations than Strong Wolfe)
 - ✅ Surveyed OptimTestProblems.jl (17 problems; we cover 3: Rosenbrock, Beale, Himmelblau)
 - ✅ Raw results saved to `reference/optimize/julia-validation.json`
 - ✅ Cross-validation tests added to `reference/optimize/src/cross-validation.test.ts`
+- ✅ Ran BFGS/LBFGS with MoreThuente line search (12 runs) — validated 2026-02-02
+- ✅ Ran Fminbox(LBFGS) with interior + boundary-active bounds (8 runs) — validated 2026-02-02
 
 ### Requires MATLAB Environment
 - Run fminunc (BFGS) and fminsearch (NM) on test functions

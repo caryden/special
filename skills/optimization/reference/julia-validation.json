@@ -22,6 +22,28 @@
       "converged": true,
       "f_calls": 26
     },
+    "LBFGS_MoreThuente": {
+      "g_calls": 15,
+      "iterations": 12,
+      "fun": 5.208358184872955e-22,
+      "x": [
+        2.99999999998006,
+        0.49999999999950795
+      ],
+      "converged": true,
+      "f_calls": 15
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 17,
+      "iterations": 13,
+      "fun": 1.0743939492956827e-20,
+      "x": [
+        3.0000000001201905,
+        0.5000000000489241
+      ],
+      "converged": true,
+      "f_calls": 17
+    },
     "Newton": {
       "g_calls": 27,
       "iterations": 9,
@@ -99,6 +121,28 @@
       ],
       "converged": true,
       "f_calls": 3
+    },
+    "LBFGS_MoreThuente": {
+      "g_calls": 5,
+      "iterations": 2,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 5,
+      "iterations": 2,
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 5
     },
     "Newton": {
       "g_calls": 5,
@@ -178,6 +222,28 @@
       "converged": true,
       "f_calls": 8
     },
+    "LBFGS_MoreThuente": {
+      "g_calls": 5,
+      "iterations": 3,
+      "fun": 1.0255191767873153e-29,
+      "x": [
+        0.9999999999999987,
+        3.0
+      ],
+      "converged": true,
+      "f_calls": 5
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 6,
+      "iterations": 2,
+      "fun": 1.0255191767873153e-29,
+      "x": [
+        0.9999999999999993,
+        2.999999999999999
+      ],
+      "converged": true,
+      "f_calls": 6
+    },
     "Newton": {
       "g_calls": 2,
       "iterations": 1,
@@ -256,6 +322,28 @@
       "converged": true,
       "f_calls": 34
     },
+    "LBFGS_MoreThuente": {
+      "g_calls": 17,
+      "iterations": 11,
+      "fun": 2.40927034582726e-24,
+      "x": [
+        2.9999999999997415,
+        2.000000000000013
+      ],
+      "converged": true,
+      "f_calls": 17
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 20,
+      "iterations": 11,
+      "fun": 3.4790950118321e-21,
+      "x": [
+        3.00000000001037,
+        1.9999999999966933
+      ],
+      "converged": true,
+      "f_calls": 20
+    },
     "Newton": {
       "g_calls": 20,
       "iterations": 7,
@@ -311,6 +399,168 @@
       "f_calls": 33
     }
   },
+  "_fminbox": {
+    "Fminbox_rosenbrock_[1.5, 1.5]_[3.0, 3.0]": {
+      "g_calls": 94,
+      "iterations": 2,
+      "function": "rosenbrock",
+      "fun": 0.254082473508287,
+      "x": [
+        1.5,
+        2.243610576310584
+      ],
+      "converged": true,
+      "f_calls": 94,
+      "lower": [
+        1.5,
+        1.5
+      ],
+      "upper": [
+        3.0,
+        3.0
+      ]
+    },
+    "Fminbox_sphere_[-10.0, -10.0]_[10.0, 10.0]": {
+      "g_calls": 1,
+      "iterations": 1,
+      "function": "sphere",
+      "fun": 0.0,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "converged": true,
+      "f_calls": 1,
+      "lower": [
+        -10.0,
+        -10.0
+      ],
+      "upper": [
+        10.0,
+        10.0
+      ]
+    },
+    "Fminbox_goldstein_price_[-2.0, -2.0]_[2.0, 2.0]": {
+      "g_calls": 21,
+      "iterations": 1,
+      "function": "goldstein_price",
+      "fun": 30.0,
+      "x": [
+        -0.6,
+        -0.39999999999999997
+      ],
+      "converged": true,
+      "f_calls": 21,
+      "lower": [
+        -2.0,
+        -2.0
+      ],
+      "upper": [
+        2.0,
+        2.0
+      ]
+    },
+    "Fminbox_himmelblau_[-5.0, -5.0]_[5.0, 5.0]": {
+      "g_calls": 25,
+      "iterations": 1,
+      "function": "himmelblau",
+      "fun": 2.246939432275094e-22,
+      "x": [
+        2.9999999999973164,
+        2.0000000000017693
+      ],
+      "converged": true,
+      "f_calls": 25,
+      "lower": [
+        -5.0,
+        -5.0
+      ],
+      "upper": [
+        5.0,
+        5.0
+      ]
+    },
+    "Fminbox_beale_[-4.5, -4.5]_[4.5, 4.5]": {
+      "g_calls": 33,
+      "iterations": 1,
+      "function": "beale",
+      "fun": 1.2639030815837899e-27,
+      "x": [
+        2.9999999999999147,
+        0.49999999999998096
+      ],
+      "converged": true,
+      "f_calls": 33,
+      "lower": [
+        -4.5,
+        -4.5
+      ],
+      "upper": [
+        4.5,
+        4.5
+      ]
+    },
+    "Fminbox_sphere_[1.0, 1.0]_[10.0, 10.0]": {
+      "g_calls": 29,
+      "iterations": 1,
+      "function": "sphere",
+      "fun": 2.0,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "converged": true,
+      "f_calls": 29,
+      "lower": [
+        1.0,
+        1.0
+      ],
+      "upper": [
+        10.0,
+        10.0
+      ]
+    },
+    "Fminbox_rosenbrock_[-5.0, -5.0]_[5.0, 5.0]": {
+      "g_calls": 54,
+      "iterations": 1,
+      "function": "rosenbrock",
+      "fun": 1.857571449164342e-26,
+      "x": [
+        0.9999999999998811,
+        0.9999999999997689
+      ],
+      "converged": true,
+      "f_calls": 54,
+      "lower": [
+        -5.0,
+        -5.0
+      ],
+      "upper": [
+        5.0,
+        5.0
+      ]
+    },
+    "Fminbox_booth_[-10.0, -10.0]_[10.0, 10.0]": {
+      "g_calls": 5,
+      "iterations": 1,
+      "function": "booth",
+      "fun": 0.0,
+      "x": [
+        0.9999999999999998,
+        3.0
+      ],
+      "converged": true,
+      "f_calls": 5,
+      "lower": [
+        -10.0,
+        -10.0
+      ],
+      "upper": [
+        10.0,
+        10.0
+      ]
+    }
+  },
   "rosenbrock": {
     "ConjugateGradient": {
       "g_calls": 63,
@@ -333,6 +583,28 @@
       ],
       "converged": true,
       "f_calls": 85
+    },
+    "LBFGS_MoreThuente": {
+      "g_calls": 54,
+      "iterations": 37,
+      "fun": 9.268464922735542e-22,
+      "x": [
+        0.9999999999820557,
+        0.999999999961652
+      ],
+      "converged": true,
+      "f_calls": 54
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 52,
+      "iterations": 34,
+      "fun": 3.2336750801143314e-25,
+      "x": [
+        0.9999999999995596,
+        0.9999999999990832
+      ],
+      "converged": true,
+      "f_calls": 52
     },
     "Newton": {
       "g_calls": 78,
@@ -411,6 +683,28 @@
       ],
       "converged": true,
       "f_calls": 32
+    },
+    "LBFGS_MoreThuente": {
+      "g_calls": 19,
+      "iterations": 12,
+      "fun": 3.0000000000000213,
+      "x": [
+        -6.9458514203725945e-12,
+        -0.9999999999995811
+      ],
+      "converged": true,
+      "f_calls": 19
+    },
+    "BFGS_MoreThuente": {
+      "g_calls": 26,
+      "iterations": 13,
+      "fun": 3.0000000000000178,
+      "x": [
+        -6.319700427229214e-12,
+        -1.0000000000082268
+      ],
+      "converged": true,
+      "f_calls": 26
     },
     "Newton": {
       "g_calls": 33,

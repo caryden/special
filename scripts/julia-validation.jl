@@ -1,12 +1,15 @@
 #!/usr/bin/env julia
 #
 # Cross-validation script: Optim.jl v2.0.0
-# Runs all 6 test functions × 5 methods (30 runs) and saves results as JSON.
+# Runs all 6 test functions × multiple methods and saves results as JSON.
+#
+# Includes: BFGS, L-BFGS, GD, CG, Newton, Newton TR, Nelder-Mead
+# Plus: BFGS/L-BFGS with MoreThuente line search, Fminbox with bounds
 #
 # Gradients: analytic for all except Goldstein-Price which uses ForwardDiff autodiff.
 #
 
-using Optim, JSON, Printf, ForwardDiff
+using Optim, JSON, Printf, ForwardDiff, LineSearches
 
 # === Test functions (matching our reference implementations exactly) ===
 
@@ -91,11 +94,29 @@ methods_with_grad = [
     ("LBFGS", LBFGS()),
     ("GradientDescent", GradientDescent()),
     ("ConjugateGradient", ConjugateGradient()),
+    ("BFGS_MoreThuente", BFGS(linesearch=MoreThuente())),
+    ("LBFGS_MoreThuente", LBFGS(linesearch=MoreThuente())),
 ]
 
 methods_with_hessian = [
     ("Newton", Newton()),
     ("NewtonTrustRegion", NewtonTrustRegion()),
+]
+
+# === Fminbox configurations (box-constrained) ===
+# Bounds chosen so minimum is: (a) inside, (b) at boundary, (c) outside
+
+fminbox_configs = [
+    # Interior minimum: bounds enclose the true minimum
+    ("sphere", [-10.0, -10.0], [10.0, 10.0]),
+    ("booth", [-10.0, -10.0], [10.0, 10.0]),
+    ("rosenbrock", [-5.0, -5.0], [5.0, 5.0]),
+    ("beale", [-4.5, -4.5], [4.5, 4.5]),
+    ("himmelblau", [-5.0, -5.0], [5.0, 5.0]),
+    ("goldstein_price", [-2.0, -2.0], [2.0, 2.0]),
+    # Boundary-active minimum: bounds exclude the true minimum
+    ("sphere", [1.0, 1.0], [10.0, 10.0]),
+    ("rosenbrock", [1.5, 1.5], [3.0, 3.0]),
 ]
 
 results = Dict()
@@ -152,6 +173,38 @@ for (name, f, g!, h!, x0) in functions
     end
 end
 
+# === Fminbox runs ===
+
+fminbox_results = Dict()
+
+for (name, f, g!, _, x0) in functions
+    for (fname, lower, upper) in fminbox_configs
+        fname != name && continue
+        key = "Fminbox_$(name)_$(lower)_$(upper)"
+        try
+            # Start point: midpoint of bounds (safe interior point)
+            x0_box = (lower .+ upper) ./ 2
+            res = optimize(f, g!, lower, upper, x0_box, Fminbox(LBFGS()),
+                           Optim.Options(iterations=1000, outer_iterations=20, g_tol=1e-8))
+            fminbox_results[key] = Dict(
+                "function" => name,
+                "lower" => lower,
+                "upper" => upper,
+                "x" => Optim.minimizer(res),
+                "fun" => Optim.minimum(res),
+                "iterations" => Optim.iterations(res),
+                "converged" => Optim.converged(res),
+                "f_calls" => Optim.f_calls(res),
+                "g_calls" => Optim.g_calls(res),
+            )
+        catch e
+            fminbox_results[key] = Dict("error" => string(e), "function" => name)
+        end
+    end
+end
+
+results["_fminbox"] = fminbox_results
+
 # Write results
 output_path = joinpath(@__DIR__, "..", "skills", "optimization", "reference", "julia-validation.json")
 open(output_path, "w") do io
@@ -166,19 +219,39 @@ println("=" ^ 100)
 println("SUMMARY: Optim.jl v$(pkgversion(Optim)) Cross-Validation Results")
 println("=" ^ 100)
 
+all_methods = ["BFGS", "LBFGS", "GradientDescent", "ConjugateGradient",
+                "BFGS_MoreThuente", "LBFGS_MoreThuente",
+                "Newton", "NewtonTrustRegion", "NelderMead"]
+
 for (name, _, _, _, _) in functions
     println("\n--- $name ---")
-    for method in ["BFGS", "LBFGS", "GradientDescent", "ConjugateGradient", "Newton", "NewtonTrustRegion", "NelderMead"]
+    for method in all_methods
         if haskey(results[name], method)
             r = results[name][method]
             if haskey(r, "error")
                 println("  $method: ERROR - $(r["error"])")
             else
                 conv = r["converged"] ? "✓" : "✗"
-                line = @sprintf("  %-20s  conv=%s  fun=%.3e  iter=%d  x=[%.6f, %.6f]",
+                line = @sprintf("  %-24s  conv=%s  fun=%.3e  iter=%d  x=[%.6f, %.6f]",
                     method, conv, r["fun"], r["iterations"], r["x"][1], r["x"][2])
                 println(line)
             end
         end
+    end
+end
+
+# Print Fminbox results
+println("\n" * "=" ^ 100)
+println("FMINBOX RESULTS")
+println("=" ^ 100)
+
+for (key, r) in sort(collect(fminbox_results), by=x->x[1])
+    if haskey(r, "error")
+        println("  $key: ERROR - $(r["error"])")
+    else
+        conv = r["converged"] ? "✓" : "✗"
+        line = @sprintf("  %-50s  conv=%s  fun=%.3e  iter=%d  x=[%.6f, %.6f]",
+            key, conv, r["fun"], r["iterations"], r["x"][1], r["x"][2])
+        println(line)
     end
 end
