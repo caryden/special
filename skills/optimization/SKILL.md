@@ -1,6 +1,6 @@
 ---
 name: optimization
-description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente — from a verified TypeScript reference
+description: Generate a native numerical optimization library — Nelder-Mead, BFGS, L-BFGS, CG, Newton, Newton Trust Region, More-Thuente, Fminbox — from a verified TypeScript reference
 argument-hint: "<nodes> [--lang <language>] — e.g. 'nelder-mead --lang python' or 'all --lang rust'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
@@ -61,6 +61,8 @@ test-functions     │   finite-diff ──────────────�
                    │                                    │
                    ├──→ newton-trust-region ←───────────┤←── finite-hessian
                    │                                    │
+                   ├──→ fminbox ←──────────────────────┤
+                   │                                    │
                    └──→ minimize (root: public API) ←──┘
 ```
 
@@ -84,6 +86,7 @@ test-functions     │   finite-diff ──────────────�
 | `conjugate-gradient` | internal | vec-ops, result-types, hager-zhang, finite-diff | Nonlinear CG with Hager-Zhang beta and line search |
 | `newton` | internal | vec-ops, result-types, line-search, finite-diff, finite-hessian | Newton's method with Cholesky solve and modified Newton regularization |
 | `newton-trust-region` | internal | vec-ops, result-types, finite-diff, finite-hessian | Newton with dogleg trust region subproblem |
+| `fminbox` | internal | vec-ops, result-types, any-of(bfgs, l-bfgs, conjugate-gradient, gradient-descent) | Box-constrained optimization via log-barrier method |
 | `minimize` | root | result-types, any-of(nelder-mead, gradient-descent, bfgs, l-bfgs, conjugate-gradient, newton, newton-trust-region) | Dispatcher: selects algorithm from method + gradient availability |
 
 ### Subset Extraction
@@ -94,7 +97,8 @@ test-functions     │   finite-diff ──────────────�
 - **Just Newton**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `finite-hessian` + `newton`
 - **Just Newton TR**: `vec-ops` + `result-types` + `finite-diff` + `finite-hessian` + `newton-trust-region`
 - **Just Brent 1D**: `brent-1d` (standalone, no dependencies)
-- **Full library**: all 17 nodes
+- **Just Fminbox (BFGS)**: `vec-ops` + `result-types` + `line-search` + `finite-diff` + `bfgs` + `fminbox`
+- **Full library**: all 18 nodes
 - **Test functions** are optional — only needed for validation
 
 ## Translation Workflow
