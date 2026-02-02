@@ -68,7 +68,7 @@ Last updated: 2026-02-01
 | **Newton Trust Region** | trust-ncg | Yes | — | Yes | **Yes** |
 | **Krylov Trust Region** | trust-krylov | Yes | — | — | **Yes** |
 | **Levenberg-Marquardt** | least_sq | — | Yes | — | No |
-| **IPNewton** | — | Yes | — | — | No |
+| **IPNewton** | — | Yes | — | — | **Yes** |
 
 ### Line Search Methods
 
@@ -144,7 +144,7 @@ All libraries use: alpha=1, gamma=2, rho=0.5, sigma=0.5 (universal standard).
 
 ### Tier 2: Useful
 - **SAMIN** — simulated annealing with bounds (Optim.jl specific)
-- **IPNewton** — general nonlinear constraints
+- ~~IPNewton~~ ✅
 
 ### Tier 3: Nice to Have
 - **ParticleSwarm** — global optimization

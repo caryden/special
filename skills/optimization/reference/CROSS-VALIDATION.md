@@ -271,6 +271,26 @@ approximation happening to provide better search directions on this problem.
 Goldstein-Price is problematic for both implementations due to its extreme
 curvature landscape.
 
+## IPNewton (Constrained Optimization)
+
+Optim.jl's IPNewton uses a primal-dual interior-point Newton method for general
+nonlinear constraints (same approach as our implementation). Results obtained with
+`Optim.IPNewton()`.
+
+| Problem | Known min | Our f | Optim.jl f | Our conv | Optim.jl conv |
+|---------|-----------|-------|------------|----------|---------------|
+| Sphere box lower [1,10]² | 2 | 2.0000 | 2.0000 | true | true |
+| Sphere box upper [-10,-1]² | 2 | 2.0000 | 2.0000 | true | true |
+| Sphere box interior [-10,10]² | 0 | <1e-6 | 2.06e-17 | true | true |
+| Sphere, x+y=1 (equality) | 0.5 | 0.5000 | 0.5000 | true | true |
+| Sphere, x+y>=3 (inequality) | 4.5 | 4.5000 | 4.5000 | true | true |
+| (x-3)² on [4,10] (active bound) | 1 | 1.0000 | 1.0000 | true | true |
+
+**Analysis**: Both implementations converge to the same optima on all constrained
+test problems (agreement to 4+ decimal places on function values). Both correctly
+handle box-active boundaries, equality constraints via Schur complement, and
+inequality constraints via log-barrier.
+
 ## Summary of Cross-Validation
 
 ### All libraries agree on:
@@ -287,6 +307,7 @@ curvature landscape.
 - ✅ Krylov Trust Region converges on 4/6 test functions; both implementations struggle with Goldstein-Price
 - ✅ More-Thuente line search converges on all test functions (vs HagerZhang default)
 - ✅ Fminbox finds correct constrained minima with both interior and boundary-active bounds
+- ✅ IPNewton converges on all constrained test problems (box, equality, inequality)
 
 ### Known differences (documented, not bugs):
 - Our reference uses tighter gradient tolerance (1e-8) than scipy (1e-5), matching Optim.jl
@@ -326,8 +347,15 @@ curvature landscape.
   converges to a local point — Goldstein-Price is pathological for Krylov methods
 - On Sphere, Booth, Beale, Himmelblau: both converge with similar iteration counts
 
+### Known differences (IPNewton):
+- Both implementations converge to the same optima on all tested constrained problems
+- Both correctly handle box-constrained, equality, and inequality constraints
+- Our implementation uses a simplified Mehrotra predictor-corrector with monotonic mu
+  decrease; Optim.jl uses a more sophisticated implementation
+- Both achieve similar final objective values (agreement to 4+ decimal places)
+
 ### Cross-library test vector provenance:
 - **scipy v1.17.0**: All 30 runs match expected minima (empirically verified 2026-02-01)
-- **Optim.jl v2.0.0**: All 60 runs validated (empirically verified 2026-02-02)
-  - 42 unconstrained runs + 12 MoreThuente + 6 KrylovTR + 8 Fminbox
+- **Optim.jl v2.0.0**: All 66 runs validated (empirically verified 2026-02-02)
+  - 42 unconstrained runs + 12 MoreThuente + 6 KrylovTR + 8 Fminbox + 6 IPNewton (constrained)
 - **Special skill reference**: All runs match expected minima

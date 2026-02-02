@@ -23,6 +23,7 @@ import { minimize } from "./minimize";
 import { moreThuente } from "./more-thuente";
 import { fminbox } from "./fminbox";
 import { krylovTrustRegion } from "./krylov-trust-region";
+import { ipNewton, type ConstraintDef } from "./ip-newton";
 import { bfgs } from "./bfgs";
 import {
   sphere, booth, rosenbrock, beale, himmelblau, himmelblauMinima, goldsteinPrice,
@@ -587,5 +588,89 @@ describe("cross-validation: Krylov Trust Region matches Optim.jl", () => {
     expect(ours.fun).toBeLessThan(1e-6);
     // Optim.jl does NOT converge on this problem
     expect(optimJlKrylovTR.rosenbrock.converged).toBe(false);
+  });
+});
+
+// ─── IPNewton cross-validation against Optim.jl v2.0.0 ─────────────────────
+
+/**
+ * Optim.jl v2.0.0 IPNewton results, obtained empirically 2026-02-02.
+ * Julia 1.10.7, Optim.jl v2.0.0.
+ *
+ * @provenance optim.jl v2.0.0, verified 2026-02-02
+ */
+const optimJlIPNewton = {
+  sphere_box_lower: { x: [1.0000000000000002, 1.0000000000000002], fun: 2.000000000000001, converged: true },
+  sphere_box_upper: { x: [-1.0000000000000002, -1.0000000000000002], fun: 2.000000000000001, converged: true },
+  sphere_box_interior: { x: [3.208315711218455e-9, 3.208315711218455e-9], fun: 2.058657940570236e-17, converged: true },
+  sphere_eq_xpy1: { x: [0.5, 0.5], fun: 0.5, converged: true },
+  sphere_ineq_xpy3: { x: [1.500000000000005, 1.5000000000000053], fun: 4.500000000000032, converged: true },
+  quad_1d_active: { x: [4.000000000000002], fun: 1.0000000000000036, converged: true },
+};
+
+describe("cross-validation: Optim.jl IPNewton", () => {
+  test("sphere with active lower box bound: x*=[1,1], f*=2", () => {
+    const ours = ipNewton(sphere.f, [5, 5], sphere.gradient, undefined, {
+      lower: [1, 1], upper: [10, 10],
+    });
+    const julia = optimJlIPNewton.sphere_box_lower;
+    expect(ours.converged).toBe(true);
+    expect(ours.fun).toBeCloseTo(julia.fun, 4);
+    expect(ours.x[0]).toBeCloseTo(julia.x[0], 4);
+    expect(ours.x[1]).toBeCloseTo(julia.x[1], 4);
+  });
+
+  test("sphere with active upper box bound: x*=[-1,-1], f*=2", () => {
+    const ours = ipNewton(sphere.f, [-5, -5], sphere.gradient, undefined, {
+      lower: [-10, -10], upper: [-1, -1],
+    });
+    const julia = optimJlIPNewton.sphere_box_upper;
+    expect(ours.converged).toBe(true);
+    expect(ours.fun).toBeCloseTo(julia.fun, 4);
+    expect(ours.x[0]).toBeCloseTo(julia.x[0], 4);
+  });
+
+  test("sphere with interior box optimum: x*≈[0,0], f*≈0", () => {
+    const ours = ipNewton(sphere.f, [5, 5], sphere.gradient, undefined, {
+      lower: [-10, -10], upper: [10, 10],
+    });
+    expect(ours.converged).toBe(true);
+    expect(ours.fun).toBeLessThan(1e-6);
+  });
+
+  test("sphere with equality constraint x+y=1: x*=[0.5,0.5], f*=0.5", () => {
+    const constraints: ConstraintDef = {
+      c: (x) => [x[0] + x[1]],
+      jacobian: () => [[1, 1]],
+      lower: [1], upper: [1],
+    };
+    const ours = ipNewton(sphere.f, [2, 2], sphere.gradient, undefined, { constraints });
+    const julia = optimJlIPNewton.sphere_eq_xpy1;
+    expect(ours.fun).toBeCloseTo(julia.fun, 4);
+    expect(ours.x[0]).toBeCloseTo(julia.x[0], 2);
+    expect(ours.x[1]).toBeCloseTo(julia.x[1], 2);
+  });
+
+  test("sphere with inequality x+y>=3: x*=[1.5,1.5], f*=4.5", () => {
+    const constraints: ConstraintDef = {
+      c: (x) => [x[0] + x[1]],
+      jacobian: () => [[1, 1]],
+      lower: [3], upper: [Infinity],
+    };
+    const ours = ipNewton(sphere.f, [3, 3], sphere.gradient, undefined, { constraints });
+    const julia = optimJlIPNewton.sphere_ineq_xpy3;
+    expect(ours.fun).toBeCloseTo(julia.fun, 2);
+    expect(ours.x[0]).toBeCloseTo(julia.x[0], 1);
+  });
+
+  test("1D quadratic (x-3)^2 with active bound [4,10]: x*=4, f*=1", () => {
+    const ours = ipNewton(
+      (x) => (x[0] - 3) * (x[0] - 3), [7],
+      (x) => [2 * (x[0] - 3)], undefined,
+      { lower: [4], upper: [10] },
+    );
+    const julia = optimJlIPNewton.quad_1d_active;
+    expect(ours.fun).toBeCloseTo(julia.fun, 4);
+    expect(ours.x[0]).toBeCloseTo(julia.x[0], 2);
   });
 });
