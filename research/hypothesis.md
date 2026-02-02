@@ -37,7 +37,7 @@ Natural language prose
 
 The hypothesis is that the sweet spot is toward the "reference implementation in a real language" end — specifically, a **type-safe language with low ceremony, deep LLM training representation, and lightweight tooling** rather than a custom specification language or a natural language description.
 
-The current choice is **TypeScript with Bun** (see [ADR-0002](docs/decisions/0002-type-o-language-typescript-bun.md)). The graph metadata is declared via structured JSDoc comments rather than compiled attributes, and the agent reads source files directly rather than relying on reflection-based extraction tooling.
+The current choice is **TypeScript with Bun** (see [ADR-0002](decisions/0002-type-o-language-typescript-bun.md)). The graph metadata is declared via structured JSDoc comments rather than compiled attributes, and the agent reads source files directly rather than relying on reflection-based extraction tooling.
 
 Rationale:
 
@@ -211,14 +211,14 @@ The sweet spot is **logic-heavy, platform-independent code**: business rules, pr
 
 - **Granularity.** One exported function or cohesive type set per node works well. The optimize library's 10 nodes range from small (vec-ops: 10 functions) to medium (nelder-mead: 1 function + options type + internal helper). This granularity enables subset extraction (3 of 10 nodes for "Just Nelder-Mead"). **Answer: one function/type-set per node; the node graph handles composition.**
 
-- **Empirical validation.** Done. Three reference libraries translated to 3 target languages across 4 formats. Key result: the skill format (progressive disclosure) is the canonical approach. All three layers (spec, hints, reference) are needed. See experiment results in `docs/` and `experiments/`.
+- **Empirical validation.** Done. Three reference libraries translated to 3 target languages across 4 formats. Key result: the skill format (progressive disclosure) is the canonical approach. All three layers (spec, hints, reference) are needed. See experiment results in `results/` and `experiments/`.
 
 ### Still open
 
 - **Interface nodes.** Not yet tested — all current nodes are concrete implementations. The optimize library uses TypeScript interfaces (OptimizeOptions, OptimizeResult) but these are concrete types, not abstraction boundaries.
 - **Performance annotations.** Not yet needed. The `@hint` vocabulary could support `perf:` tags but we haven't had a case where naive translation was unacceptable.
 - **Versioning and evolution.** Untested. No node has been versioned or had its contract changed yet.
-- **Agent-powered feedback loop.** Translation agents that hit spec ambiguities generate improvement signals. The mechanism for feeding these back (GitHub issues, PRs against a skills marketplace) is designed but not yet automated. See `docs/draft-issues/` for examples.
+- **Agent-powered feedback loop.** Translation agents that hit spec ambiguities generate improvement signals. The mechanism for feeding these back (GitHub issues, PRs against a skills marketplace) is designed but not yet automated. See `draft-issues/` for examples.
 - **Scale.** Current experiments use 5-10 node libraries. The approach needs testing with larger graphs (50+ nodes) and deeper dependency chains.
 
 ## Status

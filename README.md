@@ -14,7 +14,7 @@ Each special skill is a self-contained generation recipe: a tested TypeScript re
 
 | Skill | Domain | Nodes | Tests | Coverage |
 |-------|--------|-------|-------|----------|
-| [optimization](skills/optimization/) | Numerical optimization (Nelder-Mead, BFGS, L-BFGS, gradient descent) | 10 | 191 | 100% |
+| [optimization](skills/optimization/) | Numerical optimization (Nelder-Mead, BFGS, L-BFGS, CG, Newton, SA, and more) | 21 | 539 | 100% |
 | [math-expression-parser](skills/math-expression-parser/) | Math expression tokenizer, parser, evaluator | 6 | 96 | 100% |
 | [when-words](skills/when-words/) | Human-friendly date/time formatting | 5 | 124 | 100% |
 
@@ -52,7 +52,7 @@ Default target language is TypeScript if not specified.
 
 1. **The skill format is canonical.** Progressive disclosure (spec → hints → reference) outperforms any single format. All layers are needed — confirmed empirically.
 
-2. **De-bundling works.** A subset (3 of 10 optimization nodes) can be extracted and translated independently. The node graph cleanly delineates subset boundaries.
+2. **De-bundling works.** A subset (3 of 21 optimization nodes) can be extracted and translated independently. The node graph cleanly delineates subset boundaries.
 
 3. **Translation generates improvement signals.** When agents hit spec ambiguities, they consult the reference to resolve them. These ambiguities are actionable feedback — filed as issues or PRs.
 
@@ -67,8 +67,8 @@ Default target language is TypeScript if not specified.
 | mathexpr skill | SKILL × Python, Rust, Go | 3 runs | All pass |
 | **optimize NM subset** | **SKILL × Python, Rust, Go** | **3 runs** | **108/108 tests pass, de-bundling confirmed** |
 
-See [requirements.md](requirements.md) for the full hypothesis and evaluation rubric.
-See [docs/research-note-skill-architecture.md](docs/research-note-skill-architecture.md) for the skill format design rationale.
+See [research/](research/) for the full hypothesis, evaluation methodology, and experiment results.
+See [research/skill-architecture.md](research/skill-architecture.md) for the skill format design rationale.
 
 ## Origin
 
