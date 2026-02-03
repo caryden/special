@@ -1,14 +1,20 @@
 # Special
 
-A Claude Code plugin marketplace for **special skills** — modular code generation from verified TypeScript references.
+## The Thesis
 
-## The Idea
+Open source libraries are bundles. They package five forms of knowledge together — specification, evaluation, translation, curation, and trust — because the cost of translation (turning a specification into working code) has historically been high enough to justify bundling. You do the translation once, ship the result, and everyone uses that artifact.
 
-Today's libraries ship monolithic bundles of code. You need one function, you get the whole package — plus its transitive dependencies. This creates supply chain risk, dependency hell, and platform lock-in.
+AI coding agents are collapsing translation cost. When an agent can turn a behavioral specification into correct, tested code in any language, the economics of the bundle change. The translation — the `.js`, `.rs`, `.py` file — becomes a cached projection from a richer upstream representation, regenerable on demand.
 
-AI agents can now generate correct code from reference material. What if instead of shipping code, a library shipped a **modular, tested reference implementation** that an agent translates into exactly the subset you need, in your language, with zero external dependencies?
+When translation is cheap, the bundle breaks. What remains valuable is the specification (what correct behavior means), the evaluation (how to verify it), the curation (which algorithms and defaults to choose), and the trust (where it was validated and against what). The translation itself becomes commodity output.
 
-Each special skill is a self-contained generation recipe: a tested TypeScript reference implementation + layered specs + translation hints. An agent reads the skill, generates native code in your target language, and runs the tests to verify correctness.
+A **skill** packages exactly the valuable residual: behavioral specs with test vectors, a dependency graph for subset extraction, per-language translation hints, a verified reference, and provenance annotations. An AI agent reads the skill and produces native code — zero dependencies, only the subset needed, verified against the same tests that define the spec.
+
+Read the full argument: [docs/thesis.md](docs/thesis.md)
+
+## What This Project Is
+
+A Claude Code plugin that demonstrates the thesis. Each skill is a self-contained code generation recipe backed by a verified TypeScript reference implementation. An agent translates the tested reference into native code in any target language, generating only the subset of nodes you need with zero external dependencies.
 
 ## Skills
 
@@ -25,7 +31,7 @@ Each special skill is a self-contained generation recipe: a tested TypeScript re
 | [create-special-skill](skills/create-special-skill/) | Create a new special skill from a spec, RFC, or existing library |
 | [propose-special-skill](skills/propose-special-skill/) | Package and propose a skill for inclusion via GitHub issue |
 
-## How It Works
+## How Skills Work
 
 Each skill uses **progressive disclosure** — four layers the translation agent reads in order:
 
@@ -34,7 +40,25 @@ Each skill uses **progressive disclosure** — four layers the translation agent
 3. **nodes/\<name\>/to-\<lang\>.md** — Language-specific translation hints
 4. **reference/src/\<name\>.ts** — TypeScript source (consulted only if spec is ambiguous)
 
-The agent generates only the nodes you request, in dependency order, running tests after each node.
+The agent generates only the nodes you request, in dependency order, running tests after each node. For the full technical explanation, see [docs/how-it-works.md](docs/how-it-works.md).
+
+## Evidence
+
+The thesis was tested through staged experiments across formats, languages, and models:
+
+| Experiment | Design | Result |
+|-----------|--------|--------|
+| whenwords 3×3 | REF, SPEC, PROMPT × Python, Rust, Go | REF/SPEC 100%; PROMPT diverged on off-policy decisions |
+| mathexpr 3×3×3 | 3 formats × 3 languages × 3 models (27 runs) | On-policy/off-policy distinction identified |
+| mathexpr skill | SKILL × Python, Rust, Go | Skill format validated — REF correctness at PROMPT cost |
+| **optimize NM subset** | **SKILL × Python, Rust, Go** | **108/108 tests pass, de-bundling confirmed** |
+
+Key findings reframed as evidence for the thesis:
+- **De-bundling works.** Subset extraction (3 of 21 nodes) produces correct, self-contained translations with zero dependencies.
+- **Translation generates improvement signals.** Spec ambiguities discovered during translation become structured feedback — each consumption improves the skill.
+- **Cross-validation builds trust.** Test vectors verified against scipy v1.17.0 and Optim.jl v2.0.0, with `@provenance` annotations documenting source and validation date.
+
+See [research/](research/) for the full hypothesis, evaluation methodology, and experiment results.
 
 ## Usage
 
@@ -48,28 +72,6 @@ Each skill accepts nodes to generate and an optional target language:
 
 Default target language is TypeScript if not specified.
 
-## Key Findings
-
-1. **The skill format is canonical.** Progressive disclosure (spec → hints → reference) outperforms any single format. All layers are needed — confirmed empirically.
-
-2. **De-bundling works.** A subset (3 of 21 optimization nodes) can be extracted and translated independently. The node graph cleanly delineates subset boundaries.
-
-3. **Translation generates improvement signals.** When agents hit spec ambiguities, they consult the reference to resolve them. These ambiguities are actionable feedback — filed as issues or PRs.
-
-4. **Cross-library validation builds trust.** Test vectors with `@provenance` annotations, verified against scipy v1.17.0 and Optim.jl v2.0.0, give consumers confidence in the reference.
-
-## Experiment Results
-
-| Experiment | Format | Languages | Result |
-|-----------|--------|-----------|--------|
-| whenwords 3×3 | REF, SPEC, PROMPT × Python, Rust, Go | 9 runs | REF best first-pass accuracy; PROMPT diverged |
-| mathexpr 3×3 | REF, SPEC, PROMPT × Python, Rust, Go | 9 runs | All pass; SKILL format designed from findings |
-| mathexpr skill | SKILL × Python, Rust, Go | 3 runs | All pass |
-| **optimize NM subset** | **SKILL × Python, Rust, Go** | **3 runs** | **108/108 tests pass, de-bundling confirmed** |
-
-See [research/](research/) for the full hypothesis, evaluation methodology, and experiment results.
-See [research/skill-architecture.md](research/skill-architecture.md) for the skill format design rationale.
-
 ## Origin
 
-Predicted and then validated by [Drew Breunig's "A Software Library With No Code"](https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html) (Jan 2026). Further informed by practical experience porting a subset of Optim.jl to TypeScript using AI agent translation with test-driven verification.
+Predicted and then validated by [Drew Breunig's "A Software Library With No Code"](https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html) (Jan 2026). Further informed by practical experience porting a subset of [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) to TypeScript using AI agent translation with test-driven verification.

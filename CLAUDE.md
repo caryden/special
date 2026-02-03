@@ -7,6 +7,8 @@ generation recipes backed by verified TypeScript reference implementations. Each
 translates a tested reference into native code in any target language, generating only
 the subset of nodes you need with zero external dependencies.
 
+For the project thesis, see `docs/thesis.md`. For how skills work, see `docs/how-it-works.md`.
+
 ## Plugin architecture
 
 This repository is a **Claude Code plugin** (manifest at `.claude-plugin/plugin.json`).

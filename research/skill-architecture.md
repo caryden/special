@@ -1,5 +1,10 @@
 # Research Note: From Format Comparison to Skill Architecture
 
+> The strategic argument for unbundling open source (Open Skills vs Open Source,
+> the marketplace opportunity, Agentic Open Knowledge) has moved to
+> [docs/thesis.md](../docs/thesis.md). This document focuses on experiment findings
+> and how they shaped the skill format.
+
 ## Context
 
 This note synthesizes findings from the whenwords and mathexpr experiments
@@ -180,124 +185,6 @@ This demonstrates:
 - **Performance calibration works** — the agent iterates toward reference timings
 - **Cross-model transfer works** — knowledge distilled from sonnet guided Codex
 
-## Open Skills vs Open Source
-
-**Thesis: open skills will beat open source in an era dominated by AI coding agents.**
-
-Open source distributes *code* — implementations in specific languages, with specific
-dependency chains, specific API surfaces, specific performance characteristics. When
-you `npm install lodash`, you get lodash's decisions baked in.
-
-Open skills distribute *knowledge* — the understanding of what a function should do,
-how to implement it correctly in any language, what the edge cases are, and how to
-validate the result. The AI agent consumes the skill and produces native code:
-zero dependencies, idiomatic to the target language, containing exactly the subset
-of functionality needed.
-
-| Dimension | Open Source | Open Skills |
-|-----------|-----------|-------------|
-| **Unit of distribution** | Code (language-specific) | Knowledge (language-agnostic) |
-| **Dependencies** | Transitive trust chain | Zero (generated code is self-contained) |
-| **Subset extraction** | Difficult (tree-shaking, partial imports) | Native (node graph + @depends-on) |
-| **Language support** | One per package (or N maintained ports) | Any language, on demand |
-| **Attack surface** | All code in dependency tree | Only the generated code (auditable) |
-| **Maintenance** | Package authors update code | Skill authors update knowledge; regeneration picks up model improvements |
-| **Versioning** | Semantic versioning of API surface | Versioning of behavioral contracts (test vectors) |
-
-### The marketplace opportunity
-
-Skills are self-contained, version-controlled directories. Distribution:
-- **Plugin marketplace** — curated repository of verified skills
-- **Quality-gated** — 100% test coverage, cross-validation results, benchmark data,
-  per-language translation success rates
-- **Community-built** — skill authors contribute knowledge, not code
-- **Composable** — skills can depend on other skills via a skill graph
-
-### Who creates skills? Agents do.
-
-The entire skill lifecycle can be agent-driven:
-
-1. **Extraction**: An agent reads an existing library's source + test suite,
-   identifies the node graph, extracts specs and test vectors, writes the
-   reference implementation. (The Optim.jl pattern, but automated.)
-2. **Validation**: An agent translates the skill into N languages, runs
-   cross-validation, reports per-language success rates. This IS the quality gate.
-3. **Maintenance**: When the upstream library changes, an agent re-extracts,
-   diffs the behavioral contracts, and updates the skill.
-4. **Consumption**: An agent reads the skill and produces native code.
-
-Humans curate and direct — choosing which libraries to extract, reviewing
-skill quality, deciding what goes in the marketplace. But the work of
-extraction, validation, and translation is automated.
-
-This also means skills improve over time without human effort: as models
-improve, re-running the validation pipeline produces better translations
-with higher success rates. The knowledge (specs, test vectors) is stable;
-the execution (translation quality) improves with each model generation.
-
-### Agentic Open Knowledge: The Feedback Loop
-
-The lifecycle above is one-directional: skill → agent → code. But if skills are
-distributed as plugins, the plugin model enables **hooks** — and hooks close the
-feedback loop.
-
-**The consuming agent's lifecycle becomes a learning opportunity:**
-
-```
-Skill consumed → Agent generates code → Agent encounters friction or discovers insight
-    → Hook captures structured feedback as GitHub issue
-    → Maintainer agent triages, validates, and PRs the update
-    → Skill improved → Next consumer benefits automatically
-```
-
-**What hooks capture (structured, not freeform):**
-
-| Signal | Example | Skill update target |
-|--------|---------|-------------------|
-| Translation friction | "In Rust, `to-rust.md` for parser suggested `&[Token]` but borrow checker rejected recursive descent; switched to `Vec<Token>` with ownership" | `nodes/parser/to-rust.md` |
-| Missing test vectors | "Agent iterated 3 times on whitespace-in-exponent edge case before converging" | `nodes/tokenizer/spec.md` |
-| Precedence discovery | "PROMPT-Python-Sonnet diverged on `-2 ** 2`; add explicit test vector" | `nodes/evaluate/spec.md` |
-| Performance data | "Go evaluator 2.3x slower than Rust on same vectors; suggest `switch` over type assertion chain" | `nodes/evaluator/to-go.md` |
-| Correctness fix | "Division by zero check fails for `-0.0` in JavaScript; spec should clarify signed zero behavior" | `nodes/evaluator/spec.md` |
-
-**Why this works with skills specifically:**
-
-1. **Per-node specs give a precise address for feedback.** An issue doesn't say "the
-   library has a problem" — it says "`tokenizer/to-rust.md` needs a hint about
-   lifetime annotations." The node graph makes feedback actionable.
-
-2. **Test vectors are the stable contract.** Feedback is about *how to achieve* the
-   contract in a specific language, not *what* the contract is. Translation guides
-   evolve; behavioral specs are stable.
-
-3. **`to-{lang}.md` files are designed to accumulate wisdom.** They're explicitly the
-   place where translation experience is distilled. Each consumer's friction becomes
-   the next consumer's shortcut.
-
-4. **Cross-validation is the CI for skill PRs.** When a maintainer agent updates a
-   `to-rust.md`, the validation pipeline (translate to N languages, run tests) verifies
-   the change doesn't break anything. The existing experiment infrastructure IS the
-   quality gate.
-
-**Maintainer agents as PR authors:**
-
-- **Triage**: Is this a genuine gap or a one-off model quirk? Cross-reference: did
-  multiple consumers hit the same friction on the same `to-{lang}.md`?
-- **Fix**: Update the translation guide, add test vectors, add a `@pitfall` annotation.
-- **Validate**: Re-run cross-validation. Did the fix reduce iteration count for the
-  next consumer? Did it prevent the divergence?
-- **Merge**: Quality gate passes → PR merged → skill version bumped.
-
-**This is open source's contribution model applied to knowledge rather than code.**
-The unit of contribution is not a code patch — it's a learning: "when translating
-this node to this language, watch out for this." Skills become self-improving
-artifacts where every consumption is a potential contribution.
-
-The term for this: **Agentic Open Knowledge** — agents consume knowledge, generate
-code, and feed learnings back. The knowledge base improves with every consumption
-cycle, independent of model improvements. Two orthogonal improvement vectors:
-better models (execution quality) × richer skills (knowledge quality).
-
 ## Revised Hypothesis
 
 The original hypothesis: "Annotated reference implementations produce better
@@ -309,11 +196,6 @@ for AI-native code generation. It leverages the model's on-policy knowledge firs
 disambiguates off-policy decisions with test vectors, guides language-specific
 implementation with translation hints, and validates against reference code and
 performance targets.
-
-The skill is to AI coding agents what source code is to compilers: the fundamental
-unit of reusable knowledge. Open skills — curated, composable, language-agnostic —
-may displace open source libraries as the primary mechanism for code reuse in an
-AI-agent-dominated development workflow.
 
 ## What Makes a Good Skill Candidate?
 

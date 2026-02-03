@@ -5,6 +5,21 @@ The project began as a hypothesis about AI-native code distribution and was
 validated through staged experiments comparing source formats, target languages,
 and model capabilities.
 
+## Reading Tracks
+
+**For the strategic argument** (why unbundling matters):
+Start with [docs/thesis.md](../docs/thesis.md) — the standalone essay on unbundling
+open source when translation cost collapses.
+
+**For the experimental evidence** (how the thesis was tested):
+1. [hypothesis.md](hypothesis.md) — What's being tested and why TypeScript
+2. [skill-architecture.md](skill-architecture.md) — How experiments shaped the skill format
+3. [results/](results/) — Detailed results by stage
+
+**For technical understanding** (how skills work):
+[docs/how-it-works.md](../docs/how-it-works.md) — The skill format, node structure,
+structured comments, selective extraction, and agent workflow.
+
 ## Hypothesis
 
 AI agents can translate verified reference implementations into correct,
@@ -80,7 +95,7 @@ confidence in the reference. The optimization skill has 539 tests with
 ```
 research/
   README.md                              — This file
-  hypothesis.md                          — Core hypothesis and motivation
+  hypothesis.md                          — Experimental hypothesis and open questions
   evaluation-methodology.md              — Experimental design, metrics, rubric
   skill-architecture.md                  — From format comparison to skill design
   optimization-library-survey.md         — Algorithm survey across 11 libraries
@@ -99,13 +114,3 @@ research/
     README.md                            — Naming conventions and index
     ...                                  — 45+ directories of generated translations
 ```
-
-## Reading Order
-
-For someone new to the project:
-
-1. **[hypothesis.md](hypothesis.md)** — Why this project exists and what it tests
-2. **[skill-architecture.md](skill-architecture.md)** — How experiments shaped the skill format
-3. **[results/whenwords-experiment-results.md](results/whenwords-experiment-results.md)** — Stage 1 results (the clearest signal)
-4. **[results/mathexpr-experiment-results.md](results/mathexpr-experiment-results.md)** — Stage 2 results (on-policy/off-policy insight)
-5. **[evaluation-methodology.md](evaluation-methodology.md)** — Full experimental design and metrics
