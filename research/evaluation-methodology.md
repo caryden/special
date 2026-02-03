@@ -264,7 +264,7 @@ See `results/optimize-nelder-mead-results.md` for full results.
 - **108/108 tests pass** across all 3 languages
 - **De-bundling confirmed**: subset (3 of 10 nodes) extracted and translated cleanly
 - **Progressive disclosure validated**: all agents used all 4 layers (skill.md → spec → hints → reference)
-- **3 spec ambiguities identified** via translation feedback (see `draft-issues/`)
+- **3 spec ambiguities identified** via translation feedback (see [spec-ambiguity issues](https://github.com/caryden/special/issues?q=label%3Aspec-ambiguity))
 - Cross-validated against scipy v1.17.0 (empirical) and Optim.jl v2.0.0 (from source)
 
 ### Format evolution

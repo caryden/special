@@ -15,7 +15,7 @@ This repository is a **Claude Code plugin** (manifest at `.claude-plugin/plugin.
 Skills within the plugin are designed to be **fully self-contained** — they must operate
 without any help from this project's CLAUDE.md. When installed via a plugin marketplace,
 users get only the skill directories; they do not get the host project's CLAUDE.md,
-research/, or tasks/.
+research/.
 
 **Implications for skill authors:**
 - All conventions, structured comment format docs, and process instructions must live
@@ -60,10 +60,7 @@ research/
   optimization-library-survey.md — Algorithm survey across 11 libraries
   decisions/                — Architecture Decision Records
   results/                  — Detailed experiment results by stage
-  draft-issues/             — Spec improvements from translation feedback
   experiments/              — Raw experiment outputs (historical)
-tasks/
-  *.md                      — Durable tasks for deferred work
 ```
 
 ## Skills

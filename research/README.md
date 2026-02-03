@@ -106,10 +106,6 @@ research/
     whenwords-experiment-results.md      — Stage 1: whenwords 3×3
     mathexpr-experiment-results.md       — Stage 2: mathexpr 3×3×3 + skill
     optimize-nelder-mead-results.md      — Stage 3: optimization subset
-  draft-issues/                          — Spec improvements from translation feedback
-    001-convergence-strict-less-than.md
-    002-std-dev-population-variance.md
-    003-contraction-acceptance-asymmetry.md
   experiments/                           — Raw experiment outputs (historical)
     README.md                            — Naming conventions and index
     ...                                  — 45+ directories of generated translations
