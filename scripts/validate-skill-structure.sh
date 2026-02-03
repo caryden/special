@@ -23,7 +23,7 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
 
   # Extract node names from the SKILL.md node table.
   # Matches lines like: | `node-name` | type | ...
-  nodes=$(grep -oP '^\|\s*`\K[a-z][a-z0-9-]*(?=`)' "$skill_md" || true)
+  nodes=$(sed -n 's/^|[[:space:]]*`\([a-z][a-z0-9-]*\)`.*/\1/p' "$skill_md")
 
   if [ -z "$nodes" ]; then
     echo "  WARNING: no nodes found in $skill_md"

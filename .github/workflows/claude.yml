@@ -36,15 +36,21 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
-          # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
             actions: read
 
-          # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
-          # prompt: 'Update the pull request description to include a summary of changes.'
+          claude_args: |
+            --system-prompt "You are reviewing a Special skill plugin. In addition to the comment instructions, check these quality criteria when reviewing skill changes:
 
-          # Optional: Add claude_args to customize behavior and configuration
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
-          # claude_args: '--allowed-tools Bash(gh pr:*)'
+            1. Every @provenance annotation cites a specific library version and date
+            2. Spec.md test vectors cover boundary conditions (off-by-one at thresholds, empty inputs, degenerate cases)
+            3. The node dependency graph via @depends-on is acyclic and matches the SKILL.md node table
+            4. Subset extraction examples respect transitive closure of @depends-on
+            5. Error handling is fully specified — no surprise behaviors at translation time
+            6. No spec ambiguities that would cause different translations to diverge
+            7. Cross-validation tables cite independent implementations with specific versions
+            8. 100% test coverage is maintained — tests are the behavioral contract
+            9. Reference code avoids metaprogramming, dynamic dispatch, and impure functions
+
+            Focus on substance. Skip stylistic nits."
 

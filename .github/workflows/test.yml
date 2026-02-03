@@ -31,12 +31,12 @@ jobs:
       - name: Verify 100% coverage
         working-directory: skills/${{ matrix.skill }}/reference
         run: |
-          # Bun prints coverage as a table. Check for any line below 100%.
-          # Coverage lines look like: "src/file.ts  100.00%  100.00%  100.00%"
-          # Fail if any source file (not test file) has coverage below 100%.
-          if grep -E '^\s*src/[^.]+\.ts\s' test-output.txt | grep -v '\.test\.ts' | grep -vq '100\.00%.*100\.00%'; then
+          # Bun prints coverage as a pipe-delimited table (no % signs):
+          #  src/bfgs.ts                |  100.00 |  100.00 |
+          # Fail if any source file (not test) has < 100% in Funcs or Lines columns.
+          if grep -E '^\s*src/' test-output.txt | grep -v '\.test\.ts' | grep -vE '\|\s*100\.00\s*\|\s*100\.00\s*\|' | grep -q .; then
             echo "::error::Coverage below 100% detected in ${{ matrix.skill }}"
-            grep -E '^\s*src/[^.]+\.ts\s' test-output.txt | grep -v '\.test\.ts'
+            grep -E '^\s*src/' test-output.txt | grep -v '\.test\.ts'
             exit 1
           fi
           echo "All source files at 100% coverage"
