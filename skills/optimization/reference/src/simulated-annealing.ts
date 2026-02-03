@@ -104,7 +104,7 @@ export function mulberry32(seed: number): () => number {
 export function simulatedAnnealing(
   f: (x: number[]) => number,
   x0: number[],
-  options?: SimulatedAnnealingOptions,
+  options?: Partial<SimulatedAnnealingOptions>,
 ): OptimizeResult {
   const opts = defaultOptions(options);
   const maxIter = opts.maxIterations;

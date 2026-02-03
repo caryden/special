@@ -1,5 +1,11 @@
 {
   "name": "optimize",
   "version": "0.1.0",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
 }
