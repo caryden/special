@@ -3,9 +3,7 @@ name: Validate Skill Structure
 on:
   push:
     branches: [main]
-    paths: ['skills/**']
   pull_request:
-    paths: ['skills/**']
 
 jobs:
   validate:
