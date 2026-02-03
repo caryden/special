@@ -6,13 +6,29 @@ on:
   pull_request:
 
 jobs:
+  discover:
+    name: Discover skills
+    runs-on: ubuntu-latest
+    outputs:
+      skills: ${{ steps.find.outputs.skills }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find skills with reference implementations
+        id: find
+        run: |
+          skills=$(ls -d skills/*/reference 2>/dev/null | sed 's|skills/||;s|/reference||' | jq -R -s -c 'split("\n") | map(select(. != ""))')
+          echo "skills=$skills" >> "$GITHUB_OUTPUT"
+          echo "Found skills: $skills"
+
   test:
     name: ${{ matrix.skill }}
+    needs: discover
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        skill: [optimization, math-expression-parser, when-words]
+        skill: ${{ fromJson(needs.discover.outputs.skills) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -40,3 +56,18 @@ jobs:
             exit 1
           fi
           echo "All source files at 100% coverage"
+
+  # Roll-up job for branch protection (single required check name
+  # that works regardless of how many skills exist in the matrix).
+  all-tests:
+    name: All tests passed
+    if: always()
+    needs: [discover, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          if [ "${{ needs.test.result }}" != "success" ]; then
+            echo "::error::Some skill tests failed"
+            exit 1
+          fi
