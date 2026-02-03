@@ -6,7 +6,7 @@ Each skill uses **progressive disclosure** — four layers read in order, each a
 
 1. **SKILL.md** — Overview: what the skill does, the node graph, subset extraction guidance, design decisions, YAML frontmatter
 2. **nodes/\<name\>/spec.md** — Per-node behavioral specification with test vectors, edge cases, and `@provenance` annotations
-3. **nodes/\<name\>/to-\<lang\>.md** — Language-specific translation hints (e.g., "Rust: use `&[f64]` not `Vec<f64>` for read-only inputs")
+3. **nodes/to-\<lang\>.md** and **nodes/\<name\>/to-\<lang\>.md** — Optional translation hints, accumulated from real translation experience. Skill-level hints capture patterns common across all nodes; node-level hints capture node-specific friction (e.g., "Rust: use `Box<>` for recursive children")
 4. **reference/src/\<name\>.ts** — TypeScript source code, consulted only if the spec is ambiguous
 
 The agent starts with the lightest layer and escalates only when disambiguation is needed. Experiments showed this matches full-reference correctness at a fraction of the token cost.
@@ -87,7 +87,7 @@ Key properties:
 - **Minimal context per step.** The agent works on one node at a time — just the current node's spec, translation hints, and the interfaces of previously-translated dependencies.
 - **Topological ordering.** The agent never translates a node before its dependencies exist in the target language.
 - **Verifiable at each step.** Tests run after each node translation, not just at the end. Failures are caught early and localized.
-- **Translation hints are inline.** Platform-specific guidance is attached to the relevant node via `to-{lang}.md` files, not buried in separate documentation.
+- **Translation hints are inline and optional.** When present, platform-specific guidance is attached at the skill level (`nodes/to-{lang}.md`) or per node (`nodes/{node}/to-{lang}.md`). Hints accumulate from real translation experience — they reduce iteration count but aren't required for correctness.
 
 ## Evaluation Criteria
 
