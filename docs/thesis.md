@@ -98,7 +98,7 @@ The `to-{lang}.md` files are explicitly designed to accumulate this wisdom. Each
 
 This creates two orthogonal improvement vectors: better models improve execution quality; richer skills improve knowledge quality. Skills become self-improving artifacts where every consumption is a potential contribution.
 
-The project's `draft-issues/` directory contains concrete examples of this loop in action — spec ambiguities discovered during translation, documented as structured improvements.
+The project's [spec-ambiguity issues](https://github.com/caryden/special/issues?q=label%3Aspec-ambiguity) contain concrete examples of this loop in action — spec ambiguities discovered during translation, documented as structured improvements.
 
 ## Honest Limitations
 

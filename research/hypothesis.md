@@ -48,7 +48,7 @@ Rationale:
 - **Interface nodes.** Not yet tested — all current nodes are concrete implementations. The optimize library uses TypeScript interfaces (OptimizeOptions, OptimizeResult) but these are concrete types, not abstraction boundaries.
 - **Performance annotations.** Not yet needed. The `@hint` vocabulary could support `perf:` tags but we haven't had a case where naive translation was unacceptable.
 - **Versioning and evolution.** Untested. No node has been versioned or had its contract changed yet.
-- **Agent-powered feedback loop.** Translation agents that hit spec ambiguities generate improvement signals. The mechanism for feeding these back (GitHub issues, PRs against a skills marketplace) is designed but not yet automated. See `draft-issues/` for examples.
+- **Agent-powered feedback loop.** Translation agents that hit spec ambiguities generate improvement signals. The mechanism for feeding these back (GitHub issues, PRs against a skills marketplace) is designed but not yet automated. See [spec-ambiguity issues](https://github.com/caryden/special/issues?q=label%3Aspec-ambiguity) for examples.
 - **Scale.** Current experiments use 5-10 node libraries. The approach needs testing with larger graphs (50+ nodes) and deeper dependency chains.
 
 ## Status
