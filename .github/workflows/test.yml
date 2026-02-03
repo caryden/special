@@ -40,6 +40,10 @@ jobs:
         working-directory: skills/${{ matrix.skill }}/reference
         run: bun install
 
+      - name: Type check
+        working-directory: skills/${{ matrix.skill }}/reference
+        run: npx tsc --noEmit
+
       - name: Run tests with coverage
         working-directory: skills/${{ matrix.skill }}/reference
         run: bun test --coverage 2>&1 | tee test-output.txt
