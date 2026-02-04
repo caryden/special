@@ -70,6 +70,12 @@ For each node in topological order (leaves first):
 3. Run `bun test src/<node>.test.ts` — must pass
 4. After all nodes: `bun test --coverage` — must be **100% line and function coverage**
 
+When translations are generated from this skill, every public function, class, type,
+and interface must have idiomatic doc comments in the target language's standard format,
+and each generated file must include a provenance header identifying the agent, model,
+skill, and node. See the SKILL-template.md Process section for the full documentation
+and provenance requirements.
+
 The reference code and tests are in TypeScript. This is the authoritative source.
 Translation agents consult it when specs are ambiguous.
 

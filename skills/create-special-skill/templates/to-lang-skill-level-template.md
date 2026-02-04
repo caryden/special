@@ -23,3 +23,9 @@
 
 - {{Language-specific patterns, e.g. "Use list comprehension instead of map/filter"}}
 - {{Naming conventions, e.g. "snake_case functions" or "PascalCase exported, camelCase unexported"}}
+
+## Documentation
+
+- {{Doc comment format for this language, e.g. "Use Google-style docstrings with Args/Returns sections"}}
+- {{Include @param/@returns or equivalent for all public functions}}
+- {{Provenance format for this language, e.g. "Module-level docstring with generation metadata"}}
