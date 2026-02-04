@@ -16,6 +16,12 @@ open source when translation cost collapses.
 2. [skill-architecture.md](skill-architecture.md) — How experiments shaped the skill format
 3. [results/](results/) — Detailed results by stage
 
+**For the robotics skill research** (next skill under development):
+1. [robotics-library-survey.md](robotics-library-survey.md) — 15-library survey across 6 algorithm domains
+2. [robotics-algorithm-analysis.md](robotics-algorithm-analysis.md) — Scored fitness criteria per algorithm
+3. [robotics-node-graph.md](robotics-node-graph.md) — 32-node dependency graph and cross-skill design
+4. [robotics-implementation-roadmap.md](robotics-implementation-roadmap.md) — 4-stage implementation plan
+
 **For technical understanding** (how skills work):
 [docs/how-it-works.md](../docs/how-it-works.md) — The skill format, node structure,
 structured comments, selective extraction, and agent workflow.
@@ -99,9 +105,14 @@ research/
   evaluation-methodology.md              — Experimental design, metrics, rubric
   skill-architecture.md                  — From format comparison to skill design
   optimization-library-survey.md         — Algorithm survey across 11 libraries
+  robotics-library-survey.md             — Robotics library survey across 15 libraries
+  robotics-algorithm-analysis.md         — Scored fitness criteria per robotics algorithm
+  robotics-node-graph.md                 — 32-node dependency graph and cross-skill design
+  robotics-implementation-roadmap.md     — 4-stage robotics skill implementation plan
   decisions/                             — Architecture Decision Records
     0001-type-o-language-csharp.md       — Initial C# choice (superseded)
     0002-type-o-language-typescript-bun.md — TypeScript + Bun (accepted)
+    0003-cross-skill-dependencies.md     — Cross-skill @depends-on mechanism (accepted)
   results/                               — Detailed experiment results
     whenwords-experiment-results.md      — Stage 1: whenwords 3×3
     mathexpr-experiment-results.md       — Stage 2: mathexpr 3×3×3 + skill
