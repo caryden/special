@@ -259,6 +259,30 @@ Recommendation: implement clamping, document the choice.
 - PythonRobotics uses fixed defaults suitable for its 2D example environments
   (100x100 unit workspace).
 
+### PID Tuning Rules
+
+No single authoritative open-source library covers all classical tuning methods.
+The landscape is fragmented across Arduino/embedded projects:
+
+| Library | Language | License | ZN | Cohen-Coon | Tyreus-Luyben | SIMC | Lambda | IMC |
+|---------|----------|---------|----|----|-----|------|--------|-----|
+| sTune (Dlloydev) | C++ (Arduino) | MIT | Yes | Yes | --- | --- | --- | --- |
+| AutoTunePID (lily-osp) | C++ (Arduino) | MIT | Yes | Yes | Yes | --- | Yes | Yes |
+| pid-autotune (hirschmann) | Python | MIT | Yes | --- | Yes | --- | --- | --- |
+| FinOrr/pid-autotuner | C++ | --- | Yes | Yes | Yes | Yes | Yes | --- |
+
+**Notes:**
+- The tuning formulas themselves are well-documented in textbooks (O'Dwyer 3rd ed.,
+  Åström & Hägglund "Advanced PID Control" 2006). Each method is a pure function of
+  FOPDT model parameters (K, τ, θ) returning PID gains (Kp, Ti, Td).
+- MATLAB's `pidtune` uses a proprietary optimization-based algorithm (not classical
+  rules). It is not open source and not suitable as a direct cross-validation target,
+  though results can be compared for sanity checking.
+- python-control has no classical tuning rules (open issue #657). ControlSystems.jl
+  has `loopshapingPID` (frequency-domain) but not formula-based tuning.
+- Primary cross-validation strategy: textbook tables + multi-library spot checks
+  against sTune and AutoTunePID for formula agreement.
+
 ### LQR Cost Matrices
 
 All libraries require user-specified Q and R matrices. No library provides meaningful

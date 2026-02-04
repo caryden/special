@@ -7,7 +7,7 @@ Last updated: 2026-02-03
 
 ## Node Inventory
 
-### Estimated: 30 nodes (18 Stage 1-2, 12 Stage 3-4)
+### Estimated: 35 nodes (21 Stage 1-2, 14 Stage 3-4)
 
 ## Layer 1: Shared Infrastructure (6 nodes)
 
@@ -321,6 +321,66 @@ Optimal RRT with rewiring. Extends RRT with cost-based rewiring of the tree.
  */
 ```
 
+## Layer 2: PID Tuning (3 nodes)
+
+### `fopdt-model`
+First-Order Plus Dead-Time model type and identification: process gain K, time constant τ, dead time θ.
+
+```typescript
+/**
+ * @node fopdt-model
+ * @depends-on result-types
+ * @contract fopdt-model.test.ts
+ * @hint model: FOPDT G(s) = K * exp(-θs) / (τs + 1)
+ * @hint identification: Step response method — extract K, τ, θ from open-loop step test data
+ */
+```
+
+**Dependencies**: result-types
+**Estimated size**: Type + identification functions, ~80 lines, ~15 tests
+
+### `pid-tuning-rules`
+Classical PID tuning formulas: Ziegler-Nichols (open-loop step response), Cohen-Coon, Tyreus-Luyben, SIMC (Skogestad IMC), Lambda tuning, IMC-based tuning.
+
+```typescript
+/**
+ * @node pid-tuning-rules
+ * @depends-on result-types, fopdt-model
+ * @contract pid-tuning-rules.test.ts
+ * @hint ziegler-nichols: Step response method using FOPDT params (K, τ, θ) — Ziegler & Nichols 1942
+ * @hint cohen-coon: FOPDT-based tuning — Cohen & Coon 1953
+ * @hint tyreus-luyben: Ultimate gain method using (Ku, Tu) — Tyreus & Luyben 1992
+ * @hint simc: Skogestad IMC with user-specified τc — Skogestad 2003
+ * @hint lambda: Lambda tuning with user-specified λ — Smith 1957
+ * @hint imc: IMC-based PID — Rivera, Morari & Skogestad 1986
+ * @hint off-policy: Each method produces different gains for the same plant; the choice of
+ *   method is the key off-policy decision. All methods are pure functions of FOPDT params.
+ * @provenance O'Dwyer "Handbook of PI and PID Controller Tuning Rules" 3rd ed.
+ * @provenance Åström & Hägglund "Advanced PID Control" 2006
+ */
+```
+
+**Dependencies**: result-types, fopdt-model
+**Estimated size**: 6 tuning methods × P/PI/PID variants, ~200 lines, ~50 tests
+
+### `relay-analysis`
+Extract ultimate gain Ku and ultimate period Tu from relay feedback test data (Åström-Hägglund method).
+
+```typescript
+/**
+ * @node relay-analysis
+ * @depends-on result-types
+ * @contract relay-analysis.test.ts
+ * @hint method: Ku = 4d / (π * a) where d = relay amplitude, a = oscillation amplitude
+ * @hint method: Tu = oscillation period from zero-crossing analysis
+ * @hint usage: Output (Ku, Tu) feeds into tyreus-luyben or ziegler-nichols ultimate gain formulas
+ * @provenance Åström & Hägglund 1984
+ */
+```
+
+**Dependencies**: result-types
+**Estimated size**: ~60 lines, ~15 tests
+
 ## Layer 3: Control (4 nodes)
 
 ### `pid`
@@ -404,11 +464,13 @@ State estimation dispatcher.
 ```
 Layer 0 (leaves):     result-types    drivetrain-types    mat-ops
                           |                |                |
-Layer 1 (types):      state-types         |           rotation-ops
+Layer 1 (types):      state-types    fopdt-model      rotation-ops
                           |                |                |
 Layer 2 (transforms):     |                |          transform-ops
                           |                |            |       |
 Layer 2 (estimation): kalman-predict  kalman-update     |       |
+                          |    |           |            |       |
+Layer 2 (tuning):    relay-analysis  pid-tuning-rules   |       |
                           |    |           |            |       |
 Layer 2 (kinematics):     |    |           |      dh-parameters |
                           |    |           |            |       |
@@ -441,6 +503,18 @@ Transitive closure: mat-ops -> state-types -> kalman-predict + kalman-update
 ```
 @depends-on: result-types, pid
 Transitive closure: result-types -> pid
+```
+
+### Just PID Tuning (3 nodes)
+```
+@depends-on: result-types, fopdt-model, pid-tuning-rules
+Transitive closure: result-types -> fopdt-model -> pid-tuning-rules
+```
+
+### PID + Tuning + Relay (5 nodes)
+```
+@depends-on: result-types, pid, fopdt-model, pid-tuning-rules, relay-analysis
+Transitive closure: result-types -> pid + fopdt-model -> pid-tuning-rules + relay-analysis
 ```
 
 ### Just Swerve Drive (3 nodes)
@@ -591,6 +665,7 @@ Standard test scenarios: grid maps for planning, reference trajectories for cont
 |----------|-------|-------|
 | Shared infrastructure | 6 | 1 |
 | State estimation | 4 | 1-2 |
+| PID tuning | 3 | 1 |
 | Kinematics | 3 | 1-2 |
 | Drivetrains | 4 | 1-2 |
 | IK solvers | 4 | 2-3 |
@@ -598,7 +673,7 @@ Standard test scenarios: grid maps for planning, reference trajectories for cont
 | Control | 4 | 1-3 |
 | Dispatchers | 2 | 3 |
 | Test utilities | 2 | 1 |
-| **Total** | **32** | -- |
+| **Total** | **35** | -- |
 
 ## Acyclicity Verification
 

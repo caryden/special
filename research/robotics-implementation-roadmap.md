@@ -14,9 +14,9 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 - **Stage 3**: Do sampling-based planners (stochastic algorithms) survive translation?
 - **Stage 4**: Do cross-skill dependencies work in practice?
 
-## Stage 1: Foundation + Simple Algorithms
+## Stage 1: Foundation + Simple Algorithms + PID Tuning
 
-### Nodes (10)
+### Nodes (13)
 
 | Node | Category | Dependencies |
 |------|----------|-------------|
@@ -28,6 +28,9 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 | `kalman-predict` | Estimation | mat-ops, state-types |
 | `kalman-update` | Estimation | mat-ops, state-types |
 | `pid` | Control | result-types |
+| `fopdt-model` | PID Tuning | result-types |
+| `pid-tuning-rules` | PID Tuning | result-types, fopdt-model |
+| `relay-analysis` | PID Tuning | result-types |
 | `differential-drive` | Drivetrain | rotation-ops, drivetrain-types |
 | `test-scenarios` | Test utility | None |
 
@@ -40,6 +43,12 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 - **PID** is universally needed and has the highest off-policy density of any algorithm in the skill.
   Anti-windup methods vary across every library — this tests the skill format's ability to capture
   arbitrary design decisions.
+- **PID tuning** (Ziegler-Nichols, Cohen-Coon, Tyreus-Luyben, SIMC, Lambda, IMC) complements
+  the PID controller node. Each tuning method is a pure function of FOPDT model parameters —
+  ideal skill node candidates. The off-policy density is extreme: every method produces different
+  gains for the same plant. Relay analysis extracts ultimate gain (Ku, Tu) from relay test data,
+  feeding into the ultimate-gain tuning rules. All formulas have clear textbook provenance
+  (Åström & Hägglund 2006, O'Dwyer 3rd ed.).
 - **Differential drive** is the simplest drivetrain model and validates the drivetrain-types
   infrastructure.
 
@@ -49,6 +58,8 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 |-----------|---------|-----------|----------|--------|
 | KF | FilterPy v1.4.4 | LowLevelParticleFilters.jl v3.29.4 | — | Compare posteriors (mean, covariance) to 1e-10 |
 | PID | python-control v0.10.2 | DiscretePIDs.jl | PythonRobotics | Step response comparison |
+| PID tuning | Textbook tables (O'Dwyer, Åström) | sTune (C++, MIT) | AutoTunePID (C++, MIT) | Formula agreement on standard FOPDT plants |
+| Relay analysis | Textbook (Åström & Hägglund 1984) | pid-autotune (Python, MIT) | — | Ku, Tu extraction from known relay waveforms |
 | Differential drive | PythonRobotics | ROS 2 nav2 | — | Known trajectories, compare odometry |
 | mat-ops | NumPy | Julia LinearAlgebra | Eigen | Numerical precision (1e-14 for basic ops, 1e-10 for decompositions) |
 
@@ -63,10 +74,13 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 | Euler convention | ZYX (roll-pitch-yaw) | ZYZ, XYZ | Most common in mobile robotics |
 | DH convention | Standard | Modified (Craig) | More common in textbooks and libraries |
 | Matrix storage | Row-major | Column-major | Matches TypeScript/JavaScript |
+| PID gain form | Parallel (Kp, Ki, Kd) | Standard (Kp, Ti, Td), ideal | Parallel is more common in code; tuning rules output both |
+| ZN step response | FOPDT-based (K, τ, θ) | Tangent line method | FOPDT params are reusable across all tuning methods |
+| SIMC τc default | τ (time constant) | User-specified only | Skogestad recommends τc ≈ τ for balanced performance |
 
 ### Estimated Test Count
 
-~165 tests across 10 nodes:
+~245 tests across 13 nodes:
 - mat-ops: ~60 tests
 - rotation-ops: ~40 tests
 - state-types: ~15 tests
@@ -75,6 +89,9 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 - kalman-predict: ~15 tests
 - kalman-update: ~15 tests
 - pid: ~25 tests (anti-windup, derivative filter, output clamping, setpoint changes)
+- fopdt-model: ~15 tests (identification from step response data, edge cases)
+- pid-tuning-rules: ~50 tests (6 methods × P/PI/PID variants × standard FOPDT plants)
+- relay-analysis: ~15 tests (Ku/Tu extraction from known waveforms, edge cases)
 - differential-drive: ~15 tests
 - test-scenarios: ~10 tests
 
@@ -252,6 +269,9 @@ Complete list of off-policy decisions (robotics equivalents of the optimization 
 | 3 | Estimation | UKF sigma point scheme | Merwe (α=0.001, β=2, κ=0) | High |
 | 4 | Control | PID anti-windup method | Clamping | High |
 | 5 | Control | PID derivative filtering | First-order low-pass | Medium |
+| 5a | Tuning | PID gain form | Parallel (Kp, Ki, Kd) | Medium |
+| 5b | Tuning | ZN step response method | FOPDT-based (K, τ, θ) | Medium |
+| 5c | Tuning | SIMC τc default | τc = τ (Skogestad recommendation) | Medium |
 | 6 | Control | LQR default time domain | Continuous (CARE) | Medium |
 | 7 | Representation | Quaternion convention | Hamilton (w,x,y,z) | High |
 | 8 | Representation | Euler convention | ZYX (roll-pitch-yaw) | Medium |
@@ -269,10 +289,10 @@ Complete list of off-policy decisions (robotics equivalents of the optimization 
 
 | Stage | Nodes | Tests | Coverage | Cross-Validation |
 |-------|-------|-------|----------|-----------------|
-| 1 | 10 | ~165 | 100% | FilterPy (KF), LLParticleFilters.jl (KF), python-control (PID), DiscretePIDs.jl |
-| 2 | 18 | ~285 | 100% | Corke (FK/IK), RigidBodyDynamics.jl (FK), FilterPy + LLParticleFilters.jl (EKF/UKF) |
-| 3 | 28 | ~445 | 100% | OMPL (RRT), python-control + ControlSystems.jl (LQR) |
-| 4 | 32+ | ~500+ | 100% | Cross-skill dependency validation, ModelPredictiveControl.jl (MPC) |
+| 1 | 13 | ~245 | 100% | FilterPy (KF), LLParticleFilters.jl (KF), python-control (PID), DiscretePIDs.jl, textbook tables (tuning) |
+| 2 | 21 | ~365 | 100% | Corke (FK/IK), RigidBodyDynamics.jl (FK), FilterPy + LLParticleFilters.jl (EKF/UKF) |
+| 3 | 31 | ~525 | 100% | OMPL (RRT), python-control + ControlSystems.jl (LQR) |
+| 4 | 35+ | ~580+ | 100% | Cross-skill dependency validation, ModelPredictiveControl.jl (MPC) |
 
 ### Overall
 
