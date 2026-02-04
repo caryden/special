@@ -126,6 +126,12 @@ x0 = [5], lower = [2], upper = [10]
 → x ≈ [2], f ≈ 4
 ```
 
+Note: The log-barrier method approaches but does not precisely reach boundary
+solutions. Tests should verify `x ≈ 2` and `f ≈ 4` but should NOT assert
+`converged = true` for boundary-active cases. The projected gradient norm
+may remain slightly above the tolerance when the solution lies exactly on a
+bound. The TypeScript reference tests follow this convention.
+
 ### Bound-constrained Rosenbrock
 
 ```
@@ -133,6 +139,9 @@ f = rosenbrock, x0 = [2, 2]
 lower = [1.5, 1.5], upper = [3, 3]
 → x[0] ≈ 1.5, x[1] ≈ x[0]^2 = 2.25
 ```
+
+Note: Same as above — do not assert `converged = true` when the constrained
+minimum lies on a boundary.
 
 ### Invalid bounds
 
