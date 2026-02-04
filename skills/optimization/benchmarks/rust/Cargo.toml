@@ -1,0 +1,11 @@
+[package]
+name = "bench-optimize"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "bench"
+path = "bench.rs"
+
+[dependencies]
+nelder_mead = { path = "../../../../research/experiments/optimize-skill-rust" }

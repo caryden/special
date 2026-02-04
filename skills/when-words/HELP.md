@@ -40,6 +40,22 @@ and no hidden dependencies to worry about.
 | TypeScript | Direct copy of reference — no translation needed. |
 | Other | The spec.md files are language-agnostic. Any language with epoch-second timestamps and basic date math can implement them. |
 
+<details>
+<summary><strong>Relative Performance</strong></summary>
+
+Approximate relative wall-clock time (1.0x = median language). Lower is faster.
+
+| Language   | time-ago | duration | parse-duration | human-date | date-range |
+|------------|----------|----------|----------------|------------|------------|
+| Rust       | 1.0x     | 0.5x     | 0.3x           | 0.3x       | 0.6x       |
+| TypeScript | 1.0x     | 0.5x     | 0.5x           | 1.0x       | 0.4x       |
+| Go         | 1.0x     | 1.0x     | 1.0x           | 0.7x       | 1.0x       |
+| Python     | 4.5x     | 5.3x     | 3.5x           | 7.0x       | 6.2x       |
+
+*Measured 2026-02-03. Workloads defined in benchmark.md.*
+
+</details>
+
 ## Node Recipes
 
 All nodes are standalone, so recipes are straightforward.

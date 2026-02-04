@@ -1,0 +1,11 @@
+[package]
+name = "bench-whenwords"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "bench"
+path = "bench.rs"
+
+[dependencies]
+whenwords-spec-rust = { path = "../../../../research/experiments/whenwords-spec-rust" }

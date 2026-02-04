@@ -1,0 +1,11 @@
+[package]
+name = "bench-mathexpr"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "bench"
+path = "bench.rs"
+
+[dependencies]
+mathexpr = { path = "../../../../research/experiments/mathexpr-skill-rust" }
