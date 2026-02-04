@@ -1,0 +1,9 @@
+{
+  "run_id": "opt-small-go-sonnet45",
+  "skill": "optimization",
+  "subgraph": "small",
+  "nodes": ["vec-ops", "result-types", "nelder-mead"],
+  "language": "go",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": true
+}

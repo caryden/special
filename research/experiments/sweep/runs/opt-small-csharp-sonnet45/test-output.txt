@@ -1,0 +1,53 @@
+Build started 2/3/2026 3:41:21 PM.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.6)
+[xUnit.net 00:00:00.04]   Discovering: Optimization
+[xUnit.net 00:00:00.06]   Discovered:  Optimization
+[xUnit.net 00:00:00.06]   Starting:    Optimization
+  Passed Optimization.ResultTypesTests.DefaultOptions_AllowsOverrides [4 ms]
+  Passed Optimization.VecOpsTests.Scale_Zero [5 ms]
+  Passed Optimization.ResultTypesTests.DefaultOptions_CreatesDefaults [< 1 ms]
+  Passed Optimization.VecOpsTests.AddScaled_Basic [< 1 ms]
+  Passed Optimization.VecOpsTests.Dot_BasicCase [< 1 ms]
+  Passed Optimization.VecOpsTests.Negate_Basic [< 1 ms]
+  Passed Optimization.VecOpsTests.NormInf_Mixed [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_FunctionCriterion [< 1 ms]
+  Passed Optimization.VecOpsTests.Add_Basic [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_MaxIterations [< 1 ms]
+  Passed Optimization.VecOpsTests.Scale_Basic [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_PriorityOrder [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_GradientCriterion [< 1 ms]
+  Passed Optimization.VecOpsTests.Clone_CreatesNewArray [< 1 ms]
+  Passed Optimization.NelderMeadTests.RespectsMaxIterations [6 ms]
+  Passed Optimization.ResultTypesTests.IsConverged_FailureCases [< 1 ms]
+  Passed Optimization.VecOpsTests.Dot_ZeroVectors [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_StepCriterion [< 1 ms]
+  Passed Optimization.VecOpsTests.Zeros_CreateZeroVector [< 1 ms]
+  Passed Optimization.ResultTypesTests.ConvergenceMessage_ReturnsReadableMessages [< 1 ms]
+  Passed Optimization.ResultTypesTests.IsConverged_SuccessCases [< 1 ms]
+  Passed Optimization.VecOpsTests.Add_DoesNotMutateInputs [< 1 ms]
+  Passed Optimization.ResultTypesTests.CheckConvergence_NoCriterionMet [< 1 ms]
+  Passed Optimization.VecOpsTests.Norm_Zero [< 1 ms]
+  Passed Optimization.VecOpsTests.Scale_DoesNotMutateInput [< 1 ms]
+  Passed Optimization.VecOpsTests.Sub_Basic [< 1 ms]
+  Passed Optimization.VecOpsTests.Norm_ThreeFour [< 1 ms]
+  Passed Optimization.VecOpsTests.NormInf_Zero [< 1 ms]
+  Passed Optimization.NelderMeadTests.MinimizesSphereFunction [1 ms]
+  Passed Optimization.NelderMeadTests.MinimizesRosenbrockFromStandardStartingPoint [< 1 ms]
+  Passed Optimization.NelderMeadTests.CustomSimplexScale [< 1 ms]
+  Passed Optimization.NelderMeadTests.MinimizesBoothFunction [< 1 ms]
+  Passed Optimization.NelderMeadTests.ReturnsIterationCountAndFunctionCalls [< 1 ms]
+[xUnit.net 00:00:00.10]   Finished:    Optimization
+  Passed Optimization.NelderMeadTests.MinimizesBealeFunction [< 1 ms]
+  Passed Optimization.NelderMeadTests.MinimizesHimmelblauToOneOfFourMinima [< 1 ms]
+
+Test Run Successful.
+Total tests: 35
+     Passed: 35
+ Total time: 0.4025 Seconds
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)

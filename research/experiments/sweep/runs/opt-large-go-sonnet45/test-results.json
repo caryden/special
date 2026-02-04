@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 93, "tests_passed": 90, "pass_rate": 0.9677 },
+  "iterations": 1,
+  "test_count": 93,
+  "external_dependencies": 0,
+  "hints_consulted": true,
+  "reference_consulted": true,
+  "notes": "3 failures: TestFminboxBoundaryMinimum, TestFminboxBoundConstrainedRosenbrock (max outer iterations reached), TestLBFGSGoldsteinPrice (line search could not find acceptable step). Agent did not iterate further."
+}

@@ -1,0 +1,89 @@
+{
+  "experiment": "language-sweep",
+  "version": "1.0",
+  "pricing": {
+    "sonnet-4.5": {
+      "model_id": "claude-sonnet-4-5-20250929",
+      "input_per_mtok": 3.00,
+      "cache_write_per_mtok": 3.75,
+      "cache_read_per_mtok": 0.30,
+      "output_per_mtok": 15.00
+    },
+    "opus-4.5": {
+      "model_id": "claude-opus-4-5-20251101",
+      "input_per_mtok": 5.00,
+      "cache_write_per_mtok": 6.25,
+      "cache_read_per_mtok": 0.50,
+      "output_per_mtok": 25.00
+    }
+  },
+  "subgraphs": {
+    "small": {
+      "skill": "optimization",
+      "nodes": ["vec-ops", "result-types", "nelder-mead"],
+      "approx_impl_lines": 150
+    },
+    "medium": {
+      "skill": "optimization",
+      "nodes": ["vec-ops", "result-types", "line-search", "finite-diff", "bfgs"],
+      "approx_impl_lines": 400
+    },
+    "large": {
+      "skill": "optimization",
+      "nodes": ["vec-ops", "result-types", "line-search", "finite-diff", "finite-hessian", "l-bfgs", "fminbox", "bfgs", "conjugate-gradient"],
+      "approx_impl_lines": 1200
+    },
+    "full": {
+      "skill": "optimization",
+      "nodes": "all",
+      "approx_impl_lines": 3000
+    },
+    "mathexpr-full": {
+      "skill": "math-expression-parser",
+      "nodes": "all",
+      "approx_impl_lines": 300
+    },
+    "whenwords-full": {
+      "skill": "when-words",
+      "nodes": "all",
+      "approx_impl_lines": 250
+    }
+  },
+  "runs": [
+    { "id": "opt-small-python-sonnet45",    "tier": 1, "subgraph": "small",          "language": "python",     "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-small-rust-sonnet45",      "tier": 1, "subgraph": "small",          "language": "rust",       "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-small-go-sonnet45",        "tier": 1, "subgraph": "small",          "language": "go",         "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-small-csharp-sonnet45",    "tier": 1, "subgraph": "small",          "language": "csharp",     "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-small-kotlin-sonnet45",    "tier": 1, "subgraph": "small",          "language": "kotlin",     "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-small-cpp-sonnet45",       "tier": 1, "subgraph": "small",          "language": "cpp",        "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-small-swift-sonnet45",     "tier": 1, "subgraph": "small",          "language": "swift",      "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-small-typescript-sonnet45","tier": 1, "subgraph": "small",          "language": "typescript", "model": "sonnet-4.5", "hints": false },
+
+    { "id": "opt-medium-python-sonnet45",   "tier": 2, "subgraph": "medium",         "language": "python",     "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-medium-rust-sonnet45",     "tier": 2, "subgraph": "medium",         "language": "rust",       "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-medium-go-sonnet45",       "tier": 2, "subgraph": "medium",         "language": "go",         "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-medium-csharp-sonnet45",   "tier": 2, "subgraph": "medium",         "language": "csharp",     "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-medium-kotlin-sonnet45",   "tier": 2, "subgraph": "medium",         "language": "kotlin",     "model": "sonnet-4.5", "hints": false },
+    { "id": "opt-medium-cpp-sonnet45",      "tier": 2, "subgraph": "medium",         "language": "cpp",        "model": "sonnet-4.5", "hints": false },
+
+    { "id": "opt-large-python-sonnet45",    "tier": 3, "subgraph": "large",          "language": "python",     "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-large-rust-sonnet45",      "tier": 3, "subgraph": "large",          "language": "rust",       "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-large-go-sonnet45",        "tier": 3, "subgraph": "large",          "language": "go",         "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-large-csharp-sonnet45",    "tier": 3, "subgraph": "large",          "language": "csharp",     "model": "sonnet-4.5", "hints": false },
+
+    { "id": "mathexpr-full-csharp-sonnet45",   "tier": 4, "subgraph": "mathexpr-full",   "language": "csharp",  "model": "sonnet-4.5", "hints": false },
+    { "id": "mathexpr-full-kotlin-sonnet45",   "tier": 4, "subgraph": "mathexpr-full",   "language": "kotlin",  "model": "sonnet-4.5", "hints": false },
+    { "id": "mathexpr-full-cpp-sonnet45",      "tier": 4, "subgraph": "mathexpr-full",   "language": "cpp",     "model": "sonnet-4.5", "hints": false },
+    { "id": "whenwords-full-csharp-sonnet45",  "tier": 4, "subgraph": "whenwords-full",  "language": "csharp",  "model": "sonnet-4.5", "hints": false },
+    { "id": "whenwords-full-kotlin-sonnet45",  "tier": 4, "subgraph": "whenwords-full",  "language": "kotlin",  "model": "sonnet-4.5", "hints": false },
+    { "id": "whenwords-full-cpp-sonnet45",     "tier": 4, "subgraph": "whenwords-full",  "language": "cpp",     "model": "sonnet-4.5", "hints": false },
+
+    { "id": "opt-medium-python-opus45",     "tier": 5, "subgraph": "medium",         "language": "python",     "model": "opus-4.5",  "hints": true },
+    { "id": "opt-medium-csharp-opus45",     "tier": 5, "subgraph": "medium",         "language": "csharp",     "model": "opus-4.5",  "hints": false },
+    { "id": "opt-medium-cpp-opus45",        "tier": 5, "subgraph": "medium",         "language": "cpp",        "model": "opus-4.5",  "hints": false },
+
+    { "id": "opt-full-python-sonnet45",     "tier": 6, "subgraph": "full",           "language": "python",     "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-full-rust-sonnet45",       "tier": 6, "subgraph": "full",           "language": "rust",       "model": "sonnet-4.5", "hints": true },
+    { "id": "opt-full-csharp-sonnet45",     "tier": 6, "subgraph": "full",           "language": "csharp",     "model": "sonnet-4.5", "hints": false }
+  ]
+}

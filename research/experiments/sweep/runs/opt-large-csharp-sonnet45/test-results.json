@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 41, "tests_passed": 41, "pass_rate": 1.0 },
+  "iterations": 1,
+  "test_count": 41,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "All 41 tests pass on first attempt. xUnit on .NET 8.0. Covers vec_ops (10), result_types (3), line_search (2), finite_diff (3), finite_hessian (2), hager_zhang (1), bfgs (4), l_bfgs (4), conjugate_gradient (4), fminbox (8)."
+}

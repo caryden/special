@@ -1,0 +1,11 @@
+{
+  "run_id": "opt-large-csharp-sonnet45",
+  "skill": "optimization",
+  "subgraph": "large",
+  "nodes": ["vec-ops", "result-types", "line-search", "finite-diff", "finite-hessian", "l-bfgs", "fminbox", "bfgs", "conjugate-gradient"],
+  "additional_nodes": ["hager-zhang"],
+  "language": "csharp",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": false,
+  "note": "hager-zhang included as dependency of conjugate-gradient"
+}

@@ -1,0 +1,9 @@
+{
+  "run_id": "opt-small-kotlin-sonnet45",
+  "skill": "optimization",
+  "subgraph": "small",
+  "nodes": ["vec-ops", "result-types", "nelder-mead"],
+  "language": "kotlin",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": false
+}

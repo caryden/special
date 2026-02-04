@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 49, "tests_passed": 47, "pass_rate": 0.9592 },
+  "iterations": 3,
+  "test_count": 49,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "Agent got stuck during gradle test (long-running bash). Manual intervention: fixed forward diff tolerance (1e-7 -> 1e-6) and maxIterations test (sphere too easy for BFGS, changed to rosenbrock)."
+}

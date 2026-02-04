@@ -1,0 +1,164 @@
+=== RUN   TestBFGS
+=== RUN   TestBFGS/sphere_from_[5,5]
+=== RUN   TestBFGS/booth_from_[0,0]
+=== RUN   TestBFGS/rosenbrock_from_[-1.2,1]
+=== RUN   TestBFGS/beale_from_[0,0]
+=== RUN   TestBFGS/himmelblau_from_[0,0]
+=== RUN   TestBFGS/goldstein-price_from_[0,-0.5]
+--- PASS: TestBFGS (0.00s)
+    --- PASS: TestBFGS/sphere_from_[5,5] (0.00s)
+    --- PASS: TestBFGS/booth_from_[0,0] (0.00s)
+    --- PASS: TestBFGS/rosenbrock_from_[-1.2,1] (0.00s)
+    --- PASS: TestBFGS/beale_from_[0,0] (0.00s)
+    --- PASS: TestBFGS/himmelblau_from_[0,0] (0.00s)
+    --- PASS: TestBFGS/goldstein-price_from_[0,-0.5] (0.00s)
+=== RUN   TestBFGSFiniteDiff
+=== RUN   TestBFGSFiniteDiff/sphere_without_gradient
+=== RUN   TestBFGSFiniteDiff/rosenbrock_without_gradient
+--- PASS: TestBFGSFiniteDiff (0.00s)
+    --- PASS: TestBFGSFiniteDiff/sphere_without_gradient (0.00s)
+    --- PASS: TestBFGSFiniteDiff/rosenbrock_without_gradient (0.00s)
+=== RUN   TestBFGSBehavioral
+=== RUN   TestBFGSBehavioral/returns_gradient_at_solution
+=== RUN   TestBFGSBehavioral/respects_maxIterations
+=== RUN   TestBFGSBehavioral/already_at_minimum
+=== RUN   TestBFGSBehavioral/impossible_tolerance
+--- PASS: TestBFGSBehavioral (0.00s)
+    --- PASS: TestBFGSBehavioral/returns_gradient_at_solution (0.00s)
+    --- PASS: TestBFGSBehavioral/respects_maxIterations (0.00s)
+    --- PASS: TestBFGSBehavioral/already_at_minimum (0.00s)
+    --- PASS: TestBFGSBehavioral/impossible_tolerance (0.00s)
+=== RUN   TestForwardDiffGradient
+=== RUN   TestForwardDiffGradient/sphere_at_[3,4]
+=== RUN   TestForwardDiffGradient/sphere_at_origin
+=== RUN   TestForwardDiffGradient/rosenbrock_at_[-1.2,1]
+=== RUN   TestForwardDiffGradient/beale_at_[1,1]
+--- PASS: TestForwardDiffGradient (0.00s)
+    --- PASS: TestForwardDiffGradient/sphere_at_[3,4] (0.00s)
+    --- PASS: TestForwardDiffGradient/sphere_at_origin (0.00s)
+    --- PASS: TestForwardDiffGradient/rosenbrock_at_[-1.2,1] (0.00s)
+    --- PASS: TestForwardDiffGradient/beale_at_[1,1] (0.00s)
+=== RUN   TestCentralDiffGradient
+=== RUN   TestCentralDiffGradient/sphere_at_[3,4]
+=== RUN   TestCentralDiffGradient/sphere_at_origin
+=== RUN   TestCentralDiffGradient/rosenbrock_at_[-1.2,1]
+=== RUN   TestCentralDiffGradient/beale_at_[1,1]
+--- PASS: TestCentralDiffGradient (0.00s)
+    --- PASS: TestCentralDiffGradient/sphere_at_[3,4] (0.00s)
+    --- PASS: TestCentralDiffGradient/sphere_at_origin (0.00s)
+    --- PASS: TestCentralDiffGradient/rosenbrock_at_[-1.2,1] (0.00s)
+    --- PASS: TestCentralDiffGradient/beale_at_[1,1] (0.00s)
+=== RUN   TestMakeGradient
+=== RUN   TestMakeGradient/default_to_forward
+=== RUN   TestMakeGradient/explicit_forward
+=== RUN   TestMakeGradient/central
+--- PASS: TestMakeGradient (0.00s)
+    --- PASS: TestMakeGradient/default_to_forward (0.00s)
+    --- PASS: TestMakeGradient/explicit_forward (0.00s)
+    --- PASS: TestMakeGradient/central (0.00s)
+=== RUN   TestFiniteDiffImmutability
+--- PASS: TestFiniteDiffImmutability (0.00s)
+=== RUN   TestBacktrackingLineSearch
+=== RUN   TestBacktrackingLineSearch/sphere_from_[10,10]
+=== RUN   TestBacktrackingLineSearch/rosenbrock_from_[-1.2,1]
+=== RUN   TestBacktrackingLineSearch/ascending_direction
+--- PASS: TestBacktrackingLineSearch (0.00s)
+    --- PASS: TestBacktrackingLineSearch/sphere_from_[10,10] (0.00s)
+    --- PASS: TestBacktrackingLineSearch/rosenbrock_from_[-1.2,1] (0.00s)
+    --- PASS: TestBacktrackingLineSearch/ascending_direction (0.00s)
+=== RUN   TestWolfeLineSearch
+=== RUN   TestWolfeLineSearch/sphere_from_[10,10]
+=== RUN   TestWolfeLineSearch/rosenbrock_from_[-1.2,1]
+=== RUN   TestWolfeLineSearch/returns_gradient
+=== RUN   TestWolfeLineSearch/ascending_direction
+--- PASS: TestWolfeLineSearch (0.00s)
+    --- PASS: TestWolfeLineSearch/sphere_from_[10,10] (0.00s)
+    --- PASS: TestWolfeLineSearch/rosenbrock_from_[-1.2,1] (0.00s)
+    --- PASS: TestWolfeLineSearch/returns_gradient (0.00s)
+    --- PASS: TestWolfeLineSearch/ascending_direction (0.00s)
+=== RUN   TestWolfeConditionsPostHoc
+--- PASS: TestWolfeConditionsPostHoc (0.00s)
+=== RUN   TestDefaultOptions
+=== RUN   TestDefaultOptions/no_overrides
+=== RUN   TestDefaultOptions/with_overrides
+--- PASS: TestDefaultOptions (0.00s)
+    --- PASS: TestDefaultOptions/no_overrides (0.00s)
+    --- PASS: TestDefaultOptions/with_overrides (0.00s)
+=== RUN   TestCheckConvergence
+=== RUN   TestCheckConvergence/gradient_below_tolerance
+=== RUN   TestCheckConvergence/step_below_tolerance
+=== RUN   TestCheckConvergence/function_change_below_tolerance
+=== RUN   TestCheckConvergence/max_iterations
+=== RUN   TestCheckConvergence/no_criterion_met
+--- PASS: TestCheckConvergence (0.00s)
+    --- PASS: TestCheckConvergence/gradient_below_tolerance (0.00s)
+    --- PASS: TestCheckConvergence/step_below_tolerance (0.00s)
+    --- PASS: TestCheckConvergence/function_change_below_tolerance (0.00s)
+    --- PASS: TestCheckConvergence/max_iterations (0.00s)
+    --- PASS: TestCheckConvergence/no_criterion_met (0.00s)
+=== RUN   TestConvergencePriority
+--- PASS: TestConvergencePriority (0.00s)
+=== RUN   TestIsConverged
+=== RUN   TestIsConverged/gradient
+=== RUN   TestIsConverged/step
+=== RUN   TestIsConverged/function
+=== RUN   TestIsConverged/maxIterations
+=== RUN   TestIsConverged/lineSearchFailed
+=== RUN   TestIsConverged/nil
+--- PASS: TestIsConverged (0.00s)
+    --- PASS: TestIsConverged/gradient (0.00s)
+    --- PASS: TestIsConverged/step (0.00s)
+    --- PASS: TestIsConverged/function (0.00s)
+    --- PASS: TestIsConverged/maxIterations (0.00s)
+    --- PASS: TestIsConverged/lineSearchFailed (0.00s)
+    --- PASS: TestIsConverged/nil (0.00s)
+=== RUN   TestConvergenceMessage
+=== RUN   TestConvergenceMessage/gradient
+=== RUN   TestConvergenceMessage/step
+=== RUN   TestConvergenceMessage/function
+=== RUN   TestConvergenceMessage/maxIterations
+=== RUN   TestConvergenceMessage/lineSearchFailed
+--- PASS: TestConvergenceMessage (0.00s)
+    --- PASS: TestConvergenceMessage/gradient (0.00s)
+    --- PASS: TestConvergenceMessage/step (0.00s)
+    --- PASS: TestConvergenceMessage/function (0.00s)
+    --- PASS: TestConvergenceMessage/maxIterations (0.00s)
+    --- PASS: TestConvergenceMessage/lineSearchFailed (0.00s)
+=== RUN   TestDot
+=== RUN   TestDot/basic
+=== RUN   TestDot/zeros
+--- PASS: TestDot (0.00s)
+    --- PASS: TestDot/basic (0.00s)
+    --- PASS: TestDot/zeros (0.00s)
+=== RUN   TestNorm
+=== RUN   TestNorm/3-4_triangle
+=== RUN   TestNorm/zeros
+--- PASS: TestNorm (0.00s)
+    --- PASS: TestNorm/3-4_triangle (0.00s)
+    --- PASS: TestNorm/zeros (0.00s)
+=== RUN   TestNormInf
+=== RUN   TestNormInf/mixed_signs
+=== RUN   TestNormInf/zeros
+--- PASS: TestNormInf (0.00s)
+    --- PASS: TestNormInf/mixed_signs (0.00s)
+    --- PASS: TestNormInf/zeros (0.00s)
+=== RUN   TestScale
+=== RUN   TestScale/basic
+=== RUN   TestScale/zero_scalar
+--- PASS: TestScale (0.00s)
+    --- PASS: TestScale/basic (0.00s)
+    --- PASS: TestScale/zero_scalar (0.00s)
+=== RUN   TestAdd
+--- PASS: TestAdd (0.00s)
+=== RUN   TestSub
+--- PASS: TestSub (0.00s)
+=== RUN   TestNegate
+--- PASS: TestNegate (0.00s)
+=== RUN   TestClone
+--- PASS: TestClone (0.00s)
+=== RUN   TestZeros
+--- PASS: TestZeros (0.00s)
+=== RUN   TestAddScaled
+--- PASS: TestAddScaled (0.00s)
+PASS
+ok  	optimization	(cached)

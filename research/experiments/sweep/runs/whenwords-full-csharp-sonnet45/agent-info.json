@@ -1,0 +1,9 @@
+{
+  "run_id": "whenwords-full-csharp-sonnet45",
+  "skill": "when-words",
+  "subgraph": "whenwords-full",
+  "nodes": ["time-ago", "duration", "parse-duration", "human-date", "date-range"],
+  "language": "csharp",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": false
+}

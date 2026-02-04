@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 58, "tests_passed": 50, "pass_rate": 0.8621 },
+  "iterations": 2,
+  "test_count": 58,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "Opus 4.5 model. 8 first-pass failures: C# double.Epsilon is 5e-324 (not machine epsilon), xUnit Assert.Equal int precision semantics, Beale gradient test vectors incorrect in spec. All 58 tests pass after fixes."
+}

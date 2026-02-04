@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 100, "tests_passed": 100, "pass_rate": 1.0 },
+  "iterations": 1,
+  "test_count": 100,
+  "external_dependencies": 0,
+  "hints_consulted": true,
+  "reference_consulted": true,
+  "notes": "All 100 tests pass on first attempt. Includes hager-zhang as dependency of conjugate-gradient."
+}

@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="6ace7c9c-c293-48c4-87e5-a5cc5de57c75" name="@Carls-MacBook-Pro 2026-02-03 16:15:40" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-02-03T16:15:40.3537700-04:00" queuing="2026-02-03T16:15:40.3537700-04:00" start="2026-02-03T16:15:40.0021390-04:00" finish="2026-02-03T16:15:40.3663390-04:00" />
+  <TestSettings name="default" id="a04d3cb7-d5ac-447b-a790-599b9c575883">
+    <Deployment runDeploymentRoot="_Carls-MacBook-Pro_2026-02-03_16_15_40" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9607746c-42cc-4d62-865f-e353e6e2b627" testId="caf04bc5-8788-136d-e0e7-f2b9422ae928" testName="Optimization.FiniteDiffTests.TestForwardDiffGradient" computerName="Carls-MacBook-Pro" duration="00:00:00.0041193" startTime="2026-02-03T16:15:40.3260410-04:00" endTime="2026-02-03T16:15:40.3260410-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9607746c-42cc-4d62-865f-e353e6e2b627" />
+    <UnitTestResult executionId="8a3d2c23-9245-470c-b1b4-73c4b70e5c2f" testId="a3c61f2b-606b-dd22-1d8d-f493b27ab11a" testName="Optimization.FminboxTests.TestFminboxInteriorMinimum" computerName="Carls-MacBook-Pro" duration="00:00:00.0002354" startTime="2026-02-03T16:15:40.3344770-04:00" endTime="2026-02-03T16:15:40.3344770-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a3d2c23-9245-470c-b1b4-73c4b70e5c2f" />
+    <UnitTestResult executionId="ce09a469-d328-45e5-8da7-5cf63097e206" testId="5f3c25f0-f5fa-b8b5-7c52-3203dd718420" testName="Optimization.FminboxTests.TestBarrierValueOutsideBounds" computerName="Carls-MacBook-Pro" duration="00:00:00.0000424" startTime="2026-02-03T16:15:40.3346890-04:00" endTime="2026-02-03T16:15:40.3346890-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ce09a469-d328-45e5-8da7-5cf63097e206" />
+    <UnitTestResult executionId="f1227778-2a4f-48e6-b910-30e983f20baf" testId="b75641f9-59fe-05b9-5d82-ae85a56def13" testName="Optimization.LBFGSTests.TestLBFGSRosenbrock" computerName="Carls-MacBook-Pro" duration="00:00:00.0003263" startTime="2026-02-03T16:15:40.3342060-04:00" endTime="2026-02-03T16:15:40.3342060-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f1227778-2a4f-48e6-b910-30e983f20baf" />
+    <UnitTestResult executionId="94cf06bd-71fe-444f-a0bc-9e7dbe15c7d2" testId="ab5850ac-4634-e480-e4bf-b7357887af79" testName="Optimization.LBFGSTests.TestLBFGSGoldsteinPrice" computerName="Carls-MacBook-Pro" duration="00:00:00.0000725" startTime="2026-02-03T16:15:40.3344390-04:00" endTime="2026-02-03T16:15:40.3344390-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="94cf06bd-71fe-444f-a0bc-9e7dbe15c7d2" />
+    <UnitTestResult executionId="3eac0245-8638-4c66-aeb9-a6557ca25f0d" testId="f659cfa4-984b-a7ff-f1dc-291cd7f9412e" testName="Optimization.VecOpsTests.TestScale" computerName="Carls-MacBook-Pro" duration="00:00:00.0000699" startTime="2026-02-03T16:15:40.3350210-04:00" endTime="2026-02-03T16:15:40.3350210-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3eac0245-8638-4c66-aeb9-a6557ca25f0d" />
+    <UnitTestResult executionId="cc44c30e-1bc0-4777-a96d-d9428085c2fd" testId="cfee0d2d-f5ff-f40f-f93b-6c55950bb6e7" testName="Optimization.ConjugateGradientTests.TestCGSphere" computerName="Carls-MacBook-Pro" duration="00:00:00.0000769" startTime="2026-02-03T16:15:40.3342160-04:00" endTime="2026-02-03T16:15:40.3342160-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc44c30e-1bc0-4777-a96d-d9428085c2fd" />
+    <UnitTestResult executionId="02b0c1ae-c4f1-4e67-ac26-f013dbeb98c7" testId="21044b4b-e500-e1aa-2f19-51f72f3f04f3" testName="Optimization.FminboxTests.TestFminboxCGMethod" computerName="Carls-MacBook-Pro" duration="00:00:00.0001057" startTime="2026-02-03T16:15:40.3346580-04:00" endTime="2026-02-03T16:15:40.3346580-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02b0c1ae-c4f1-4e67-ac26-f013dbeb98c7" />
+    <UnitTestResult executionId="8dac8879-2683-4f30-af87-d414fdcc6d9f" testId="78dfd07a-00d4-6900-524f-8fb95dd154b9" testName="Optimization.BFGSTests.TestBFGSGoldsteinPrice" computerName="Carls-MacBook-Pro" duration="00:00:00.0003847" startTime="2026-02-03T16:15:40.3341950-04:00" endTime="2026-02-03T16:15:40.3341950-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8dac8879-2683-4f30-af87-d414fdcc6d9f" />
+    <UnitTestResult executionId="20afc9f4-a715-4777-a85a-659a766d2ae3" testId="a0cdb911-438a-26ba-46fb-04010bbc0a25" testName="Optimization.HagerZhangTests.TestHagerZhangLineSearch" computerName="Carls-MacBook-Pro" duration="00:00:00.0041531" startTime="2026-02-03T16:15:40.3261340-04:00" endTime="2026-02-03T16:15:40.3261340-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="20afc9f4-a715-4777-a85a-659a766d2ae3" />
+    <UnitTestResult executionId="4cf5769f-ecc7-46ed-b1b2-38158a4f4e6e" testId="2cb66db3-4d9e-9f9b-2cf5-1ee843bba54d" testName="Optimization.VecOpsTests.TestNegate" computerName="Carls-MacBook-Pro" duration="00:00:00.0000487" startTime="2026-02-03T16:15:40.3349730-04:00" endTime="2026-02-03T16:15:40.3349730-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4cf5769f-ecc7-46ed-b1b2-38158a4f4e6e" />
+    <UnitTestResult executionId="f58cc310-37c0-430b-815e-a15a4b664bfd" testId="75adb614-6904-e643-552a-626d2f72050d" testName="Optimization.LBFGSTests.TestLBFGSBooth" computerName="Carls-MacBook-Pro" duration="00:00:00.0050202" startTime="2026-02-03T16:15:40.3341590-04:00" endTime="2026-02-03T16:15:40.3341590-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f58cc310-37c0-430b-815e-a15a4b664bfd" />
+    <UnitTestResult executionId="6c050f44-e75f-40c3-923e-01278d5fcb58" testId="0f30132d-09d0-93e9-b08e-5b90ebe0b5b8" testName="Optimization.ResultTypesTests.TestDefaultOptions" computerName="Carls-MacBook-Pro" duration="00:00:00.0025605" startTime="2026-02-03T16:15:40.3348080-04:00" endTime="2026-02-03T16:15:40.3348080-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c050f44-e75f-40c3-923e-01278d5fcb58" />
+    <UnitTestResult executionId="ff0d93fa-feca-445a-b39d-46ebec540bc1" testId="ea90360e-0f75-a2eb-1bea-2d5d7ee78876" testName="Optimization.VecOpsTests.TestAddScaled" computerName="Carls-MacBook-Pro" duration="00:00:00.0000768" startTime="2026-02-03T16:15:40.3347040-04:00" endTime="2026-02-03T16:15:40.3347040-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff0d93fa-feca-445a-b39d-46ebec540bc1" />
+    <UnitTestResult executionId="c1a89a0e-be7d-48b2-928f-45fc067e13a0" testId="61aa2cd3-23b6-ff60-936c-223afed82231" testName="Optimization.FiniteHessianTests.TestHessianVectorProduct" computerName="Carls-MacBook-Pro" duration="00:00:00.0035774" startTime="2026-02-03T16:15:40.3256740-04:00" endTime="2026-02-03T16:15:40.3256740-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1a89a0e-be7d-48b2-928f-45fc067e13a0" />
+    <UnitTestResult executionId="de983333-ddfb-4ae4-8097-a3d946a046d9" testId="41a9ae73-0a51-b533-178d-4c3e4c474266" testName="Optimization.VecOpsTests.TestClone" computerName="Carls-MacBook-Pro" duration="00:00:00.0000756" startTime="2026-02-03T16:15:40.3349900-04:00" endTime="2026-02-03T16:15:40.3349900-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de983333-ddfb-4ae4-8097-a3d946a046d9" />
+    <UnitTestResult executionId="03e160ae-c0ee-43e2-ad80-dee78b1a105d" testId="f8ffe9a0-fc30-190f-ed09-b56a604c45c6" testName="Optimization.ResultTypesTests.TestCheckConvergence" computerName="Carls-MacBook-Pro" duration="00:00:00.0005076" startTime="2026-02-03T16:15:40.3335260-04:00" endTime="2026-02-03T16:15:40.3335260-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03e160ae-c0ee-43e2-ad80-dee78b1a105d" />
+    <UnitTestResult executionId="fcbcade2-7c8a-4124-bcd5-864d2890ce16" testId="47bdc2bd-17b0-8f78-5fc0-fc20cb70fce5" testName="Optimization.VecOpsTests.TestSub" computerName="Carls-MacBook-Pro" duration="00:00:00.0000866" startTime="2026-02-03T16:15:40.3347640-04:00" endTime="2026-02-03T16:15:40.3347640-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fcbcade2-7c8a-4124-bcd5-864d2890ce16" />
+    <UnitTestResult executionId="286f55c7-cd7b-4ea7-8613-d1f16016fb7f" testId="3dc1c6a9-948f-257b-bb93-c730b15fa0dd" testName="Optimization.LineSearchTests.TestWolfeLineSearch" computerName="Carls-MacBook-Pro" duration="00:00:00.0042215" startTime="2026-02-03T16:15:40.3291630-04:00" endTime="2026-02-03T16:15:40.3291630-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="286f55c7-cd7b-4ea7-8613-d1f16016fb7f" />
+    <UnitTestResult executionId="5f3bc443-1f7b-44f2-ace5-daa595f33e37" testId="cc749d63-d62e-5a79-90de-6a44bddae343" testName="Optimization.LineSearchTests.TestBacktrackingLineSearch" computerName="Carls-MacBook-Pro" duration="00:00:00.0007464" startTime="2026-02-03T16:15:40.3335580-04:00" endTime="2026-02-03T16:15:40.3335580-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f3bc443-1f7b-44f2-ace5-daa595f33e37" />
+    <UnitTestResult executionId="f793b46d-f01e-4da1-9472-4d0262473351" testId="741800da-1ae9-04e0-c3ec-7788d1619d4c" testName="Optimization.FminboxTests.TestBarrierValueInfiniteBounds" computerName="Carls-MacBook-Pro" duration="00:00:00.0000536" startTime="2026-02-03T16:15:40.3344920-04:00" endTime="2026-02-03T16:15:40.3344920-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f793b46d-f01e-4da1-9472-4d0262473351" />
+    <UnitTestResult executionId="640e2504-0dc7-49bd-b61f-0ee05bf7a84e" testId="1c3b9dd7-26d3-e4bc-2d2b-d3bf391a5a01" testName="Optimization.VecOpsTests.TestZeros" computerName="Carls-MacBook-Pro" duration="00:00:00.0066075" startTime="2026-02-03T16:15:40.3345070-04:00" endTime="2026-02-03T16:15:40.3345070-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="640e2504-0dc7-49bd-b61f-0ee05bf7a84e" />
+    <UnitTestResult executionId="86d8de42-106e-4027-bd46-1f883909782a" testId="0b273486-79e0-7eb2-827e-2c01ba072671" testName="Optimization.ConjugateGradientTests.TestCGGoldsteinPrice" computerName="Carls-MacBook-Pro" duration="00:00:00.0053833" startTime="2026-02-03T16:15:40.3341800-04:00" endTime="2026-02-03T16:15:40.3341800-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="86d8de42-106e-4027-bd46-1f883909782a" />
+    <UnitTestResult executionId="9f51dca8-7c56-4bae-b56a-5f39538645da" testId="39552104-b40f-86fb-fa1d-b768df67783a" testName="Optimization.FminboxTests.TestBarrierValue" computerName="Carls-MacBook-Pro" duration="00:00:00.0001933" startTime="2026-02-03T16:15:40.3334770-04:00" endTime="2026-02-03T16:15:40.3334770-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f51dca8-7c56-4bae-b56a-5f39538645da" />
+    <UnitTestResult executionId="dac4faa9-74f6-4043-9fdf-c1ff0bf8bc0f" testId="f71182df-3de1-8eeb-17ed-d5259fdc5ade" testName="Optimization.BFGSTests.TestBFGSSphere" computerName="Carls-MacBook-Pro" duration="00:00:00.0001158" startTime="2026-02-03T16:15:40.3342540-04:00" endTime="2026-02-03T16:15:40.3342540-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dac4faa9-74f6-4043-9fdf-c1ff0bf8bc0f" />
+    <UnitTestResult executionId="c173fabc-90d5-4c80-b842-2004d4d2eab9" testId="538852b9-2812-9592-07ac-d357344aaf51" testName="Optimization.FiniteDiffTests.TestCentralDiffGradient" computerName="Carls-MacBook-Pro" duration="00:00:00.0002782" startTime="2026-02-03T16:15:40.3335430-04:00" endTime="2026-02-03T16:15:40.3335430-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c173fabc-90d5-4c80-b842-2004d4d2eab9" />
+    <UnitTestResult executionId="23499b3d-f3bb-467a-a0ac-9b859fcdcc49" testId="6dd7232b-d9a1-e0b4-112a-332b3ea5fb42" testName="Optimization.VecOpsTests.TestDot" computerName="Carls-MacBook-Pro" duration="00:00:00.0000865" startTime="2026-02-03T16:15:40.3346620-04:00" endTime="2026-02-03T16:15:40.3346620-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23499b3d-f3bb-467a-a0ac-9b859fcdcc49" />
+    <UnitTestResult executionId="08b73075-82d1-453d-9d04-255d44ccb8d9" testId="78db0e75-2e13-7dcf-b2da-159186a38225" testName="Optimization.BFGSTests.TestBFGSBooth" computerName="Carls-MacBook-Pro" duration="00:00:00.0050138" startTime="2026-02-03T16:15:40.3335660-04:00" endTime="2026-02-03T16:15:40.3335660-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="08b73075-82d1-453d-9d04-255d44ccb8d9" />
+    <UnitTestResult executionId="c5d1040e-7845-4af8-b49e-fa8584daaae1" testId="ea8ab724-e5c3-f451-1884-8bd10d92c1fc" testName="Optimization.VecOpsTests.TestAdd" computerName="Carls-MacBook-Pro" duration="00:00:00.0001331" startTime="2026-02-03T16:15:40.3347390-04:00" endTime="2026-02-03T16:15:40.3347390-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5d1040e-7845-4af8-b49e-fa8584daaae1" />
+    <UnitTestResult executionId="925cf077-3c22-4483-861e-f585bea777bd" testId="5f5cb624-1bea-c6de-1576-e43e7ebb28f2" testName="Optimization.FminboxTests.TestFminboxBoundaryMinimum" computerName="Carls-MacBook-Pro" duration="00:00:00.0003381" startTime="2026-02-03T16:15:40.3347810-04:00" endTime="2026-02-03T16:15:40.3347810-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="925cf077-3c22-4483-861e-f585bea777bd" />
+    <UnitTestResult executionId="75986b32-7b49-42c2-b175-c139ee0969d6" testId="7f719264-819b-5090-922f-2d0e5d7cc35c" testName="Optimization.FiniteDiffTests.TestMakeGradient" computerName="Carls-MacBook-Pro" duration="00:00:00.0003204" startTime="2026-02-03T16:15:40.3335000-04:00" endTime="2026-02-03T16:15:40.3335000-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="75986b32-7b49-42c2-b175-c139ee0969d6" />
+    <UnitTestResult executionId="2d978ca3-9a37-435c-8e6c-865ef820a2c5" testId="9257bca3-f577-4749-6838-3ee2a4e17e31" testName="Optimization.LBFGSTests.TestLBFGSSphere" computerName="Carls-MacBook-Pro" duration="00:00:00.0001912" startTime="2026-02-03T16:15:40.3342700-04:00" endTime="2026-02-03T16:15:40.3342700-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2d978ca3-9a37-435c-8e6c-865ef820a2c5" />
+    <UnitTestResult executionId="f9538db3-a5f2-4b7a-a8ed-44a0bc45cd19" testId="cbed0510-f418-fc92-3ed6-4b8f5209b939" testName="Optimization.ResultTypesTests.TestIsConverged" computerName="Carls-MacBook-Pro" duration="00:00:00.0018538" startTime="2026-02-03T16:15:40.3242330-04:00" endTime="2026-02-03T16:15:40.3242450-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9538db3-a5f2-4b7a-a8ed-44a0bc45cd19" />
+    <UnitTestResult executionId="df88730d-208f-416c-8799-b31b1d319c2d" testId="74b8ab7f-684f-9fb6-480a-aecc3b586b10" testName="Optimization.FminboxTests.TestFminboxBFGSMethod" computerName="Carls-MacBook-Pro" duration="00:00:00.0019242" startTime="2026-02-03T16:15:40.3344610-04:00" endTime="2026-02-03T16:15:40.3344610-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df88730d-208f-416c-8799-b31b1d319c2d" />
+    <UnitTestResult executionId="54137537-f98b-4fbc-8de9-60dcca71bdb6" testId="35ef4676-5c6e-3d2f-d33d-8d11a7d2473c" testName="Optimization.FminboxTests.TestProjectedGradientNorm" computerName="Carls-MacBook-Pro" duration="00:00:00.0018308" startTime="2026-02-03T16:15:40.3255430-04:00" endTime="2026-02-03T16:15:40.3255430-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="54137537-f98b-4fbc-8de9-60dcca71bdb6" />
+    <UnitTestResult executionId="f6945cd1-7373-42b7-a8de-530658617204" testId="66e9415a-0f1c-b67b-b2ab-1c360dcd6e0d" testName="Optimization.VecOpsTests.TestNorm" computerName="Carls-MacBook-Pro" duration="00:00:00.0000490" startTime="2026-02-03T16:15:40.3347890-04:00" endTime="2026-02-03T16:15:40.3347890-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f6945cd1-7373-42b7-a8de-530658617204" />
+    <UnitTestResult executionId="533c72a1-2b43-4ff1-a8d0-56e3b5dcfd8b" testId="9ac2a3dc-263a-cdc1-3430-96e4708d9baf" testName="Optimization.BFGSTests.TestBFGSRosenbrock" computerName="Carls-MacBook-Pro" duration="00:00:00.0001463" startTime="2026-02-03T16:15:40.3344230-04:00" endTime="2026-02-03T16:15:40.3344230-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="533c72a1-2b43-4ff1-a8d0-56e3b5dcfd8b" />
+    <UnitTestResult executionId="b875befc-5c5b-45ce-ac3d-d312d6bb4f52" testId="b3dfe0d1-4f30-66a8-1d4e-114da7afabf6" testName="Optimization.FiniteHessianTests.TestFiniteDiffHessian" computerName="Carls-MacBook-Pro" duration="00:00:00.0004413" startTime="2026-02-03T16:15:40.3335180-04:00" endTime="2026-02-03T16:15:40.3335180-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b875befc-5c5b-45ce-ac3d-d312d6bb4f52" />
+    <UnitTestResult executionId="4fd8bfc6-1686-4e86-95fa-d8309fa0fede" testId="7a8b87a5-a639-49bc-3868-13b7d5aa2e93" testName="Optimization.ConjugateGradientTests.TestCGBooth" computerName="Carls-MacBook-Pro" duration="00:00:00.0000964" startTime="2026-02-03T16:15:40.3344500-04:00" endTime="2026-02-03T16:15:40.3344500-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fd8bfc6-1686-4e86-95fa-d8309fa0fede" />
+    <UnitTestResult executionId="310f3b4e-7fbc-4ed1-aa69-0394ff51d47d" testId="05848de7-5cc7-5c9b-bc61-872c10a19a19" testName="Optimization.VecOpsTests.TestNormInf" computerName="Carls-MacBook-Pro" duration="00:00:00.0000510" startTime="2026-02-03T16:15:40.3350060-04:00" endTime="2026-02-03T16:15:40.3350060-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="310f3b4e-7fbc-4ed1-aa69-0394ff51d47d" />
+    <UnitTestResult executionId="698f8814-7336-4522-981f-9cce45a647da" testId="f60dbc82-583f-b7ef-4a2d-6e8cbdd0161e" testName="Optimization.ConjugateGradientTests.TestCGRosenbrock" computerName="Carls-MacBook-Pro" duration="00:00:00.0002538" startTime="2026-02-03T16:15:40.3344110-04:00" endTime="2026-02-03T16:15:40.3344110-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="698f8814-7336-4522-981f-9cce45a647da" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Optimization.LBFGSTests.TestLBFGSGoldsteinPrice" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="ab5850ac-4634-e480-e4bf-b7357887af79">
+      <Execution id="94cf06bd-71fe-444f-a0bc-9e7dbe15c7d2" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LBFGSTests" name="TestLBFGSGoldsteinPrice" />
+    </UnitTest>
+    <UnitTest name="Optimization.LBFGSTests.TestLBFGSRosenbrock" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="b75641f9-59fe-05b9-5d82-ae85a56def13">
+      <Execution id="f1227778-2a4f-48e6-b910-30e983f20baf" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LBFGSTests" name="TestLBFGSRosenbrock" />
+    </UnitTest>
+    <UnitTest name="Optimization.FiniteDiffTests.TestMakeGradient" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="7f719264-819b-5090-922f-2d0e5d7cc35c">
+      <Execution id="75986b32-7b49-42c2-b175-c139ee0969d6" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FiniteDiffTests" name="TestMakeGradient" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestZeros" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="1c3b9dd7-26d3-e4bc-2d2b-d3bf391a5a01">
+      <Execution id="640e2504-0dc7-49bd-b61f-0ee05bf7a84e" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestZeros" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestFminboxBFGSMethod" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="74b8ab7f-684f-9fb6-480a-aecc3b586b10">
+      <Execution id="df88730d-208f-416c-8799-b31b1d319c2d" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestFminboxBFGSMethod" />
+    </UnitTest>
+    <UnitTest name="Optimization.HagerZhangTests.TestHagerZhangLineSearch" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="a0cdb911-438a-26ba-46fb-04010bbc0a25">
+      <Execution id="20afc9f4-a715-4777-a85a-659a766d2ae3" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.HagerZhangTests" name="TestHagerZhangLineSearch" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestBarrierValue" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="39552104-b40f-86fb-fa1d-b768df67783a">
+      <Execution id="9f51dca8-7c56-4bae-b56a-5f39538645da" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestBarrierValue" />
+    </UnitTest>
+    <UnitTest name="Optimization.BFGSTests.TestBFGSSphere" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="f71182df-3de1-8eeb-17ed-d5259fdc5ade">
+      <Execution id="dac4faa9-74f6-4043-9fdf-c1ff0bf8bc0f" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.BFGSTests" name="TestBFGSSphere" />
+    </UnitTest>
+    <UnitTest name="Optimization.ResultTypesTests.TestCheckConvergence" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="f8ffe9a0-fc30-190f-ed09-b56a604c45c6">
+      <Execution id="03e160ae-c0ee-43e2-ad80-dee78b1a105d" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ResultTypesTests" name="TestCheckConvergence" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestFminboxBoundaryMinimum" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="5f5cb624-1bea-c6de-1576-e43e7ebb28f2">
+      <Execution id="925cf077-3c22-4483-861e-f585bea777bd" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestFminboxBoundaryMinimum" />
+    </UnitTest>
+    <UnitTest name="Optimization.FiniteDiffTests.TestCentralDiffGradient" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="538852b9-2812-9592-07ac-d357344aaf51">
+      <Execution id="c173fabc-90d5-4c80-b842-2004d4d2eab9" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FiniteDiffTests" name="TestCentralDiffGradient" />
+    </UnitTest>
+    <UnitTest name="Optimization.BFGSTests.TestBFGSBooth" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="78db0e75-2e13-7dcf-b2da-159186a38225">
+      <Execution id="08b73075-82d1-453d-9d04-255d44ccb8d9" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.BFGSTests" name="TestBFGSBooth" />
+    </UnitTest>
+    <UnitTest name="Optimization.LineSearchTests.TestWolfeLineSearch" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="3dc1c6a9-948f-257b-bb93-c730b15fa0dd">
+      <Execution id="286f55c7-cd7b-4ea7-8613-d1f16016fb7f" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LineSearchTests" name="TestWolfeLineSearch" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestAddScaled" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="ea90360e-0f75-a2eb-1bea-2d5d7ee78876">
+      <Execution id="ff0d93fa-feca-445a-b39d-46ebec540bc1" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestAddScaled" />
+    </UnitTest>
+    <UnitTest name="Optimization.ConjugateGradientTests.TestCGGoldsteinPrice" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="0b273486-79e0-7eb2-827e-2c01ba072671">
+      <Execution id="86d8de42-106e-4027-bd46-1f883909782a" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ConjugateGradientTests" name="TestCGGoldsteinPrice" />
+    </UnitTest>
+    <UnitTest name="Optimization.LBFGSTests.TestLBFGSBooth" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="75adb614-6904-e643-552a-626d2f72050d">
+      <Execution id="f58cc310-37c0-430b-815e-a15a4b664bfd" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LBFGSTests" name="TestLBFGSBooth" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestBarrierValueOutsideBounds" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="5f3c25f0-f5fa-b8b5-7c52-3203dd718420">
+      <Execution id="ce09a469-d328-45e5-8da7-5cf63097e206" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestBarrierValueOutsideBounds" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestProjectedGradientNorm" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="35ef4676-5c6e-3d2f-d33d-8d11a7d2473c">
+      <Execution id="54137537-f98b-4fbc-8de9-60dcca71bdb6" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestProjectedGradientNorm" />
+    </UnitTest>
+    <UnitTest name="Optimization.ResultTypesTests.TestDefaultOptions" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="0f30132d-09d0-93e9-b08e-5b90ebe0b5b8">
+      <Execution id="6c050f44-e75f-40c3-923e-01278d5fcb58" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ResultTypesTests" name="TestDefaultOptions" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestBarrierValueInfiniteBounds" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="741800da-1ae9-04e0-c3ec-7788d1619d4c">
+      <Execution id="f793b46d-f01e-4da1-9472-4d0262473351" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestBarrierValueInfiniteBounds" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestClone" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="41a9ae73-0a51-b533-178d-4c3e4c474266">
+      <Execution id="de983333-ddfb-4ae4-8097-a3d946a046d9" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestClone" />
+    </UnitTest>
+    <UnitTest name="Optimization.ConjugateGradientTests.TestCGSphere" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="cfee0d2d-f5ff-f40f-f93b-6c55950bb6e7">
+      <Execution id="cc44c30e-1bc0-4777-a96d-d9428085c2fd" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ConjugateGradientTests" name="TestCGSphere" />
+    </UnitTest>
+    <UnitTest name="Optimization.LBFGSTests.TestLBFGSSphere" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="9257bca3-f577-4749-6838-3ee2a4e17e31">
+      <Execution id="2d978ca3-9a37-435c-8e6c-865ef820a2c5" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LBFGSTests" name="TestLBFGSSphere" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestFminboxInteriorMinimum" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="a3c61f2b-606b-dd22-1d8d-f493b27ab11a">
+      <Execution id="8a3d2c23-9245-470c-b1b4-73c4b70e5c2f" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestFminboxInteriorMinimum" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestNegate" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="2cb66db3-4d9e-9f9b-2cf5-1ee843bba54d">
+      <Execution id="4cf5769f-ecc7-46ed-b1b2-38158a4f4e6e" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestNegate" />
+    </UnitTest>
+    <UnitTest name="Optimization.ConjugateGradientTests.TestCGRosenbrock" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="f60dbc82-583f-b7ef-4a2d-6e8cbdd0161e">
+      <Execution id="698f8814-7336-4522-981f-9cce45a647da" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ConjugateGradientTests" name="TestCGRosenbrock" />
+    </UnitTest>
+    <UnitTest name="Optimization.ResultTypesTests.TestIsConverged" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="cbed0510-f418-fc92-3ed6-4b8f5209b939">
+      <Execution id="f9538db3-a5f2-4b7a-a8ed-44a0bc45cd19" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ResultTypesTests" name="TestIsConverged" />
+    </UnitTest>
+    <UnitTest name="Optimization.ConjugateGradientTests.TestCGBooth" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="7a8b87a5-a639-49bc-3868-13b7d5aa2e93">
+      <Execution id="4fd8bfc6-1686-4e86-95fa-d8309fa0fede" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.ConjugateGradientTests" name="TestCGBooth" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestNorm" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="66e9415a-0f1c-b67b-b2ab-1c360dcd6e0d">
+      <Execution id="f6945cd1-7373-42b7-a8de-530658617204" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestNorm" />
+    </UnitTest>
+    <UnitTest name="Optimization.FiniteDiffTests.TestForwardDiffGradient" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="caf04bc5-8788-136d-e0e7-f2b9422ae928">
+      <Execution id="9607746c-42cc-4d62-865f-e353e6e2b627" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FiniteDiffTests" name="TestForwardDiffGradient" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestNormInf" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="05848de7-5cc7-5c9b-bc61-872c10a19a19">
+      <Execution id="310f3b4e-7fbc-4ed1-aa69-0394ff51d47d" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestNormInf" />
+    </UnitTest>
+    <UnitTest name="Optimization.FminboxTests.TestFminboxCGMethod" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="21044b4b-e500-e1aa-2f19-51f72f3f04f3">
+      <Execution id="02b0c1ae-c4f1-4e67-ac26-f013dbeb98c7" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FminboxTests" name="TestFminboxCGMethod" />
+    </UnitTest>
+    <UnitTest name="Optimization.FiniteHessianTests.TestHessianVectorProduct" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="61aa2cd3-23b6-ff60-936c-223afed82231">
+      <Execution id="c1a89a0e-be7d-48b2-928f-45fc067e13a0" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FiniteHessianTests" name="TestHessianVectorProduct" />
+    </UnitTest>
+    <UnitTest name="Optimization.FiniteHessianTests.TestFiniteDiffHessian" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="b3dfe0d1-4f30-66a8-1d4e-114da7afabf6">
+      <Execution id="b875befc-5c5b-45ce-ac3d-d312d6bb4f52" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.FiniteHessianTests" name="TestFiniteDiffHessian" />
+    </UnitTest>
+    <UnitTest name="Optimization.LineSearchTests.TestBacktrackingLineSearch" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="cc749d63-d62e-5a79-90de-6a44bddae343">
+      <Execution id="5f3bc443-1f7b-44f2-ace5-daa595f33e37" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.LineSearchTests" name="TestBacktrackingLineSearch" />
+    </UnitTest>
+    <UnitTest name="Optimization.BFGSTests.TestBFGSRosenbrock" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="9ac2a3dc-263a-cdc1-3430-96e4708d9baf">
+      <Execution id="533c72a1-2b43-4ff1-a8d0-56e3b5dcfd8b" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.BFGSTests" name="TestBFGSRosenbrock" />
+    </UnitTest>
+    <UnitTest name="Optimization.BFGSTests.TestBFGSGoldsteinPrice" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="78dfd07a-00d4-6900-524f-8fb95dd154b9">
+      <Execution id="8dac8879-2683-4f30-af87-d414fdcc6d9f" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.BFGSTests" name="TestBFGSGoldsteinPrice" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestAdd" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="ea8ab724-e5c3-f451-1884-8bd10d92c1fc">
+      <Execution id="c5d1040e-7845-4af8-b49e-fa8584daaae1" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestAdd" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestSub" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="47bdc2bd-17b0-8f78-5fc0-fc20cb70fce5">
+      <Execution id="fcbcade2-7c8a-4124-bcd5-864d2890ce16" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestSub" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestScale" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="f659cfa4-984b-a7ff-f1dc-291cd7f9412e">
+      <Execution id="3eac0245-8638-4c66-aeb9-a6557ca25f0d" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestScale" />
+    </UnitTest>
+    <UnitTest name="Optimization.VecOpsTests.TestDot" storage="/users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/optimization/bin/debug/net8.0/optimization.dll" id="6dd7232b-d9a1-e0b4-112a-332b3ea5fb42">
+      <Execution id="23499b3d-f3bb-467a-a0ac-9b859fcdcc49" />
+      <TestMethod codeBase="/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Optimization.VecOpsTests" name="TestDot" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="caf04bc5-8788-136d-e0e7-f2b9422ae928" executionId="9607746c-42cc-4d62-865f-e353e6e2b627" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a3c61f2b-606b-dd22-1d8d-f493b27ab11a" executionId="8a3d2c23-9245-470c-b1b4-73c4b70e5c2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f3c25f0-f5fa-b8b5-7c52-3203dd718420" executionId="ce09a469-d328-45e5-8da7-5cf63097e206" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b75641f9-59fe-05b9-5d82-ae85a56def13" executionId="f1227778-2a4f-48e6-b910-30e983f20baf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab5850ac-4634-e480-e4bf-b7357887af79" executionId="94cf06bd-71fe-444f-a0bc-9e7dbe15c7d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f659cfa4-984b-a7ff-f1dc-291cd7f9412e" executionId="3eac0245-8638-4c66-aeb9-a6557ca25f0d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfee0d2d-f5ff-f40f-f93b-6c55950bb6e7" executionId="cc44c30e-1bc0-4777-a96d-d9428085c2fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="21044b4b-e500-e1aa-2f19-51f72f3f04f3" executionId="02b0c1ae-c4f1-4e67-ac26-f013dbeb98c7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="78dfd07a-00d4-6900-524f-8fb95dd154b9" executionId="8dac8879-2683-4f30-af87-d414fdcc6d9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0cdb911-438a-26ba-46fb-04010bbc0a25" executionId="20afc9f4-a715-4777-a85a-659a766d2ae3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2cb66db3-4d9e-9f9b-2cf5-1ee843bba54d" executionId="4cf5769f-ecc7-46ed-b1b2-38158a4f4e6e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75adb614-6904-e643-552a-626d2f72050d" executionId="f58cc310-37c0-430b-815e-a15a4b664bfd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f30132d-09d0-93e9-b08e-5b90ebe0b5b8" executionId="6c050f44-e75f-40c3-923e-01278d5fcb58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea90360e-0f75-a2eb-1bea-2d5d7ee78876" executionId="ff0d93fa-feca-445a-b39d-46ebec540bc1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="61aa2cd3-23b6-ff60-936c-223afed82231" executionId="c1a89a0e-be7d-48b2-928f-45fc067e13a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41a9ae73-0a51-b533-178d-4c3e4c474266" executionId="de983333-ddfb-4ae4-8097-a3d946a046d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8ffe9a0-fc30-190f-ed09-b56a604c45c6" executionId="03e160ae-c0ee-43e2-ad80-dee78b1a105d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47bdc2bd-17b0-8f78-5fc0-fc20cb70fce5" executionId="fcbcade2-7c8a-4124-bcd5-864d2890ce16" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3dc1c6a9-948f-257b-bb93-c730b15fa0dd" executionId="286f55c7-cd7b-4ea7-8613-d1f16016fb7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc749d63-d62e-5a79-90de-6a44bddae343" executionId="5f3bc443-1f7b-44f2-ace5-daa595f33e37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="741800da-1ae9-04e0-c3ec-7788d1619d4c" executionId="f793b46d-f01e-4da1-9472-4d0262473351" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c3b9dd7-26d3-e4bc-2d2b-d3bf391a5a01" executionId="640e2504-0dc7-49bd-b61f-0ee05bf7a84e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b273486-79e0-7eb2-827e-2c01ba072671" executionId="86d8de42-106e-4027-bd46-1f883909782a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39552104-b40f-86fb-fa1d-b768df67783a" executionId="9f51dca8-7c56-4bae-b56a-5f39538645da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f71182df-3de1-8eeb-17ed-d5259fdc5ade" executionId="dac4faa9-74f6-4043-9fdf-c1ff0bf8bc0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="538852b9-2812-9592-07ac-d357344aaf51" executionId="c173fabc-90d5-4c80-b842-2004d4d2eab9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6dd7232b-d9a1-e0b4-112a-332b3ea5fb42" executionId="23499b3d-f3bb-467a-a0ac-9b859fcdcc49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="78db0e75-2e13-7dcf-b2da-159186a38225" executionId="08b73075-82d1-453d-9d04-255d44ccb8d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea8ab724-e5c3-f451-1884-8bd10d92c1fc" executionId="c5d1040e-7845-4af8-b49e-fa8584daaae1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f5cb624-1bea-c6de-1576-e43e7ebb28f2" executionId="925cf077-3c22-4483-861e-f585bea777bd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7f719264-819b-5090-922f-2d0e5d7cc35c" executionId="75986b32-7b49-42c2-b175-c139ee0969d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9257bca3-f577-4749-6838-3ee2a4e17e31" executionId="2d978ca3-9a37-435c-8e6c-865ef820a2c5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cbed0510-f418-fc92-3ed6-4b8f5209b939" executionId="f9538db3-a5f2-4b7a-a8ed-44a0bc45cd19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74b8ab7f-684f-9fb6-480a-aecc3b586b10" executionId="df88730d-208f-416c-8799-b31b1d319c2d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="35ef4676-5c6e-3d2f-d33d-8d11a7d2473c" executionId="54137537-f98b-4fbc-8de9-60dcca71bdb6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="66e9415a-0f1c-b67b-b2ab-1c360dcd6e0d" executionId="f6945cd1-7373-42b7-a8de-530658617204" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9ac2a3dc-263a-cdc1-3430-96e4708d9baf" executionId="533c72a1-2b43-4ff1-a8d0-56e3b5dcfd8b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3dfe0d1-4f30-66a8-1d4e-114da7afabf6" executionId="b875befc-5c5b-45ce-ac3d-d312d6bb4f52" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7a8b87a5-a639-49bc-3868-13b7d5aa2e93" executionId="4fd8bfc6-1686-4e86-95fa-d8309fa0fede" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="05848de7-5cc7-5c9b-bc61-872c10a19a19" executionId="310f3b4e-7fbc-4ed1-aa69-0394ff51d47d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f60dbc82-583f-b7ef-4a2d-6e8cbdd0161e" executionId="698f8814-7336-4522-981f-9cce45a647da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="41" executed="41" passed="41" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.6)
+[xUnit.net 00:00:00.03]   Discovering: Optimization
+[xUnit.net 00:00:00.05]   Discovered:  Optimization
+[xUnit.net 00:00:00.05]   Starting:    Optimization
+[xUnit.net 00:00:00.09]   Finished:    Optimization
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

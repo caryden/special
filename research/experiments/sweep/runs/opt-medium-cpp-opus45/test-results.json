@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 57, "tests_passed": 55, "pass_rate": 0.9649 },
+  "iterations": 2,
+  "test_count": 57,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "Opus 4.5 model. 2 first-pass failures due to incorrect Beale gradient test vectors in spec. Fixed by aligning with TypeScript reference test points. All 57 tests pass."
+}

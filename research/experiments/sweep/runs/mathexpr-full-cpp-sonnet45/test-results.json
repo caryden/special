@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 25, "tests_passed": 25, "pass_rate": 1.0 },
+  "iterations": 1,
+  "test_count": 25,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "All 25 test cases (156 assertions) pass on first attempt. doctest C++17."
+}

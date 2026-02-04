@@ -1,0 +1,9 @@
+{
+  "run_id": "opt-small-csharp-sonnet45",
+  "skill": "optimization",
+  "subgraph": "small",
+  "nodes": ["vec-ops", "result-types", "nelder-mead"],
+  "language": "csharp",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": false
+}

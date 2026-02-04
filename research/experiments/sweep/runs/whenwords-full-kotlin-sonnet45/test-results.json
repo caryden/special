@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 14, "tests_passed": 14, "pass_rate": 1.0 },
+  "iterations": 1,
+  "test_count": 14,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true,
+  "notes": "Only 14 test methods vs 122 in C#/C++ — agent consolidated many assertions into fewer test methods. All pass on first attempt."
+}

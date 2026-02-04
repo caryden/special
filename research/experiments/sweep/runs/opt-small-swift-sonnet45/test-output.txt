@@ -1,0 +1,62 @@
+Building for debugging...
+[0/3] Write sources
+[1/3] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Compiling OptimizationTests NelderMeadTests.swift
+[4/5] Emitting module OptimizationTests
+[4/6] Write Objects.LinkFileList
+[5/6] Linking OptimizationPackageTests
+Build complete! (0.94s)
+Test Suite 'All tests' started at 2026-02-03 15:44:55.965.
+Test Suite 'OptimizationPackageTests.xctest' started at 2026-02-03 15:44:55.966.
+Test Suite 'NelderMeadTests' started at 2026-02-03 15:44:55.966.
+Test Case '-[OptimizationTests.NelderMeadTests testBeale]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testBooth]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testFunctionCallsCounted]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testGoldsteinPrice]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testGradientCallsAlwaysZero]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testHimmelblau]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testRespectsMaxIterations]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testRosenbrock]' passed (0.001 seconds).
+Test Case '-[OptimizationTests.NelderMeadTests testSphere]' passed (0.001 seconds).
+Test Suite 'NelderMeadTests' passed at 2026-02-03 15:44:55.973.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.007 (0.007) seconds
+Test Suite 'ResultTypesTests' started at 2026-02-03 15:44:55.973.
+Test Case '-[OptimizationTests.ResultTypesTests testCheckConvergenceFunction]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testCheckConvergenceGradient]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testCheckConvergenceMaxIterations]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testCheckConvergenceNone]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testCheckConvergenceStep]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testConvergenceMessage]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testConvergencePriority]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testDefaultOptions]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testDefaultOptionsWithOverrides]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testIsConvergedFunction]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testIsConvergedGradient]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testIsConvergedLineSearchFailed]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testIsConvergedMaxIterations]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.ResultTypesTests testIsConvergedStep]' passed (0.000 seconds).
+Test Suite 'ResultTypesTests' passed at 2026-02-03 15:44:55.975.
+	 Executed 14 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
+Test Suite 'VecOpsTests' started at 2026-02-03 15:44:55.975.
+Test Case '-[OptimizationTests.VecOpsTests testAdd]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testAddDoesNotMutate]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testAddScaled]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testClone]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testDot]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testDotZero]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testNegate]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testNorm]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testNormInf]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testNormInfZero]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testNormZero]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testScale]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testScaleDoesNotMutate]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testScaleZero]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testSub]' passed (0.000 seconds).
+Test Case '-[OptimizationTests.VecOpsTests testZeros]' passed (0.000 seconds).
+Test Suite 'VecOpsTests' passed at 2026-02-03 15:44:55.977.
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
+Test Suite 'OptimizationPackageTests.xctest' passed at 2026-02-03 15:44:55.977.
+	 Executed 39 tests, with 0 failures (0 unexpected) in 0.009 (0.011) seconds
+Test Suite 'All tests' passed at 2026-02-03 15:44:55.977.
+	 Executed 39 tests, with 0 failures (0 unexpected) in 0.009 (0.012) seconds

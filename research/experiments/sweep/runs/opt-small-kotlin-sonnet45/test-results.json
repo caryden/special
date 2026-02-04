@@ -1,0 +1,12 @@
+{
+  "first_pass": {
+    "tests_total": 35,
+    "tests_passed": 32,
+    "pass_rate": 0.914
+  },
+  "iterations": 2,
+  "test_count": 35,
+  "external_dependencies": 0,
+  "hints_consulted": false,
+  "reference_consulted": true
+}
