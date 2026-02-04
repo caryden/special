@@ -47,6 +47,10 @@ skills/
     SKILL.md
     reference/              — TypeScript reference (5 nodes, 124 tests, 100% coverage)
     nodes/<node>/           — Per-node specs and translation hints
+  color-space/
+    SKILL.md
+    reference/              — TypeScript reference (16 nodes, 245 tests, 100% coverage)
+    nodes/<node>/           — Per-node specs and translation hints
   create-special-skill/
     SKILL.md                — Meta-skill: create a new special skill
     templates/              — SKILL-template.md, spec-template.md, to-lang-template.md
@@ -71,6 +75,7 @@ research/
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 | cron-expressions | 8 | 189 | 100% | — |
+| color-space | 16 | 245 | 100% | — |
 
 ## Canonical skill format
 
