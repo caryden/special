@@ -72,6 +72,29 @@ Each skill accepts nodes to generate and an optional target language:
 
 Default target language is TypeScript if not specified.
 
+## Acknowledgments
+
+All skill implementations are independently written. No code is derived from external
+libraries. The following are acknowledged for their contributions to the algorithms and
+validation methodology used in this project:
+
+**Algorithm sources:**
+- J.A. Nelder and R. Mead, "A Simplex Method for Function Minimization" (1965)
+- J. Nocedal and S.J. Wright, *Numerical Optimization*, Springer (2006)
+- S. Kirkpatrick, C.D. Gelatt, and M.P. Vecchi, "Optimization by Simulated Annealing" (1983)
+
+**Cross-validation references:**
+- [SciPy](https://scipy.org/) v1.17.0 (BSD-3-Clause) — test vectors verified against `scipy.optimize.minimize`
+- [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) v2.0.0 (MIT) — test vectors verified against Optim.jl solvers
+
+Cross-validation confirms behavioral equivalence: implementations produce the same
+results as established libraries on standard test functions, documented via `@provenance`
+annotations throughout the codebase.
+
 ## Origin
 
 Predicted and then validated by [Drew Breunig's "A Software Library With No Code"](https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html) (Jan 2026). Further informed by practical experience porting a subset of [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) to TypeScript using AI agent translation with test-driven verification.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
