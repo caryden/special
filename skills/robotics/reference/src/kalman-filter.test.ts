@@ -3,8 +3,8 @@ import {
   kalmanPredict,
   kalmanUpdate,
   kalmanStep,
-  KalmanUpdateResult,
 } from './kalman-filter.ts';
+import type { KalmanUpdateResult } from './kalman-filter.ts';
 import {
   Matrix,
   matMultiply,
@@ -13,9 +13,8 @@ import {
   matIdentity,
   matEqual,
 } from './mat-ops.ts';
+import type { GaussianState, LinearSystemModel } from './state-types.ts';
 import {
-  GaussianState,
-  LinearSystemModel,
   gaussianStateFromArrays,
   meanToArray,
   covarianceToArray,

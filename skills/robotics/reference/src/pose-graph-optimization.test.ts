@@ -1,13 +1,11 @@
 import { describe, test, expect } from 'bun:test';
 import { Matrix } from './mat-ops.ts';
 import {
-  Pose2D,
-  PoseEdge,
-  PoseGraphConfig,
   poseGraphOptimize,
   poseGraphError,
   poseGraphResiduals,
 } from './pose-graph-optimization.ts';
+import type { Pose2D, PoseEdge, PoseGraphConfig } from './pose-graph-optimization.ts';
 
 // ---------------------------------------------------------------------------
 // Helpers

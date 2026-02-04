@@ -12,7 +12,7 @@
  *       of Minimum Cost Paths" 1968 (A*), PythonRobotics (cross-validation)
  */
 
-import { Point2D, PlanResult } from './result-types.ts';
+import type { Point2D, PlanResult } from './result-types.ts';
 
 // ---------------------------------------------------------------------------
 // Types

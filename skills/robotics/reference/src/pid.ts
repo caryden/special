@@ -13,9 +13,8 @@
  * @provenance python-control v0.10.2 (API shape), DiscretePIDs.jl (anti-windup behavior)
  */
 
+import type { PIDConfig, PIDState } from './result-types.ts';
 import {
-  PIDConfig,
-  PIDState,
   defaultPIDConfig,
   initialPIDState,
 } from './result-types.ts';

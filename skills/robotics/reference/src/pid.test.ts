@@ -3,9 +3,8 @@ import { pidStep, pidSequence } from './pid.ts';
 import {
   defaultPIDConfig,
   initialPIDState,
-  PIDConfig,
-  PIDState,
 } from './result-types.ts';
+import type { PIDConfig, PIDState } from './result-types.ts';
 
 // ---------------------------------------------------------------------------
 // 1. Proportional only

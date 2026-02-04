@@ -8,18 +8,16 @@ import {
   matInverse,
   matTrace,
 } from './mat-ops.ts';
+import type { GaussianState } from './state-types.ts';
 import {
-  GaussianState,
   gaussianState,
   gaussianStateFromArrays,
   initialGaussianState,
   meanToArray,
   covarianceToArray,
 } from './state-types.ts';
+import type { EKFDynamicsModel, EKFMeasurementModel, EKFUpdateResult } from './ekf.ts';
 import {
-  EKFDynamicsModel,
-  EKFMeasurementModel,
-  EKFUpdateResult,
   ekfPredict,
   ekfUpdate,
   ekfStep,
@@ -27,8 +25,8 @@ import {
 import {
   kalmanPredict,
   kalmanUpdate,
-  LinearSystemModel,
 } from './kalman-filter.ts';
+import type { LinearSystemModel } from './state-types.ts';
 
 // ---------------------------------------------------------------------------
 // Test 1: Linear system — EKF should match KF

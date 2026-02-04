@@ -4,10 +4,10 @@ import {
   manhattanDistance,
   euclideanDistance,
   createGridGraph,
-  GridGraph,
-  SearchOptions,
 } from './graph-search.ts';
-import { point2d, Point2D } from './result-types.ts';
+import type { GridGraph, SearchOptions } from './graph-search.ts';
+import { point2d } from './result-types.ts';
+import type { Point2D } from './result-types.ts';
 
 // ---------------------------------------------------------------------------
 // Helpers

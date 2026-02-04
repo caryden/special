@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'bun:test';
 import { Matrix, matEqual } from './mat-ops.ts';
+import type { Quaternion } from './rotation-ops.ts';
 import {
-  Quaternion,
   quaternion,
   identityQuaternion,
   identityRotation,

@@ -21,11 +21,11 @@ import {
   matInverse,
 } from './mat-ops.ts';
 
-import {
+import type {
   GaussianState,
   LinearSystemModel,
-  gaussianState,
 } from './state-types.ts';
+import { gaussianState } from './state-types.ts';
 
 /** Result of a Kalman update step. */
 export interface KalmanUpdateResult {

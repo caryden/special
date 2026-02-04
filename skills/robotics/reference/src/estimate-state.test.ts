@@ -9,7 +9,7 @@ function make1DLinearModel(): LinearSystemModel {
   const H = new Matrix(1, 1, [1]);
   const Q = new Matrix(1, 1, [0.01]);
   const R = new Matrix(1, 1, [1]);
-  return { F, H, Q, R };
+  return { F, B: null, H, Q, R };
 }
 
 describe('estimateState — kalman', () => {

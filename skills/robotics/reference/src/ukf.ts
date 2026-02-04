@@ -26,10 +26,8 @@ import {
   matCholesky,
 } from './mat-ops.ts';
 
-import {
-  GaussianState,
-  gaussianState,
-} from './state-types.ts';
+import type { GaussianState } from './state-types.ts';
+import { gaussianState } from './state-types.ts';
 
 /** UKF tuning parameters for sigma point generation. */
 export interface UKFParams {
