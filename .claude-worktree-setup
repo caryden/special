@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install dependencies for reference implementations
+for ref_dir in skills/*/reference; do
+  if [[ -f "$ref_dir/package.json" ]]; then
+    echo "cw-setup: installing deps in $ref_dir"
+    (cd "$ref_dir" && bun install --frozen-lockfile 2>/dev/null || bun install)
+  fi
+done
