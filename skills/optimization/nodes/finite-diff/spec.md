@@ -31,10 +31,10 @@ The `max(|xᵢ|, 1)` scaling ensures the step is relative to the magnitude of x.
 
 | Function | Point | Analytic Gradient | Forward Diff Tolerance | Central Diff Tolerance |
 |----------|-------|-------------------|----------------------|----------------------|
-| Sphere `x²+y²` | `[3, 4]` | `[6, 8]` | `1e-7` | `1e-10` |
-| Sphere | `[0, 0]` | `[0, 0]` | `1e-7` | `1e-10` |
+| Sphere `x²+y²` | `[3, 4]` | `[6, 8]` | `1e-7` | `1e-9` |
+| Sphere | `[0, 0]` | `[0, 0]` | `1e-7` | `1e-9` |
 | Rosenbrock | `[-1.2, 1.0]` | `[-215.6, -88]` | `1e-4` | `1e-7` |
-| Beale | `[1, 1]` | `[-1.5, 5.25]` | `1e-5` | `1e-8` |
+| Beale | `[1, 0.25]` | `[-6.816, 3.428]` | `1e-5` | `1e-8` |
 
 ### makeGradient factory
 

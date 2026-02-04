@@ -34,11 +34,11 @@ skills/
     reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
       src/<node>.ts         — Implementation with @node structured comments
       src/<node>.test.ts    — Behavioral contract
-    nodes/<node>/
-      spec.md               — Behavioral spec with test vectors and provenance
-      to-python.md          — Python translation hints
-      to-rust.md            — Rust translation hints
-      to-go.md              — Go translation hints
+    nodes/
+      to-<lang>.md          — Skill-level translation hints (optional, per language)
+      <node>/
+        spec.md             — Behavioral spec with test vectors and provenance
+        to-<lang>.md        — Node-level translation hints (optional, per language)
   math-expression-parser/
     SKILL.md
     reference/              — TypeScript reference (6 nodes, 96 tests, 100% coverage)
@@ -77,7 +77,7 @@ Each skill uses **progressive disclosure** — four layers read in order:
 
 1. **SKILL.md** — Overview: node graph, subset extraction, design decisions, YAML frontmatter
 2. **nodes/\<name\>/spec.md** — Per-node behavioral spec with test vectors and `@provenance`
-3. **nodes/\<name\>/to-\<lang\>.md** — Language-specific translation hints
+3. **nodes/to-\<lang\>.md** and **nodes/\<name\>/to-\<lang\>.md** — Optional translation hints (skill-level and node-level)
 4. **reference/src/\<name\>.ts** — TypeScript source (consulted only if spec is ambiguous)
 
 Skills accept arguments: `<nodes> [--lang <language>]` (default language: TypeScript).

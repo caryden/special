@@ -70,7 +70,7 @@ If you already know what you need:
 | Go | `[]float64` slices for vectors. Idiomatic: return `(result, error)` pairs. No generics needed. |
 | TypeScript | Direct copy of reference — no translation needed unless you want a different module structure. |
 | Swift | No translation hints yet. Use spec.md + reference source. `[Double]` for vectors, `struct` for types. |
-| C# | No translation hints yet. Use spec.md + reference source. `double[]` for vectors, consider `Span<double>` for perf. |
+| C# | Translation hints available. `double[]` for vectors, xUnit for tests. **Critical:** `double.Epsilon` is NOT machine epsilon — see `finite-diff/to-csharp.md`. |
 | Other | The spec.md files are language-agnostic. Any language with floating-point arrays can implement them. |
 
 ## Node Recipes

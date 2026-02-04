@@ -32,11 +32,10 @@ skills/$ARGUMENTS/
       <node>.ts         ← one per node
       <node>.test.ts    ← one per node
   nodes/
+    to-<lang>.md        ← skill-level translation hints (optional, per language)
     <node>/
       spec.md           ← behavioral spec with test vectors
-      to-python.md      ← Python translation hints
-      to-rust.md        ← Rust translation hints
-      to-go.md          ← Go translation hints
+      to-<lang>.md      ← node-level translation hints (optional, per language)
 ```
 
 ### 2. Design the node graph
@@ -149,10 +148,34 @@ Include:
 - Function signatures
 - Test vectors with `@provenance` annotations
 
-### 7. Write translation hints
+### 7. Write translation hints (optional)
 
-For each node × target language, create `nodes/<node>/to-<lang>.md` using
-the template at `skills/create-special-skill/templates/to-lang-template.md`.
+Translation hints are an **optimization, not a requirement**. A well-built skill with
+clear specs and 100% test coverage is translatable to any language the model knows.
+Hints reduce iteration count by capturing friction encountered during real translations.
+
+**Do not write speculative hints.** Add them as translations actually happen and you
+discover patterns worth recording. There is no predefined set of languages — hints
+accumulate for whatever languages are actually targeted.
+
+#### Skill-level hints
+
+When patterns repeat across all nodes in a skill (common type mappings, error handling
+conventions, testing idioms), put them in `nodes/to-<lang>.md` — one file per language
+at the skill level. Use the template at
+`skills/create-special-skill/templates/to-lang-skill-level-template.md`.
+
+#### Node-level hints
+
+When a specific node has translation friction beyond what the skill-level hints cover,
+add `nodes/<node>/to-<lang>.md` for that node. Use the template at
+`skills/create-special-skill/templates/to-lang-template.md`.
+
+Node-level hints are for genuinely node-specific concerns — e.g., a recursive data
+structure needing `Box<>` in Rust, a specific numerical formula that needs care, or a
+circular buffer pattern that maps differently across languages.
+
+#### Hint content
 
 Keep hints concise — 3-8 bullet points covering:
 - Type mappings (TypeScript → target)
@@ -167,6 +190,6 @@ Keep hints concise — 3-8 bullet points covering:
 - [ ] Every exported function has `@node`, `@contract`, `@depends-on` (if deps exist)
 - [ ] No circular dependencies
 - [ ] SKILL.md node graph matches actual code
-- [ ] Each node has spec.md + at least to-python.md, to-rust.md, to-go.md
+- [ ] Each node has spec.md
 - [ ] HELP.md exists with decision tree and node recipes
 - [ ] Zero dead code in reference implementation

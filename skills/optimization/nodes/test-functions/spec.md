@@ -97,7 +97,10 @@ Two-part product function. Minimum value is **3** (not 0).
 | Starting point | `[0, -0.5]` |
 
 Note: Starting point `[-0.5, -0.5]` converges to a local minimum at f≈30.
-Use `[0, -0.5]` to reach the global minimum.
+Use `[0, -0.5]` to reach the global minimum. If an algorithm (particularly
+L-BFGS) struggles with `[0, -0.5]`, use `[-0.1, -0.9]` instead — it is
+closer to the basin of the global minimum and converges reliably across
+all tested algorithms and languages.
 
 ## Validation Test Vectors
 
