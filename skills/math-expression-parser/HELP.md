@@ -41,6 +41,19 @@ Dependencies are included automatically — requesting `evaluate` gives you all 
 | TypeScript | Direct copy of reference — no translation needed. |
 | Other | The spec.md files are language-agnostic. Any language with tagged unions or equivalent can implement them. |
 
+#### Relative Performance
+
+Approximate relative wall-clock time (1.0x = median language). Lower is faster.
+
+| Language   | evaluate |
+|------------|----------|
+| Go         | 0.4x     |
+| TypeScript | 0.7x     |
+| Rust       | 1.0x     |
+| Python     | 17.5x    |
+
+*Measured 2026-02-03. Workloads defined in benchmark.md.*
+
 ## Node Recipes
 
 Pre-computed dependency sets for common subsets. Copy-paste these directly.
