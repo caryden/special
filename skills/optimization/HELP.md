@@ -73,6 +73,20 @@ If you already know what you need:
 | C# | Translation hints available. `double[]` for vectors, xUnit for tests. **Critical:** `double.Epsilon` is NOT machine epsilon — see `finite-diff/to-csharp.md`. |
 | Other | The spec.md files are language-agnostic. Any language with floating-point arrays can implement them. |
 
+#### Relative Performance
+
+Approximate relative wall-clock time (1.0x = median language). Lower is faster.
+Only nodes with multi-language translations are shown.
+
+| Language   | nelder-mead |
+|------------|-------------|
+| Go         | 0.7x        |
+| Rust       | 1.0x        |
+| TypeScript | 1.0x        |
+| Python     | 18.4x       |
+
+*Measured 2026-02-03. Workloads defined in benchmark.md.*
+
 ## Node Recipes
 
 Pre-computed dependency sets for common subsets. Copy-paste these directly.
