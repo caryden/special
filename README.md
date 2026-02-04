@@ -20,7 +20,9 @@ A Claude Code plugin that demonstrates the thesis. Each skill is a self-containe
 
 | Skill | Domain | Nodes | Tests | Coverage |
 |-------|--------|-------|-------|----------|
+| [robotics](skills/robotics/) | Kinematics, IK, state estimation, PID tuning, path planning, drivetrains, LQR, MPC, SLAM | 39 | 936 | 100% |
 | [optimization](skills/optimization/) | Numerical optimization (Nelder-Mead, BFGS, L-BFGS, CG, Newton, SA, and more) | 21 | 539 | 100% |
+| [cron-expressions](skills/cron-expressions/) | Cron expression parsing, matching, scheduling | 8 | 189 | 100% |
 | [math-expression-parser](skills/math-expression-parser/) | Math expression tokenizer, parser, evaluator | 6 | 96 | 100% |
 | [when-words](skills/when-words/) | Human-friendly date/time formatting | 5 | 124 | 100% |
 
@@ -60,17 +62,61 @@ Key findings reframed as evidence for the thesis:
 
 See [research/](research/) for the full hypothesis, evaluation methodology, and experiment results.
 
-## Usage
+## Getting Started
 
-Each skill accepts nodes to generate and an optional target language:
+### 1. Install the plugin
+
+Add the Special plugin to Claude Code:
+
+```bash
+claude mcp add-plugin special --url https://github.com/caryden/special
+```
+
+This makes all skills available as slash commands in your Claude Code sessions.
+
+### 2. Use a skill
+
+Each skill is a slash command. Pass the node names you want and an optional `--lang` flag:
 
 ```
 /optimization nelder-mead --lang python
-/math-expression-parser all --lang rust
-/when-words time-ago duration --lang go
+/robotics kalman-filter --lang rust
+/cron-expressions all --lang go
+/math-expression-parser evaluate --lang cpp
+/when-words time-ago duration --lang swift
 ```
 
-Default target language is TypeScript if not specified.
+Default target language is TypeScript if `--lang` is omitted.
+
+Dependencies are resolved automatically — request only the nodes you need and
+the skill includes everything they depend on. For example, `/robotics jacobian-ik --lang python`
+generates 8 nodes (the full DH kinematics chain) without you listing each one.
+
+### 3. Get help choosing nodes
+
+Not sure which nodes you need? Every skill has a built-in help guide:
+
+```
+/optimization help
+/robotics help
+/cron-expressions help
+/math-expression-parser help
+/when-words help
+```
+
+The help command walks you through an interactive decision tree — it asks
+about your use case, recommends specific nodes, and suggests a target language.
+For example, `/robotics help` covers common profiles (FRC, FTC, MATE ROV,
+undergrad controls, hobbyist arm) and produces a ready-to-use recipe.
+
+### 4. What you get
+
+The skill generates native source code and tests in your target language:
+
+- **Zero external dependencies** — all code is self-contained
+- **Only the subset you asked for** — no bloat from unused algorithms
+- **Tests included** — translated from the reference test suite with provenance annotations
+- **Verified** — each node's tests run after generation to confirm correctness
 
 ## Acknowledgments
 
@@ -82,10 +128,21 @@ validation methodology used in this project:
 - J.A. Nelder and R. Mead, "A Simplex Method for Function Minimization" (1965)
 - J. Nocedal and S.J. Wright, *Numerical Optimization*, Springer (2006)
 - S. Kirkpatrick, C.D. Gelatt, and M.P. Vecchi, "Optimization by Simulated Annealing" (1983)
+- R.E. Kalman, "A New Approach to Linear Filtering and Prediction Problems" (1960)
+- P. Corke, *Robotics, Vision and Control*, Springer (2023)
+- K.J. Astrom and T. Hagglund, *Advanced PID Control*, ISA (2006)
+- S.M. LaValle, *Planning Algorithms*, Cambridge University Press (2006)
+- S. Koenig and M. Likhachev, "D* Lite" (2002)
 
 **Cross-validation references:**
 - [SciPy](https://scipy.org/) v1.17.0 (BSD-3-Clause) — test vectors verified against `scipy.optimize.minimize`
 - [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) v2.0.0 (MIT) — test vectors verified against Optim.jl solvers
+- [FilterPy](https://github.com/rlabbe/filterpy) v1.4.4 — Kalman, EKF, UKF test vectors
+- [Robotics Toolbox](https://github.com/petercorke/robotics-toolbox-python) v1.1.0 (Corke) — kinematics, DH, Jacobian
+- [python-control](https://github.com/python-control/python-control) v0.10.2 — PID, LQR
+- [PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics) — path planning, drivetrains
+- [OMPL](https://ompl.kavrakilab.org/) v1.7.0 — RRT, RRT*, PRM
+- [GTSAM](https://gtsam.org/) 4.2 — pose graph optimization
 
 Cross-validation confirms behavioral equivalence: implementations produce the same
 results as established libraries on standard test functions, documented via `@provenance`
