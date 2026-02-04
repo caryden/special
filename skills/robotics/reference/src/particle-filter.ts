@@ -11,7 +11,7 @@
  *   3. Resample: systematic resampling when effective sample size drops
  *
  * @node particle-filter
- * @depends-on result-types
+ * @depends-on result-types, rrt
  * @contract particle-filter.test.ts
  * @hint seed: Accept optional RNG seed for reproducible tests
  * @hint resampling: Systematic resampling (low variance) when N_eff < threshold

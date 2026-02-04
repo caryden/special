@@ -1,8 +1,6 @@
 # particle-filter — Spec
 
-Depends on: `result-types`
-
-> Also uses `createRNG` from `rrt` for seeded randomness.
+Depends on: `result-types`, `rrt`
 
 ## Purpose
 
