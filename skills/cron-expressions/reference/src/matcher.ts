@@ -86,14 +86,14 @@ function matchesEntry(value: number, entry: CronFieldEntry): boolean {
   // entry.kind === "step" — only remaining kind that reaches matchesEntry.
   // Special kinds (last, last-weekday, nth-weekday, nearest-weekday) are
   // handled by matchesDayOfMonth / matchesDayOfWeek before this function.
-  const stepEntry = entry as { kind: "step"; range: CronFieldEntry; step: number };
-  const base = stepEntry.range as { kind: "range"; start: number; end: number };
+  const step = entry as { kind: "step"; range: CronFieldEntry; step: number };
+  const base = step.range as { kind: "range"; start: number; end: number };
   if (base.start <= base.end) {
     return value >= base.start && value <= base.end &&
-      (value - base.start) % entry.step === 0;
+      (value - base.start) % step.step === 0;
   }
   // Wrap-around step (e.g., day-of-week FRI-MON/2)
-  return value >= base.start && (value - base.start) % entry.step === 0;
+  return value >= base.start && (value - base.start) % step.step === 0;
 }
 
 function matchesDayOfMonth(

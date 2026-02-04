@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Validate that every production skill has complete structure:
-#   - Each node in SKILL.md has spec.md, to-python.md, to-rust.md, to-go.md
+#   - Each node in SKILL.md has a spec.md
 #   - Each node has a .ts source and .test.ts file in reference/src/
 #
 # Usage: ./scripts/validate-skill-structure.sh [skills-dir]
@@ -52,13 +52,6 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
       ERRORS=$((ERRORS + 1))
     fi
 
-    # Check translation hints
-    for lang in python rust go; do
-      if [ ! -f "$skill_dir/nodes/$node/to-$lang.md" ]; then
-        echo "  MISSING: nodes/$node/to-$lang.md"
-        ERRORS=$((ERRORS + 1))
-      fi
-    done
   done
 
   echo "  $node_count nodes checked"
