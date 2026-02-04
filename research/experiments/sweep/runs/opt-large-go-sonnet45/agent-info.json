@@ -1,0 +1,9 @@
+{
+  "run_id": "opt-large-go-sonnet45",
+  "skill": "optimization",
+  "subgraph": "large",
+  "nodes": ["vec-ops", "result-types", "line-search", "finite-diff", "finite-hessian", "l-bfgs", "fminbox", "bfgs", "conjugate-gradient"],
+  "language": "go",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": true
+}

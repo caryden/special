@@ -1,0 +1,61 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Optimization -> /Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll
+Test run for /Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll (.NETCoreApp,Version=v8.0)
+Microsoft (R) Test Execution Command Line Tool Version 17.10.0 (arm64)
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+/Users/caryden/github/special/research/experiments/sweep/runs/opt-large-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.6)
+[xUnit.net 00:00:00.04]   Discovering: Optimization
+[xUnit.net 00:00:00.06]   Discovered:  Optimization
+[xUnit.net 00:00:00.06]   Starting:    Optimization
+  Passed Optimization.ResultTypesTests.TestIsConverged [2 ms]
+  Passed Optimization.FiniteHessianTests.TestHessianVectorProduct [4 ms]
+  Passed Optimization.FminboxTests.TestProjectedGradientNorm [2 ms]
+  Passed Optimization.FminboxTests.TestBarrierValue [< 1 ms]
+  Passed Optimization.ResultTypesTests.TestCheckConvergence [< 1 ms]
+  Passed Optimization.FiniteDiffTests.TestForwardDiffGradient [5 ms]
+  Passed Optimization.FiniteHessianTests.TestFiniteDiffHessian [< 1 ms]
+  Passed Optimization.HagerZhangTests.TestHagerZhangLineSearch [5 ms]
+  Passed Optimization.LineSearchTests.TestWolfeLineSearch [5 ms]
+  Passed Optimization.FiniteDiffTests.TestMakeGradient [< 1 ms]
+  Passed Optimization.BFGSTests.TestBFGSBooth [5 ms]
+  Passed Optimization.LBFGSTests.TestLBFGSBooth [5 ms]
+  Passed Optimization.FiniteDiffTests.TestCentralDiffGradient [< 1 ms]
+  Passed Optimization.ConjugateGradientTests.TestCGGoldsteinPrice [6 ms]
+  Passed Optimization.BFGSTests.TestBFGSGoldsteinPrice [< 1 ms]
+  Passed Optimization.LineSearchTests.TestBacktrackingLineSearch [< 1 ms]
+  Passed Optimization.ConjugateGradientTests.TestCGSphere [< 1 ms]
+  Passed Optimization.BFGSTests.TestBFGSSphere [< 1 ms]
+  Passed Optimization.LBFGSTests.TestLBFGSRosenbrock [< 1 ms]
+  Passed Optimization.BFGSTests.TestBFGSRosenbrock [< 1 ms]
+  Passed Optimization.LBFGSTests.TestLBFGSSphere [< 1 ms]
+  Passed Optimization.ConjugateGradientTests.TestCGRosenbrock [< 1 ms]
+  Passed Optimization.LBFGSTests.TestLBFGSGoldsteinPrice [< 1 ms]
+  Passed Optimization.ConjugateGradientTests.TestCGBooth [< 1 ms]
+  Passed Optimization.FminboxTests.TestFminboxBFGSMethod [1 ms]
+  Passed Optimization.FminboxTests.TestFminboxInteriorMinimum [< 1 ms]
+  Passed Optimization.FminboxTests.TestBarrierValueInfiniteBounds [< 1 ms]
+  Passed Optimization.FminboxTests.TestFminboxCGMethod [< 1 ms]
+  Passed Optimization.FminboxTests.TestBarrierValueOutsideBounds [< 1 ms]
+  Passed Optimization.VecOpsTests.TestZeros [7 ms]
+  Passed Optimization.VecOpsTests.TestDot [< 1 ms]
+  Passed Optimization.FminboxTests.TestFminboxBoundaryMinimum [< 1 ms]
+  Passed Optimization.VecOpsTests.TestAddScaled [< 1 ms]
+  Passed Optimization.VecOpsTests.TestAdd [< 1 ms]
+  Passed Optimization.VecOpsTests.TestSub [< 1 ms]
+  Passed Optimization.VecOpsTests.TestNorm [< 1 ms]
+  Passed Optimization.VecOpsTests.TestNegate [< 1 ms]
+  Passed Optimization.ResultTypesTests.TestDefaultOptions [2 ms]
+[xUnit.net 00:00:00.10]   Finished:    Optimization
+  Passed Optimization.VecOpsTests.TestClone [< 1 ms]
+  Passed Optimization.VecOpsTests.TestNormInf [< 1 ms]
+  Passed Optimization.VecOpsTests.TestScale [< 1 ms]
+
+Test Run Successful.
+Total tests: 41
+     Passed: 41
+ Total time: 0.3784 Seconds

@@ -1,0 +1,6 @@
+[package]
+name = "opt-small-rust-sonnet45"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]

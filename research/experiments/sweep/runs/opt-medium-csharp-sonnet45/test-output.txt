@@ -1,0 +1,124 @@
+Build started 2/3/2026 4:07:01 PM.
+     1>Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+       Restore:
+         X.509 certificate chain validation will use the fallback certificate bundle at '/usr/local/share/dotnet/sdk/8.0.302/trustedroots/codesignctl.pem'.
+         X.509 certificate chain validation will use the fallback certificate bundle at '/usr/local/share/dotnet/sdk/8.0.302/trustedroots/timestampctl.pem'.
+         Assets file has not changed. Skipping assets file writing. Path: /Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/obj/project.assets.json
+         Restored /Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj (in 31 ms).
+         
+         NuGet Config files used:
+             /Users/caryden/.nuget/NuGet/NuGet.Config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+         All projects are up-to-date for restore.
+     1>Done Building Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" (Restore target(s)).
+   1:7>Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" on node 1 (VSTest target(s)).
+     1>BuildProject:
+         Build started, please wait...
+   1:7>Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" (1:7) is building "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" (1:8) on node 1 (default targets).
+     1>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj/Debug/net8.0/Optimization.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Optimization -> /Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll
+     1>Done Building Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" (default targets).
+     1>BuildProject:
+         Build completed.
+         
+Test run for /Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/bin/Debug/net8.0/Optimization.dll (.NETCoreApp,Version=v8.0)
+Microsoft (R) Test Execution Command Line Tool Version 17.10.0 (arm64)
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.6)
+[xUnit.net 00:00:00.04]   Discovering: Optimization
+[xUnit.net 00:00:00.06]   Discovered:  Optimization
+[xUnit.net 00:00:00.06]   Starting:    Optimization
+  Passed Optimization.Tests.FiniteDiffTests.ForwardDiffGradient_SphereAtThreeFour_MatchesAnalytic [2 ms]
+  Passed Optimization.Tests.VecOpsTests.Dot_ZeroVectors_ReturnsZero [3 ms]
+  Passed Optimization.Tests.LineSearchTests.BacktrackingLineSearch_SphereFromTenTen_FindsCorrectStep [3 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_ImpossibleTolerance_ReturnsMaxIterations [3 ms]
+  Passed Optimization.Tests.LineSearchTests.WolfeLineSearch_SphereFromTenTen_SatisfiesBothConditions [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.DefaultOptions_NoOverrides_ReturnsDefaults [4 ms]
+  Passed Optimization.Tests.LineSearchTests.WolfeLineSearch_ReturnsGradient [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_FunctionChangeBelowTolerance_ReturnsFunction [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_HimmelblauFromOrigin_Converges [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.DefaultOptions_WithOverrides_MergesCorrectly [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_RosenbrockFromMinusOneTwoOne_Converges [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.CentralDiffGradient_Beale_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.LineSearchTests.WolfeLineSearch_RosenbrockFromMinusOneTwoOne_Succeeds [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_StepBelowTolerance_ReturnsStep [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.ForwardDiffGradient_Rosenbrock_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.LineSearchTests.BacktrackingLineSearch_AscendingDirection_Fails [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.CentralDiffGradient_Rosenbrock_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.ConvergenceMessage_AllReasons_ReturnsCorrectMessages [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_RosenbrockWithFiniteDiff_NearlyConverges [< 1 ms]
+  Passed Optimization.Tests.LineSearchTests.BacktrackingLineSearch_RosenbrockFromMinusOneTwoOne_Succeeds [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_MaxIterationsReached_ReturnsMaxIterations [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.IsConverged_GradientReason_ReturnsTrue [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_NoCriterionMet_ReturnsNull [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.MakeGradient_DefaultMethod_MatchesForwardDiff [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_GradientBelowTolerance_ReturnsGradient [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.ForwardDiffGradient_SphereAtOrigin_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_PriorityTest_GradientTakesPrecedence [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.IsConverged_LineSearchFailedReason_ReturnsFalse [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.ForwardDiffGradient_Beale_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.IsConverged_StepReason_ReturnsTrue [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_SphereWithFiniteDiff_Converges [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.CheckConvergence_PriorityTest_StepTakesPrecedenceOverFunction [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.CentralDiffGradient_SphereAtThreeFour_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.IsConverged_FunctionReason_ReturnsTrue [< 1 ms]
+  Passed Optimization.Tests.ResultTypesTests.IsConverged_MaxIterationsReason_ReturnsFalse [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.MakeGradient_CentralMethod_MatchesCentralDiff [< 1 ms]
+  Passed Optimization.Tests.FiniteDiffTests.CentralDiffGradient_SphereAtOrigin_MatchesAnalytic [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_GoldsteinPriceFromMinusOneMinusNine_Converges [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_MaxIterations_RespectsLimit [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_AlreadyAtMinimum_ConvergesImmediately [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_BoothFromOrigin_ConvergesToMinimum [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_SphereFromFiveFive_ConvergesToMinimum [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_BealeFromOrigin_Converges [< 1 ms]
+  Passed Optimization.Tests.BfgsTests.Bfgs_ReturnsGradientAtSolution [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Sub_TwoVectors_ReturnsDifference [4 ms]
+  Passed Optimization.Tests.VecOpsTests.Norm_ThreeFourVector_ReturnsFive [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.NormInf_ZeroVector_ReturnsZero [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Negate_Vector_ReturnsNegated [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Clone_ModifyingClone_DoesNotAffectOriginal [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Zeros_CreateThreeElementVector_ReturnsZeroVector [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Dot_StandardVectors_ReturnsCorrectValue [< 1 ms]
+[xUnit.net 00:00:00.12]   Finished:    Optimization
+  Passed Optimization.Tests.VecOpsTests.Add_DoesNotMutateInputs [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.AddScaled_FusedOperation_ReturnsCorrectResult [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Norm_ZeroVector_ReturnsZero [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Add_TwoVectors_ReturnsSum [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.NormInf_MixedVector_ReturnsMaxAbsValue [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Scale_DoesNotMutateInput [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Scale_ByThree_ReturnsScaledVector [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Scale_ByZero_ReturnsZeroVector [< 1 ms]
+  Passed Optimization.Tests.VecOpsTests.Clone_Vector_ReturnsDeepCopy [< 1 ms]
+
+Test Run Successful.
+Total tests: 60
+     Passed: 60
+ Total time: 0.4376 Seconds
+     1>Done Building Project "/Users/caryden/github/special/research/experiments/sweep/runs/opt-medium-csharp-sonnet45/Optimization/Optimization.csproj" (VSTest target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.42

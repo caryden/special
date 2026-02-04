@@ -1,0 +1,168 @@
+=== RUN   TestBFGSSphere
+--- PASS: TestBFGSSphere (0.00s)
+=== RUN   TestBFGSBooth
+--- PASS: TestBFGSBooth (0.00s)
+=== RUN   TestBFGSRosenbrock
+--- PASS: TestBFGSRosenbrock (0.00s)
+=== RUN   TestBFGSBeale
+--- PASS: TestBFGSBeale (0.00s)
+=== RUN   TestBFGSGoldsteinPrice
+--- PASS: TestBFGSGoldsteinPrice (0.00s)
+=== RUN   TestBFGSAlreadyAtMinimum
+--- PASS: TestBFGSAlreadyAtMinimum (0.00s)
+=== RUN   TestBFGSMaxIterations
+--- PASS: TestBFGSMaxIterations (0.00s)
+=== RUN   TestBFGSWithFiniteDiff
+--- PASS: TestBFGSWithFiniteDiff (0.00s)
+=== RUN   TestConjugateGradientSphere
+--- PASS: TestConjugateGradientSphere (0.00s)
+=== RUN   TestConjugateGradientBooth
+--- PASS: TestConjugateGradientBooth (0.00s)
+=== RUN   TestConjugateGradientRosenbrock
+--- PASS: TestConjugateGradientRosenbrock (0.00s)
+=== RUN   TestConjugateGradientBeale
+--- PASS: TestConjugateGradientBeale (0.00s)
+=== RUN   TestConjugateGradientHimmelblau
+--- PASS: TestConjugateGradientHimmelblau (0.00s)
+=== RUN   TestConjugateGradientGoldsteinPrice
+--- PASS: TestConjugateGradientGoldsteinPrice (0.00s)
+=== RUN   TestConjugateGradientWithFiniteDiff
+--- PASS: TestConjugateGradientWithFiniteDiff (0.00s)
+=== RUN   TestConjugateGradientAlreadyAtMinimum
+--- PASS: TestConjugateGradientAlreadyAtMinimum (0.00s)
+=== RUN   TestConjugateGradient1D
+--- PASS: TestConjugateGradient1D (0.00s)
+=== RUN   TestConjugateGradient5D
+--- PASS: TestConjugateGradient5D (0.00s)
+=== RUN   TestConjugateGradientMaxIterations
+--- PASS: TestConjugateGradientMaxIterations (0.00s)
+=== RUN   TestForwardDiffGradientSphere
+--- PASS: TestForwardDiffGradientSphere (0.00s)
+=== RUN   TestCentralDiffGradientSphere
+--- PASS: TestCentralDiffGradientSphere (0.00s)
+=== RUN   TestForwardDiffGradientRosenbrock
+--- PASS: TestForwardDiffGradientRosenbrock (0.00s)
+=== RUN   TestCentralDiffGradientRosenbrock
+--- PASS: TestCentralDiffGradientRosenbrock (0.00s)
+=== RUN   TestForwardDiffGradientBeale
+--- PASS: TestForwardDiffGradientBeale (0.00s)
+=== RUN   TestCentralDiffGradientBeale
+--- PASS: TestCentralDiffGradientBeale (0.00s)
+=== RUN   TestMakeGradient
+--- PASS: TestMakeGradient (0.00s)
+=== RUN   TestFiniteDiffHessianSphere
+--- PASS: TestFiniteDiffHessianSphere (0.00s)
+=== RUN   TestFiniteDiffHessianBooth
+--- PASS: TestFiniteDiffHessianBooth (0.00s)
+=== RUN   TestFiniteDiffHessianRosenbrock
+--- PASS: TestFiniteDiffHessianRosenbrock (0.00s)
+=== RUN   TestHessianVectorProductSphere
+--- PASS: TestHessianVectorProductSphere (0.00s)
+=== RUN   TestHessianVectorProductBooth
+--- PASS: TestHessianVectorProductBooth (0.00s)
+=== RUN   TestHessianVectorProductRosenbrock
+--- PASS: TestHessianVectorProductRosenbrock (0.00s)
+=== RUN   TestFminboxInteriorMinimumSphere
+--- PASS: TestFminboxInteriorMinimumSphere (0.00s)
+=== RUN   TestFminboxBoundaryMinimum
+    fminbox_test.go:45: Expected convergence, got Maximum outer iterations reached
+--- FAIL: TestFminboxBoundaryMinimum (0.00s)
+=== RUN   TestFminboxBoundConstrainedRosenbrock
+    fminbox_test.go:62: Expected convergence, got Maximum outer iterations reached
+--- FAIL: TestFminboxBoundConstrainedRosenbrock (0.00s)
+=== RUN   TestFminboxInvalidBounds
+--- PASS: TestFminboxInvalidBounds (0.00s)
+=== RUN   TestFminboxBarrierValue
+--- PASS: TestFminboxBarrierValue (0.00s)
+=== RUN   TestFminboxProjectedGradientNorm
+--- PASS: TestFminboxProjectedGradientNorm (0.00s)
+=== RUN   TestFminboxMethodBFGS
+--- PASS: TestFminboxMethodBFGS (0.00s)
+=== RUN   TestFminboxMethodConjugateGradient
+--- PASS: TestFminboxMethodConjugateGradient (0.00s)
+=== RUN   TestHagerZhangLineSearchSphereExact
+--- PASS: TestHagerZhangLineSearchSphereExact (0.00s)
+=== RUN   TestHagerZhangLineSearchSphere
+--- PASS: TestHagerZhangLineSearchSphere (0.00s)
+=== RUN   TestHagerZhangLineSearchBooth
+--- PASS: TestHagerZhangLineSearchBooth (0.00s)
+=== RUN   TestHagerZhangLineSearchRosenbrock
+--- PASS: TestHagerZhangLineSearchRosenbrock (0.00s)
+=== RUN   TestHagerZhangLineSearchBeale
+--- PASS: TestHagerZhangLineSearchBeale (0.00s)
+=== RUN   TestHagerZhangLineSearchHimmelblau
+--- PASS: TestHagerZhangLineSearchHimmelblau (0.00s)
+=== RUN   TestHagerZhangLineSearchGoldsteinPrice
+--- PASS: TestHagerZhangLineSearchGoldsteinPrice (0.00s)
+=== RUN   TestHagerZhangFailureMaxBracket
+--- PASS: TestHagerZhangFailureMaxBracket (0.00s)
+=== RUN   TestHagerZhangFailureMaxSecant
+--- PASS: TestHagerZhangFailureMaxSecant (0.00s)
+=== RUN   TestLBFGSSphere
+--- PASS: TestLBFGSSphere (0.00s)
+=== RUN   TestLBFGSBooth
+--- PASS: TestLBFGSBooth (0.00s)
+=== RUN   TestLBFGSRosenbrock
+--- PASS: TestLBFGSRosenbrock (0.00s)
+=== RUN   TestLBFGSBeale
+--- PASS: TestLBFGSBeale (0.00s)
+=== RUN   TestLBFGSHimmelblau
+--- PASS: TestLBFGSHimmelblau (0.00s)
+=== RUN   TestLBFGSGoldsteinPrice
+    l_bfgs_test.go:73: Expected convergence, got Failed to converge: line search could not find acceptable step
+--- FAIL: TestLBFGSGoldsteinPrice (0.00s)
+=== RUN   TestLBFGSCustomMemory
+--- PASS: TestLBFGSCustomMemory (0.00s)
+=== RUN   TestLBFGSAlreadyAtMinimum
+--- PASS: TestLBFGSAlreadyAtMinimum (0.00s)
+=== RUN   TestLBFGSMaxIterations
+--- PASS: TestLBFGSMaxIterations (0.00s)
+=== RUN   TestLBFGSWithFiniteDiff
+--- PASS: TestLBFGSWithFiniteDiff (0.00s)
+=== RUN   TestBacktrackingLineSearchSphere
+--- PASS: TestBacktrackingLineSearchSphere (0.00s)
+=== RUN   TestBacktrackingLineSearchRosenbrock
+--- PASS: TestBacktrackingLineSearchRosenbrock (0.00s)
+=== RUN   TestBacktrackingLineSearchAscendingDirection
+--- PASS: TestBacktrackingLineSearchAscendingDirection (0.00s)
+=== RUN   TestWolfeLineSearchSphere
+--- PASS: TestWolfeLineSearchSphere (0.00s)
+=== RUN   TestWolfeLineSearchRosenbrock
+--- PASS: TestWolfeLineSearchRosenbrock (0.00s)
+=== RUN   TestDefaultOptions
+--- PASS: TestDefaultOptions (0.00s)
+=== RUN   TestDefaultOptionsWithOverrides
+--- PASS: TestDefaultOptionsWithOverrides (0.00s)
+=== RUN   TestCheckConvergence
+--- PASS: TestCheckConvergence (0.00s)
+=== RUN   TestPriority
+--- PASS: TestPriority (0.00s)
+=== RUN   TestIsConverged
+--- PASS: TestIsConverged (0.00s)
+=== RUN   TestConvergenceMessage
+--- PASS: TestConvergenceMessage (0.00s)
+=== RUN   TestDot
+--- PASS: TestDot (0.00s)
+=== RUN   TestNorm
+--- PASS: TestNorm (0.00s)
+=== RUN   TestNormInf
+--- PASS: TestNormInf (0.00s)
+=== RUN   TestScale
+--- PASS: TestScale (0.00s)
+=== RUN   TestAdd
+--- PASS: TestAdd (0.00s)
+=== RUN   TestSub
+--- PASS: TestSub (0.00s)
+=== RUN   TestNegate
+--- PASS: TestNegate (0.00s)
+=== RUN   TestClone
+--- PASS: TestClone (0.00s)
+=== RUN   TestZeros
+--- PASS: TestZeros (0.00s)
+=== RUN   TestAddScaled
+--- PASS: TestAddScaled (0.00s)
+=== RUN   TestPurity
+--- PASS: TestPurity (0.00s)
+FAIL
+FAIL	optimization	0.215s
+FAIL

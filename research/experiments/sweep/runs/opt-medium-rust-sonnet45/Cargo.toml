@@ -1,0 +1,6 @@
+[package]
+name = "opt-medium-rust-sonnet45"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]

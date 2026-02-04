@@ -1,0 +1,46 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/caryden/github/special/research/experiments/sweep/runs/opt-small-python-sonnet45/src
+collecting ... collected 38 items
+
+test_nelder_mead.py::test_sphere PASSED                                  [  2%]
+test_nelder_mead.py::test_booth PASSED                                   [  5%]
+test_nelder_mead.py::test_beale PASSED                                   [  7%]
+test_nelder_mead.py::test_rosenbrock PASSED                              [ 10%]
+test_nelder_mead.py::test_himmelblau PASSED                              [ 13%]
+test_nelder_mead.py::test_sphere_cross_validation PASSED                 [ 15%]
+test_nelder_mead.py::test_booth_cross_validation PASSED                  [ 18%]
+test_nelder_mead.py::test_rosenbrock_cross_validation PASSED             [ 21%]
+test_nelder_mead.py::test_beale_cross_validation PASSED                  [ 23%]
+test_nelder_mead.py::test_himmelblau_cross_validation PASSED             [ 26%]
+test_nelder_mead.py::test_goldstein_price_cross_validation PASSED        [ 28%]
+test_nelder_mead.py::test_respects_max_iterations PASSED                 [ 31%]
+test_nelder_mead.py::test_gradient_calls_always_zero PASSED              [ 34%]
+test_nelder_mead.py::test_gradient_is_none PASSED                        [ 36%]
+test_result_types.py::test_default_options_no_overrides PASSED           [ 39%]
+test_result_types.py::test_default_options_with_overrides PASSED         [ 42%]
+test_result_types.py::test_check_convergence_gradient PASSED             [ 44%]
+test_result_types.py::test_check_convergence_step PASSED                 [ 47%]
+test_result_types.py::test_check_convergence_function PASSED             [ 50%]
+test_result_types.py::test_check_convergence_max_iterations PASSED       [ 52%]
+test_result_types.py::test_check_convergence_none PASSED                 [ 55%]
+test_result_types.py::test_check_convergence_priority PASSED             [ 57%]
+test_result_types.py::test_is_converged_true_cases PASSED                [ 60%]
+test_result_types.py::test_is_converged_false_cases PASSED               [ 63%]
+test_result_types.py::test_convergence_message PASSED                    [ 65%]
+test_vec_ops.py::test_dot PASSED                                         [ 68%]
+test_vec_ops.py::test_norm PASSED                                        [ 71%]
+test_vec_ops.py::test_norm_inf PASSED                                    [ 73%]
+test_vec_ops.py::test_scale PASSED                                       [ 76%]
+test_vec_ops.py::test_add PASSED                                         [ 78%]
+test_vec_ops.py::test_sub PASSED                                         [ 81%]
+test_vec_ops.py::test_negate PASSED                                      [ 84%]
+test_vec_ops.py::test_clone PASSED                                       [ 86%]
+test_vec_ops.py::test_zeros PASSED                                       [ 89%]
+test_vec_ops.py::test_add_scaled PASSED                                  [ 92%]
+test_vec_ops.py::test_purity_add PASSED                                  [ 94%]
+test_vec_ops.py::test_purity_scale PASSED                                [ 97%]
+test_vec_ops.py::test_purity_clone PASSED                                [100%]
+
+============================== 38 passed in 0.03s ==============================

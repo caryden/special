@@ -1,0 +1,9 @@
+{
+  "run_id": "opt-medium-rust-sonnet45",
+  "skill": "optimization",
+  "subgraph": "medium",
+  "nodes": ["vec-ops", "result-types", "line-search", "finite-diff", "bfgs"],
+  "language": "rust",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": true
+}

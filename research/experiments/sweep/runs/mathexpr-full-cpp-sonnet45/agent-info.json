@@ -1,0 +1,16 @@
+{
+  "run_id": "mathexpr-full-cpp-sonnet45",
+  "skill": "math-expression-parser",
+  "subgraph": "mathexpr-full",
+  "nodes": [
+    "token-types",
+    "ast-types",
+    "tokenizer",
+    "parser",
+    "evaluator",
+    "evaluate"
+  ],
+  "language": "cpp",
+  "model_id": "claude-sonnet-4-5-20250929",
+  "hints": false
+}

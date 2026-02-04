@@ -1,0 +1,106 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (target/debug/deps/opt_large_rust_sonnet45-056c517a1297f323)
+
+running 93 tests
+test bfgs::tests::test_bfgs_already_at_minimum ... ok
+test bfgs::tests::test_bfgs_beale ... ok
+test bfgs::tests::test_bfgs_booth ... ok
+test bfgs::tests::test_bfgs_finite_diff ... ok
+test bfgs::tests::test_bfgs_goldstein_price ... ok
+test bfgs::tests::test_bfgs_himmelblau ... ok
+test bfgs::tests::test_bfgs_max_iterations ... ok
+test bfgs::tests::test_bfgs_returns_gradient ... ok
+test bfgs::tests::test_bfgs_rosenbrock ... ok
+test bfgs::tests::test_bfgs_sphere ... ok
+test conjugate_gradient::tests::test_cg_1d ... ok
+test conjugate_gradient::tests::test_cg_5d_sphere ... ok
+test conjugate_gradient::tests::test_cg_already_at_minimum ... ok
+test conjugate_gradient::tests::test_cg_beale ... ok
+test conjugate_gradient::tests::test_cg_booth ... ok
+test conjugate_gradient::tests::test_cg_finite_diff ... ok
+test conjugate_gradient::tests::test_cg_goldstein_price ... ok
+test conjugate_gradient::tests::test_cg_himmelblau ... ok
+test conjugate_gradient::tests::test_cg_max_iterations ... ok
+test conjugate_gradient::tests::test_cg_max_iterations_message ... ok
+test conjugate_gradient::tests::test_cg_rosenbrock ... ok
+test conjugate_gradient::tests::test_cg_sphere ... ok
+test finite_diff::tests::test_central_diff_beale ... ok
+test finite_diff::tests::test_central_diff_rosenbrock ... ok
+test finite_diff::tests::test_central_diff_sphere ... ok
+test finite_diff::tests::test_central_diff_sphere_origin ... ok
+test finite_diff::tests::test_forward_diff_beale ... ok
+test finite_diff::tests::test_forward_diff_rosenbrock ... ok
+test finite_diff::tests::test_forward_diff_sphere ... ok
+test finite_diff::tests::test_forward_diff_sphere_origin ... ok
+test finite_diff::tests::test_make_gradient_central ... ok
+test finite_diff::tests::test_make_gradient_forward ... ok
+test finite_hessian::tests::test_hessian_booth ... ok
+test finite_hessian::tests::test_hessian_rosenbrock_minimum ... ok
+test finite_hessian::tests::test_hessian_rosenbrock_starting ... ok
+test finite_hessian::tests::test_hessian_sphere_nonzero ... ok
+test finite_hessian::tests::test_hessian_sphere_origin ... ok
+test finite_hessian::tests::test_hessian_vector_product_booth ... ok
+test finite_hessian::tests::test_hessian_vector_product_rosenbrock ... ok
+test finite_hessian::tests::test_hessian_vector_product_sphere ... ok
+test fminbox::tests::test_barrier_value ... ok
+test fminbox::tests::test_fminbox_boundary_minimum ... ok
+test fminbox::tests::test_fminbox_interior_minimum ... ok
+test fminbox::tests::test_fminbox_invalid_bounds ... ok
+test fminbox::tests::test_fminbox_method_bfgs ... ok
+test fminbox::tests::test_fminbox_method_cg ... ok
+test fminbox::tests::test_fminbox_rosenbrock_constrained ... ok
+test fminbox::tests::test_projected_gradient_norm ... ok
+test hager_zhang::tests::test_failure_linear ... ok
+test hager_zhang::tests::test_failure_strict_conditions ... ok
+test hager_zhang::tests::test_rosenbrock ... ok
+test hager_zhang::tests::test_sphere_exact_minimum ... ok
+test hager_zhang::tests::test_sphere_steepest_descent ... ok
+test l_bfgs::tests::test_lbfgs_already_at_minimum ... ok
+test l_bfgs::tests::test_lbfgs_beale ... ok
+test l_bfgs::tests::test_lbfgs_booth ... ok
+test l_bfgs::tests::test_lbfgs_custom_memory ... ok
+test l_bfgs::tests::test_lbfgs_finite_diff ... ok
+test l_bfgs::tests::test_lbfgs_goldstein_price ... ok
+test l_bfgs::tests::test_lbfgs_himmelblau ... ok
+test l_bfgs::tests::test_lbfgs_max_iterations ... ok
+test l_bfgs::tests::test_lbfgs_rosenbrock ... ok
+test l_bfgs::tests::test_lbfgs_sphere ... ok
+test line_search::tests::test_backtracking_ascending ... ok
+test line_search::tests::test_backtracking_sphere ... ok
+test line_search::tests::test_wolfe_rosenbrock ... ok
+test line_search::tests::test_wolfe_sphere ... ok
+test result_types::tests::test_convergence_function ... ok
+test result_types::tests::test_convergence_gradient ... ok
+test result_types::tests::test_convergence_max_iterations ... ok
+test result_types::tests::test_convergence_none ... ok
+test result_types::tests::test_convergence_priority ... ok
+test result_types::tests::test_convergence_step ... ok
+test result_types::tests::test_default_options ... ok
+test result_types::tests::test_is_converged ... ok
+test result_types::tests::test_options_with_overrides ... ok
+test test_functions::tests::test_beale_minimum ... ok
+test test_functions::tests::test_booth_minimum ... ok
+test test_functions::tests::test_goldstein_price_minimum ... ok
+test test_functions::tests::test_himmelblau_minimum ... ok
+test test_functions::tests::test_rosenbrock_minimum ... ok
+test test_functions::tests::test_sphere_minimum ... ok
+test vec_ops::tests::test_add ... ok
+test vec_ops::tests::test_add_scaled ... ok
+test vec_ops::tests::test_clone ... ok
+test vec_ops::tests::test_dot ... ok
+test vec_ops::tests::test_negate ... ok
+test vec_ops::tests::test_norm ... ok
+test vec_ops::tests::test_norm_inf ... ok
+test vec_ops::tests::test_purity ... ok
+test vec_ops::tests::test_scale ... ok
+test vec_ops::tests::test_sub ... ok
+test vec_ops::tests::test_zeros ... ok
+
+test result: ok. 93 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests opt_large_rust_sonnet45
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

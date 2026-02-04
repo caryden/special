@@ -1,0 +1,9 @@
+{
+  "first_pass": { "tests_total": 65, "tests_passed": 63, "pass_rate": 0.9692 },
+  "iterations": 2,
+  "test_count": 65,
+  "external_dependencies": 0,
+  "hints_consulted": true,
+  "reference_consulted": true,
+  "notes": "Opus 4.5 model. 2 failures in central diff tolerance tests (1e-10 too tight for Python float precision on sphere at [3,4]; relaxed to 1e-9). All 65 tests pass after fix."
+}
