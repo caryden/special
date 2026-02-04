@@ -70,6 +70,7 @@ research/
 | optimization | 21 | 539 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
+| cron-expressions | 8 | 189 | 100% | — |
 
 ## Canonical skill format
 
