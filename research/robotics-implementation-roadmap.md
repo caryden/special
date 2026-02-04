@@ -45,12 +45,12 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 
 ### Cross-Validation Targets
 
-| Algorithm | Primary | Secondary | Method |
-|-----------|---------|-----------|--------|
-| KF | FilterPy v1.4.4 | MATLAB | Compare posteriors (mean, covariance) to 1e-10 |
-| PID | python-control v0.10.2 | PythonRobotics | Step response comparison |
-| Differential drive | PythonRobotics | ROS 2 nav2 | Known trajectories, compare odometry |
-| mat-ops | NumPy | Eigen | Numerical precision (1e-14 for basic ops, 1e-10 for decompositions) |
+| Algorithm | Primary | Secondary | Tertiary | Method |
+|-----------|---------|-----------|----------|--------|
+| KF | FilterPy v1.4.4 | LowLevelParticleFilters.jl v3.29.4 | — | Compare posteriors (mean, covariance) to 1e-10 |
+| PID | python-control v0.10.2 | DiscretePIDs.jl | PythonRobotics | Step response comparison |
+| Differential drive | PythonRobotics | ROS 2 nav2 | — | Known trajectories, compare odometry |
+| mat-ops | NumPy | Julia LinearAlgebra | Eigen | Numerical precision (1e-14 for basic ops, 1e-10 for decompositions) |
 
 ### Off-Policy Decisions to Document
 
@@ -104,13 +104,13 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 
 ### Cross-Validation Targets
 
-| Algorithm | Primary | Secondary | Method |
-|-----------|---------|-----------|--------|
-| EKF | FilterPy v1.4.4 | GTSAM | Compare posteriors on nonlinear system |
-| UKF | FilterPy v1.4.4 | MATLAB | Compare sigma points and posteriors |
-| FK | Robotics Toolbox (Corke) v1.1.0 | OROCOS KDL v1.5.3 | Standard chains (2-link, PUMA 560), compare end-effector poses to 1e-10 |
-| Jacobian IK | Robotics Toolbox (Corke) v1.1.0 | KDL | Known configs, compare joint angles and iteration count |
-| Pure pursuit | PythonRobotics | ROS 2 nav2 RPP | Tracking error on reference trajectory |
+| Algorithm | Primary | Secondary | Tertiary | Method |
+|-----------|---------|-----------|----------|--------|
+| EKF | FilterPy v1.4.4 | LowLevelParticleFilters.jl v3.29.4 | GTSAM | Compare posteriors on nonlinear system |
+| UKF | FilterPy v1.4.4 | LowLevelParticleFilters.jl v3.29.4 | — | Compare sigma points and posteriors |
+| FK | Robotics Toolbox (Corke) v1.1.0 | RigidBodyDynamics.jl v2.3.2 | OROCOS KDL v1.5.3 | Standard chains (2-link, PUMA 560), compare end-effector poses to 1e-10 |
+| Jacobian IK | Robotics Toolbox (Corke) v1.1.0 | KDL | — | Known configs, compare joint angles and iteration count |
+| Pure pursuit | PythonRobotics | ROS 2 nav2 RPP | — | Tracking error on reference trajectory |
 
 ### Off-Policy Decisions
 
@@ -159,13 +159,13 @@ Each stage validates a hypothesis about the skill format's fitness for robotics 
 
 ### Cross-Validation Targets
 
-| Algorithm | Primary | Secondary | Method |
-|-----------|---------|-----------|--------|
-| RRT | OMPL v1.7.0 | PythonRobotics | Statistical: success rate, path length over 100 seeds |
-| LQR | python-control v0.10.2 | Drake | Gain matrix K comparison to 1e-10 |
-| Stanley | PythonRobotics | — | Tracking error on reference trajectory |
-| Graph search | — | — | Known-optimal paths on standard grids |
-| Mecanum/Swerve/Ackermann | PythonRobotics | ROS 2 nav2 | Known trajectories |
+| Algorithm | Primary | Secondary | Tertiary | Method |
+|-----------|---------|-----------|----------|--------|
+| RRT | OMPL v1.7.0 | PythonRobotics | — | Statistical: success rate, path length over 100 seeds |
+| LQR | python-control v0.10.2 | ControlSystems.jl v1.15.2 | Drake | Gain matrix K comparison to 1e-10 |
+| Stanley | PythonRobotics | — | — | Tracking error on reference trajectory |
+| Graph search | — | — | — | Known-optimal paths on standard grids |
+| Mecanum/Swerve/Ackermann | PythonRobotics | ROS 2 nav2 | — | Known trajectories |
 
 ### Off-Policy Decisions
 
@@ -232,12 +232,14 @@ Stage 4 is the first test of cross-skill dependencies. The MPC node depends on
 
 | Domain | Primary | Secondary | Tertiary |
 |--------|---------|-----------|----------|
-| State estimation | FilterPy v1.4.4 | GTSAM 4.2 | MATLAB |
-| Kinematics | Robotics Toolbox (Corke) v1.1.0 | OROCOS KDL v1.5.3 | MATLAB |
+| State estimation | FilterPy v1.4.4 | LowLevelParticleFilters.jl v3.29.4 | GTSAM 4.2 |
+| Kinematics | Robotics Toolbox (Corke) v1.1.0 | RigidBodyDynamics.jl v2.3.2 | OROCOS KDL v1.5.3 |
 | Drivetrains | PythonRobotics | ROS 2 nav2 | — |
 | Motion planning | OMPL v1.7.0 | PythonRobotics | — |
-| Control | python-control v0.10.2 | Drake | MATLAB |
+| Control (PID/LQR) | python-control v0.10.2 | ControlSystems.jl v1.15.2 | Drake |
+| Control (MPC) | ModelPredictiveControl.jl v1.15.0 | Drake | CasADi |
 | IK solvers | Robotics Toolbox (Corke) v1.1.0 | OROCOS KDL v1.5.3 | MoveIt 2 |
+| Rotations | Rotations.jl v1.7.1 | Corke (spatialmath) | Eigen/Sophus |
 
 ## Off-Policy Decision Registry
 
@@ -267,10 +269,10 @@ Complete list of off-policy decisions (robotics equivalents of the optimization 
 
 | Stage | Nodes | Tests | Coverage | Cross-Validation |
 |-------|-------|-------|----------|-----------------|
-| 1 | 10 | ~165 | 100% | FilterPy (KF), python-control (PID) |
-| 2 | 18 | ~285 | 100% | Corke (FK/IK), FilterPy (EKF/UKF) |
-| 3 | 28 | ~445 | 100% | OMPL (RRT), python-control (LQR) |
-| 4 | 32+ | ~500+ | 100% | Cross-skill dependency validation |
+| 1 | 10 | ~165 | 100% | FilterPy (KF), LLParticleFilters.jl (KF), python-control (PID), DiscretePIDs.jl |
+| 2 | 18 | ~285 | 100% | Corke (FK/IK), RigidBodyDynamics.jl (FK), FilterPy + LLParticleFilters.jl (EKF/UKF) |
+| 3 | 28 | ~445 | 100% | OMPL (RRT), python-control + ControlSystems.jl (LQR) |
+| 4 | 32+ | ~500+ | 100% | Cross-skill dependency validation, ModelPredictiveControl.jl (MPC) |
 
 ### Overall
 

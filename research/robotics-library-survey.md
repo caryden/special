@@ -3,7 +3,7 @@
 Comprehensive survey of robotics libraries, algorithms, and methods across 6 algorithm domains.
 This document serves as the knowledge base for the robotics reference skill.
 
-Last updated: 2026-02-03
+Last updated: 2026-02-03 (added Julia libraries: LowLevelParticleFilters.jl, ControlSystems.jl, ModelPredictiveControl.jl, Rotations.jl, RigidBodyDynamics.jl, DiscretePIDs.jl)
 
 ## Libraries Surveyed
 
@@ -24,19 +24,28 @@ Last updated: 2026-02-03
 | 13 | **PythonRobotics (AtsushiSakai)** | Python | --- | MIT | Educational implementations |
 | 14 | **MATLAB Robotics System Toolbox** | MATLAB | R2024+ | Proprietary | Kinematics, planning, control |
 | 15 | **Eigen / Sophus** | C++ (header) | 3.4 / 1.22 | MPL-2.0 / MIT | Linear algebra, Lie groups |
+| 16 | **LowLevelParticleFilters.jl** | Julia | 3.29.4 | MIT | KF, EKF, UKF, particle filters |
+| 17 | **ControlSystems.jl** | Julia | 1.15.2 | MIT | LQR, PID, pole placement, state-space |
+| 18 | **ModelPredictiveControl.jl** | Julia | 1.15.0 | MIT | Linear/nonlinear MPC, MHE |
+| 19 | **Rotations.jl** | Julia | 1.7.1 | MIT | Rotation representations, conversions |
+| 20 | **RigidBodyDynamics.jl** | Julia | 2.3.2 | BSD-like | FK, Jacobians, rigid body dynamics |
+| 21 | **DiscretePIDs.jl** | Julia | --- | MIT | Discrete PID with anti-windup |
 
 ## Algorithm Cross-Reference
 
 ### State Estimation
 
-| Algorithm | GTSAM | FilterPy | Drake | Corke | PythonRobotics | python-control | MATLAB |
-|-----------|-------|----------|-------|-------|----------------|----------------|--------|
-| **Kalman Filter (KF)** | via FG | Yes | --- | --- | --- | --- | Yes |
-| **Extended Kalman Filter (EKF)** | via FG | Yes | Yes | --- | Yes | --- | Yes |
-| **Unscented Kalman Filter (UKF)** | --- | Yes | --- | --- | --- | --- | Yes |
-| **Particle Filter** | --- | Yes | --- | --- | Yes | --- | --- |
-| **IMU Preintegration** | Yes | --- | Yes | --- | --- | --- | --- |
-| **H-Infinity Filter** | --- | Yes | --- | --- | --- | --- | --- |
+| Algorithm | GTSAM | FilterPy | Drake | Corke | PythonRobotics | python-control | MATLAB | LLParticleFilters.jl |
+|-----------|-------|----------|-------|-------|----------------|----------------|--------|---------------------|
+| **Kalman Filter (KF)** | via FG | Yes | --- | --- | --- | --- | Yes | Yes |
+| **Extended Kalman Filter (EKF)** | via FG | Yes | Yes | --- | Yes | --- | Yes | Yes |
+| **Unscented Kalman Filter (UKF)** | --- | Yes | --- | --- | --- | --- | Yes | Yes |
+| **Particle Filter** | --- | Yes | --- | --- | Yes | --- | --- | Yes (Rao-Blackwellized) |
+| **IMU Preintegration** | Yes | --- | Yes | --- | --- | --- | --- | --- |
+| **H-Infinity Filter** | --- | Yes | --- | --- | --- | --- | --- | --- |
+| **Iterated EKF** | --- | --- | --- | --- | --- | --- | --- | Yes |
+| **Square-Root EKF** | --- | --- | --- | --- | --- | --- | --- | Yes |
+| **Ensemble KF** | --- | --- | --- | --- | --- | --- | --- | Yes |
 
 **Notes:**
 - GTSAM implements KF and EKF as special cases of factor graph inference rather than
@@ -46,6 +55,10 @@ Last updated: 2026-02-03
   predict/update API across all filter types.
 - PythonRobotics EKF and particle filter implementations are educational — clear and
   correct but not production-hardened.
+- LowLevelParticleFilters.jl (Julia) provides the most complete standalone filter
+  library after FilterPy, with KF, EKF, iterated EKF, square-root EKF, UKF,
+  ensemble KF, and particle filters. Actively maintained (v3.29.4, Feb 2026).
+  Automatic Jacobian computation via ForwardDiff.jl. Part of the JuliaControl ecosystem.
 
 ### SLAM / Factor Graphs
 
@@ -68,14 +81,14 @@ Last updated: 2026-02-03
 
 ### Kinematics
 
-| Algorithm | Pinocchio | KDL | Corke | Drake | MATLAB |
-|-----------|-----------|-----|-------|-------|--------|
-| **Forward Kinematics (DH)** | Yes | Yes | Yes | Yes | Yes |
-| **Jacobian Computation** | Yes | Yes | Yes | Yes | Yes |
-| **RNEA (Inverse Dynamics)** | Yes | Yes | --- | Yes | Yes |
-| **ABA (Forward Dynamics)** | Yes | --- | --- | Yes | --- |
-| **CRBA (Inertia Matrix)** | Yes | --- | --- | Yes | --- |
-| **DH Parameters** | Yes | Yes | Yes | --- | Yes |
+| Algorithm | Pinocchio | KDL | Corke | Drake | MATLAB | RigidBodyDynamics.jl |
+|-----------|-----------|-----|-------|-------|--------|---------------------|
+| **Forward Kinematics (DH)** | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Jacobian Computation** | Yes | Yes | Yes | Yes | Yes | Yes (geometric + mass) |
+| **RNEA (Inverse Dynamics)** | Yes | Yes | --- | Yes | Yes | Yes |
+| **ABA (Forward Dynamics)** | Yes | --- | --- | Yes | --- | Yes |
+| **CRBA (Inertia Matrix)** | Yes | --- | --- | Yes | --- | Yes |
+| **DH Parameters** | Yes | Yes | Yes | --- | Yes | via URDF |
 
 **Notes:**
 - Forward kinematics and Jacobian computation are universally standardized across all
@@ -88,6 +101,10 @@ Last updated: 2026-02-03
 - CRBA (Composite Rigid Body Algorithm) computes the joint-space inertia matrix
   M(q) in O(n^2) time. Required for dynamics-based control (computed torque, LQR
   on linearized dynamics).
+- RigidBodyDynamics.jl (Julia) provides FK, Jacobians, RNEA, ABA, and CRBA for
+  articulated mechanisms. Published at ICRA 2019 (307 GitHub stars). Supports
+  URDF import and coordinate frame checking. Stable but in maintenance mode
+  (last release 2021, last commit Nov 2024).
 
 ### Inverse Kinematics
 
@@ -154,16 +171,16 @@ Last updated: 2026-02-03
 
 ### Control
 
-| Algorithm | python-control | Drake | PythonRobotics | CasADi | Nav2 | MATLAB |
-|-----------|----------------|-------|----------------|--------|------|--------|
-| **PID** | --- | --- | Yes | --- | --- | Yes |
-| **LQR (continuous)** | Yes (lqr) | Yes | Yes | --- | --- | Yes |
-| **LQR (discrete)** | Yes (dlqr) | Yes | --- | --- | --- | Yes |
-| **MPC** | --- | Yes | Yes | Yes (Opti) | MPPI | Yes |
-| **Pure Pursuit** | --- | --- | Yes | --- | Yes (RPP) | --- |
-| **Stanley Controller** | --- | --- | Yes | --- | --- | --- |
-| **Pole Placement** | Yes (place, acker) | --- | --- | --- | --- | Yes |
-| **State-Space** | Yes (StateSpace) | Yes | --- | --- | --- | Yes |
+| Algorithm | python-control | Drake | PythonRobotics | CasADi | Nav2 | MATLAB | ControlSystems.jl | MPC.jl |
+|-----------|----------------|-------|----------------|--------|------|--------|-------------------|--------|
+| **PID** | --- | --- | Yes | --- | --- | Yes | Yes (pid) | --- |
+| **LQR (continuous)** | Yes (lqr) | Yes | Yes | --- | --- | Yes | Yes (lqr) | --- |
+| **LQR (discrete)** | Yes (dlqr) | Yes | --- | --- | --- | Yes | Yes (dlqr) | --- |
+| **MPC** | --- | Yes | Yes | Yes (Opti) | MPPI | Yes | --- | Yes (linear + nonlinear) |
+| **Pure Pursuit** | --- | --- | Yes | --- | Yes (RPP) | --- | --- | --- |
+| **Stanley Controller** | --- | --- | Yes | --- | --- | --- | --- | --- |
+| **Pole Placement** | Yes (place, acker) | --- | --- | --- | --- | Yes | Yes (place) | --- |
+| **State-Space** | Yes (StateSpace) | Yes | --- | --- | --- | Yes | Yes (ss) | Yes |
 
 **Notes:**
 - PID anti-windup is the most significant off-policy decision in the control domain.
@@ -179,6 +196,15 @@ Last updated: 2026-02-03
 - Pure pursuit and Stanley controller are path-tracking algorithms specific to
   wheeled mobile robots. They are simple, well-documented, and have no meaningful
   parameter divergence across implementations.
+- ControlSystems.jl (Julia, 572 stars) provides a MATLAB-equivalent API for LQR,
+  PID, pole placement, and state-space analysis. Part of the JuliaControl ecosystem.
+  Actively maintained (v1.15.2, Jan 2026). Solves the same ARE as python-control
+  and MATLAB — results are identical up to numerical precision.
+- ModelPredictiveControl.jl (Julia, 113 stars) provides linear and nonlinear MPC
+  with moving horizon estimation. Peer-reviewed (arXiv:2411.09764), benchmarked
+  against MATLAB. Very actively maintained (v1.15.0, Jan 2026).
+- DiscretePIDs.jl (Julia, MIT) provides discrete-time PID with anti-windup
+  (clamping), derivative filtering, bumpless transfer, and set-point weighting.
 
 ## Default Parameter Comparison
 
@@ -187,6 +213,7 @@ Last updated: 2026-02-03
 | Library | P default | Q default | R default | Notes |
 |---------|-----------|-----------|-----------|-------|
 | FilterPy | eye(n) | eye(n) | eye(n) | Must override --- defaults are non-functional |
+| LowLevelParticleFilters.jl | User-specified | User-specified | User-specified | Explicit configuration required |
 | MATLAB | User-specified | User-specified | User-specified | --- |
 
 **Notes:**
@@ -205,6 +232,7 @@ Last updated: 2026-02-03
 | PythonRobotics | None | Educational; no output saturation |
 | ROS 2 (ros2_control) | Clamping | Integral term clamped to configurable bounds |
 | MATLAB (PID block) | Clamping + back-calculation | Selectable; back-calculation is default |
+| DiscretePIDs.jl | Clamping | Includes derivative filter, bumpless transfer, set-point weighting |
 | Drake | N/A (no built-in PID node) | Users implement PID via System framework |
 
 **Key off-policy decision:** PID anti-windup method varies significantly across
@@ -240,6 +268,7 @@ defaults --- the cost matrices are always problem-specific.
 |---------|-------------|-----|
 | python-control | minimize integral of x'Qx + u'Ru (continuous) | `lqr(A, B, Q, R)` |
 | python-control | minimize sum of x'Qx + u'Ru (discrete) | `dlqr(A, B, Q, R)` |
+| ControlSystems.jl | Same formulation, both continuous and discrete | `lqr(sys, Q, R)` / `dlqr(sys, Q, R)` |
 | Drake | Same formulation, both continuous and discrete | `LinearQuadraticRegulator(A, B, Q, R)` |
 | MATLAB | Same formulation | `lqr(A, B, Q, R)` / `dlqr(A, B, Q, R)` |
 
@@ -295,6 +324,7 @@ for the same inputs (up to numerical precision of the ARE solver).
 | Sophus | SO3/SE3 | Eigen Quaterniond | Full (exp, log) |
 | ROS 2 tf2 | Quaternion msg | (x,y,z,w) | --- |
 | MATLAB | rotm / quat / eul / axang | (w,x,y,z) | SO3 objects |
+| Rotations.jl | RotMatrix / QuatRotation / AngleAxis / RotationVec | Eigen-compatible | ExponentialMap, CayleyMap |
 
 **Notes:**
 - Rotation representation is one of the most fragmented aspects of robotics libraries.
@@ -359,6 +389,9 @@ for the same inputs (up to numerical precision of the ARE solver).
 | PythonRobotics | NumPy + SciPy + cvxpy | Minimal dependencies |
 | CasADi | Self-contained C++ | IPOPT and qpOASES bundled; symbolic differentiation |
 | MATLAB | Built-in | Native MATLAB matrix operations |
+| LowLevelParticleFilters.jl | Julia stdlib (LinearAlgebra) | StaticArrays.jl for small fixed-size matrices |
+| ControlSystems.jl | Julia stdlib (LinearAlgebra) | MatrixEquations.jl for Riccati/Lyapunov |
+| RigidBodyDynamics.jl | Julia stdlib (LinearAlgebra) | Rotations.jl, StaticArrays.jl |
 
 **Notes:**
 - Eigen dominates the C++ robotics ecosystem. Every major C++ robotics library
@@ -421,12 +454,12 @@ conversion is trivial: `(x,y,z,w) <-> (w,x,y,z)` is a single reorder.
 
 | Domain | Algorithms Surveyed | Libraries Contributing | Key Finding |
 |--------|--------------------|-----------------------|-------------|
-| State Estimation | KF, EKF, UKF, PF, IMU preintegration, H-infinity | 5 | KF/EKF highly standardized; UKF sigma point generation varies |
+| State Estimation | KF, EKF, UKF, PF, IMU preintegration, H-infinity, IEKF, SqEKF, EnKF | 6 (+LLParticleFilters.jl) | KF/EKF highly standardized; UKF sigma point generation varies |
 | SLAM / Factor Graphs | Pose graph, iSAM2, EKF-SLAM, FastSLAM | 3 | iSAM2 is complex (GTSAM-specific); pose graph optimization is tractable |
-| Kinematics | FK, Jacobian, RNEA, ABA, CRBA, DH | 5 | DH parameters universally standardized; dynamics algorithms well-documented |
+| Kinematics | FK, Jacobian, RNEA, ABA, CRBA, DH | 6 (+RigidBodyDynamics.jl) | DH parameters universally standardized; dynamics algorithms well-documented |
 | IK Solvers | LM, NR, GN, QP, KDL, TRAC-IK, analytical | 5 | Multiple numerical methods; all converge to same solutions |
 | Motion Planning | RRT, RRT*, PRM, A*, D*, Hybrid-A*, EST, SBL, KPIECE, DWA, MPPI | 5 | Sampling-based planners dominate; inherently stochastic |
-| Control | PID, LQR, MPC, pure pursuit, Stanley, pole placement | 5 | PID anti-windup is key off-policy decision; LQR well-standardized |
+| Control | PID, LQR, MPC, pure pursuit, Stanley, pole placement | 8 (+ControlSystems.jl, MPC.jl, DiscretePIDs.jl) | PID anti-windup is key off-policy decision; LQR well-standardized |
 
 **Key cross-cutting findings:**
 
