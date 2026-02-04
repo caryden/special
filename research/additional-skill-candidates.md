@@ -41,7 +41,7 @@ hallucinate* — coefficients, edge-case semantics, format disambiguation.
 
 High off-policy density, natural decomposition, broad cross-language demand.
 
-### `cron-parse`
+### `cron-expressions`
 
 **Elevator pitch:** Cron expression parsing, matching, and next-occurrence calculation.
 
@@ -219,7 +219,7 @@ not programming-language-specific).
 **Off-policy signals:** Interval boundary semantics (open/closed/half-open), business
 hours parsing conventions, slot-finding with granularity and padding, recurrence rules.
 
-**Concern:** Timezone is nearly impossible to avoid. Overlap with `cron-parse`.
+**Concern:** Timezone is nearly impossible to avoid. Overlap with `cron-expressions`.
 
 **Estimated scope:** 8-12 nodes, ~120-180 tests.
 
@@ -265,7 +265,7 @@ formatting, not the core algorithm.
 
 ## Top 3 detailed analysis
 
-### 1. `cron-parse` — Recommended first build
+### 1. `cron-expressions` — Recommended first build
 
 **Rationale:** Best ratio of off-policy density to implementation complexity. Universal
 demand across backend systems. Clean decomposition with a natural pipeline structure.
@@ -489,7 +489,7 @@ compare("1.0.0+build1", "1.0.0+build2") → 0  (equal precedence)
 
 ## Recommendation
 
-**Build `cron-parse` first.** Rationale:
+**Build `cron-expressions` first.** Rationale:
 
 1. **Smallest scope** of the top 3 (~10 nodes vs 16 for color-space) — fastest path to
    validating the skill creation pipeline with a new domain.
@@ -501,17 +501,17 @@ compare("1.0.0+build1", "1.0.0+build2") → 0  (equal precedence)
 4. **Pipeline structure** (tokenizer → parser → matcher → iterator) mirrors the proven
    `math-expression-parser` architecture, reducing design risk.
 
-After `cron-parse`, build `color-space` (broadest audience) then `semver` (most
+After `cron-expressions`, build `color-space` (broadest audience) then `semver` (most
 universal demand).
 
 ## Cross-validation library versions
 
 | Skill | Library | Language | Version | Notes |
 |-------|---------|----------|---------|-------|
-| `cron-parse` | `cron-parser` | JS (npm) | v5.0.0 | Most popular, Vixie semantics |
-| `cron-parse` | `croniter` | Python | v3.0.0 | Python standard |
-| `cron-parse` | Quartz | Java | v2.5.0 | Different semantics (1-7 DoW) — good contrast |
-| `cron-parse` | `cron` | Rust | v0.15.0 | Rust ecosystem standard |
+| `cron-expressions` | `cron-parser` | JS (npm) | v5.0.0 | Most popular, Vixie semantics |
+| `cron-expressions` | `croniter` | Python | v3.0.0 | Python standard |
+| `cron-expressions` | Quartz | Java | v2.5.0 | Different semantics (1-7 DoW) — good contrast |
+| `cron-expressions` | `cron` | Rust | v0.15.0 | Rust ecosystem standard |
 | `color-space` | `culori` | JS (npm) | v4.0.0 | High-precision reference |
 | `color-space` | `chroma.js` | JS (npm) | v3.1.0 | Different design choices |
 | `color-space` | `colour-science` | Python | v0.4.6 | Comprehensive scientific reference |
@@ -523,7 +523,7 @@ universal demand).
 
 ## Open questions
 
-1. Should `cron-parse` support 6-field (with seconds) or 7-field (with year) expressions,
+1. Should `cron-expressions` support 6-field (with seconds) or 7-field (with year) expressions,
    or only standard 5-field? Recommendation: 5-field standard + optional 6-field seconds.
 2. For `color-space`, should we include CSS Color Level 4 `color()` function parsing, or
    keep parsing as a separate concern? Recommendation: include basic CSS parsing as it
