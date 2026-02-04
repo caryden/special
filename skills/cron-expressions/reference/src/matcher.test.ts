@@ -146,6 +146,18 @@ describe("matcher", () => {
       expect(matchesCron(utc(2024, 2, 2, 0, 0), expr)).toBe(false);
     });
 
+    test("'0 0 1-15 * 5' with range DoM and single DoW uses union", () => {
+      const expr = parseCron("0 0 1-15 * 5");
+      // 2024-01-05 is Friday, day 5 (in range 1-15) — both match
+      expect(matchesCron(utc(2024, 1, 5, 0, 0), expr)).toBe(true);
+      // 2024-01-19 is Friday, day 19 (outside 1-15) — DoW matches via union
+      expect(matchesCron(utc(2024, 1, 19, 0, 0), expr)).toBe(true);
+      // 2024-01-10 is Wednesday, day 10 (in range 1-15) — DoM matches via union
+      expect(matchesCron(utc(2024, 1, 10, 0, 0), expr)).toBe(true);
+      // 2024-01-17 is Wednesday, day 17 (outside 1-15, not Friday) — neither
+      expect(matchesCron(utc(2024, 1, 17, 0, 0), expr)).toBe(false);
+    });
+
     test("'0 0 * * 5' with only DoW restricted uses AND (DoM is wildcard)", () => {
       const expr = parseCron("0 0 * * 5");
       // 2024-03-15 is Friday — matches

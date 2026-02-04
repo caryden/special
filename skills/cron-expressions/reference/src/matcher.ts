@@ -38,8 +38,8 @@ export function matchesCron(date: Date, expr: CronExpression): boolean {
   if (!matchesField(month, expr.month)) return false;
 
   // Day matching: Vixie union rule
-  const domRestricted = isRestricted(expr.dayOfMonth);
-  const dowRestricted = isRestricted(expr.dayOfWeek);
+  const domRestricted = isRestricted(expr.dayOfMonth, 1, 31);
+  const dowRestricted = isRestricted(expr.dayOfWeek, 0, 6);
 
   if (domRestricted && dowRestricted) {
     // Union (OR): match if EITHER day-of-month OR day-of-week matches
@@ -59,14 +59,11 @@ export function matchesCron(date: Date, expr: CronExpression): boolean {
  * A field is "restricted" if it's NOT just a single full-range wildcard.
  * A wildcard is represented as a range from min to max of the field.
  */
-function isRestricted(field: CronField): boolean {
+function isRestricted(field: CronField, fieldMin: number, fieldMax: number): boolean {
   if (field.length !== 1) return true;
   const entry = field[0];
   if (entry.kind !== "range") return true;
-  // Check if it's a full wildcard range
-  // dayOfMonth: 1-31, dayOfWeek: 0-6
-  // We check based on the actual range values
-  return false; // single range = wildcard
+  return !(entry.start === fieldMin && entry.end === fieldMax);
 }
 
 function matchesField(value: number, field: CronField): boolean {
