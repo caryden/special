@@ -29,22 +29,34 @@ research/.
 .claude-plugin/
   plugin.json               — Plugin manifest (name: "special")
 skills/
-  optimization/
+  robotics/
     SKILL.md                — Skill entry point with frontmatter
-    reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
+    HELP.md                 — Interactive help guide (decision tree, profiles, recipes)
+    reference/              — TypeScript reference (39 nodes, 936 tests, 100% coverage)
       src/<node>.ts         — Implementation with @node structured comments
       src/<node>.test.ts    — Behavioral contract
     nodes/
-      to-<lang>.md          — Skill-level translation hints (optional, per language)
       <node>/
         spec.md             — Behavioral spec with test vectors and provenance
         to-<lang>.md        — Node-level translation hints (optional, per language)
+  optimization/
+    SKILL.md
+    HELP.md
+    reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
+    nodes/<node>/           — Per-node specs and translation hints
+  cron-expressions/
+    SKILL.md
+    HELP.md
+    reference/              — TypeScript reference (8 nodes, 189 tests, 100% coverage)
+    nodes/<node>/           — Per-node specs and translation hints
   math-expression-parser/
     SKILL.md
+    HELP.md
     reference/              — TypeScript reference (6 nodes, 96 tests, 100% coverage)
     nodes/<node>/           — Per-node specs and translation hints
   when-words/
     SKILL.md
+    HELP.md
     reference/              — TypeScript reference (5 nodes, 124 tests, 100% coverage)
     nodes/<node>/           — Per-node specs and translation hints
   color-space/
@@ -62,6 +74,11 @@ research/
   evaluation-methodology.md — Experimental design and metrics
   skill-architecture.md     — From format comparison to skill design
   optimization-library-survey.md — Algorithm survey across 11 libraries
+  robotics-library-survey.md — Robotics library survey across domains
+  robotics-algorithm-analysis.md — Algorithm selection and design decisions
+  robotics-node-graph.md    — Node graph design for robotics skill
+  robotics-implementation-roadmap.md — Implementation plan
+  additional-skill-candidates.md — Survey of future skill candidates
   decisions/                — Architecture Decision Records
   results/                  — Detailed experiment results by stage
   experiments/              — Raw experiment outputs (historical)
@@ -71,7 +88,9 @@ research/
 
 | Skill | Nodes | Tests | Coverage | Cross-validated |
 |-------|-------|-------|----------|-----------------|
+| robotics | 39 | 936 | 100% | FilterPy v1.4.4, Robotics Toolbox v1.1.0, python-control v0.10.2, OMPL v1.7.0, GTSAM 4.2 |
 | optimization | 21 | 539 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
+| cron-expressions | 8 | 189 | 100% | — |
 | math-expression-parser | 6 | 96 | 100% | — |
 | when-words | 5 | 124 | 100% | — |
 | cron-expressions | 8 | 189 | 100% | — |
