@@ -191,11 +191,38 @@ Keep hints concise — 3-8 bullet points covering:
 
 ### 8. Validate
 
+#### Coverage and Tests
 - [ ] All tests pass: `cd skills/$ARGUMENTS/reference && bun test --coverage`
-- [ ] 100% line and function coverage
-- [ ] Every exported function has `@node`, `@contract`, `@depends-on` (if deps exist)
+- [ ] 100% line and function coverage — no exceptions
+- [ ] Zero dead code (unused variables, unreachable branches, unused constants)
+- [ ] Test assertions always execute (no `if` guards that silently skip expects)
+- [ ] Round-trip tests use consistent precision (document why if precision varies)
+- [ ] External test vectors have `@provenance` annotations in test files
+
+#### Structured Comments
+- [ ] Every exported function has `@node`, `@contract`
+- [ ] `@depends-on` lists **every** module the file imports from (not just transitive)
 - [ ] No circular dependencies
-- [ ] SKILL.md node graph matches actual code
-- [ ] Each node has spec.md
-- [ ] HELP.md exists with decision tree and node recipes
-- [ ] Zero dead code in reference implementation
+
+#### SKILL.md
+- [ ] Node table matches actual source files (count, names, dependencies)
+- [ ] Subset extraction claims are accurate (verify transitive dependency counts)
+- [ ] ASCII graph accurately represents dependency relationships
+- [ ] Key design decisions have `@provenance` citing authoritative sources
+
+#### Spec Files
+- [ ] Each node has `nodes/<name>/spec.md`
+- [ ] Every spec has at least one `@provenance:` annotation (with colon)
+- [ ] Section names match template (`## Parameters`, not `## Constants`)
+- [ ] Factual claims match implementation (counts, names, behaviors)
+- [ ] Edge cases document semantic gotchas (e.g., lossy conversions)
+
+#### HELP.md
+- [ ] Exists with decision tree and node recipes
+- [ ] Node counts in recipes match actual transitive dependencies
+- [ ] No false equivalences (e.g., `all` ≠ `convert` if they differ)
+
+#### Project Integration
+- [ ] CLAUDE.md skills table updated with correct node count, test count, coverage
+- [ ] CLAUDE.md repository structure section includes new skill
+- [ ] Cross-validation column is accurate (use `—` if none performed)
