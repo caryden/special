@@ -48,6 +48,12 @@ Tagged union with kinds:
 | `isConverged` | `(reason) → boolean` | True for gradient/step/function; false for maxIterations/lineSearchFailed |
 | `convergenceMessage` | `(reason) → string` | Human-readable message |
 
+### Convergence comparison semantics
+
+All convergence checks use **strict less-than** (`<`): a criterion is met when `value < tolerance`.
+This means a value exactly equal to the tolerance does NOT trigger convergence — the algorithm
+continues for at least one more iteration. This matches scipy and Optim.jl behavior.
+
 ## Test Vectors
 
 | Test | Input | Expected |

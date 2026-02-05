@@ -26,11 +26,15 @@ or shrinkage.
 
 1. Create initial simplex: vertex 0 = x₀, vertex i = x₀ + h·eᵢ
 2. Sort vertices by function value (ascending)
-3. Check convergence: function value spread (std dev < funcTol) or simplex diameter < stepTol
+3. Check convergence (all comparisons use **strict `<`**):
+   - Function spread: `fStd = sqrt(Σ(fᵢ - f̄)² / (n+1))` where n+1 is the vertex count. Converged if `fStd < funcTol`.
+   - Simplex diameter: max distance from best vertex. Converged if `diameter < stepTol`.
 4. Compute centroid of all vertices except worst
-5. **Reflect** worst through centroid. Accept if between best and second-worst.
-6. If reflection is best → try **expansion**. Accept better of expanded/reflected.
-7. If reflection is worst → **contraction** (outside if fReflected < fWorst, inside otherwise)
+5. **Reflect** worst through centroid. Accept if `fBest ≤ fReflected < fSecondWorst`.
+6. If reflection is best (`fReflected < fBest`) → try **expansion**. Accept better of expanded/reflected.
+7. If reflection is worst (`fReflected ≥ fSecondWorst`) → **contraction**:
+   - **Outside** (if `fReflected < fWorst`): Accept if `fContracted ≤ fReflected`. _(equal accepted)_
+   - **Inside** (if `fReflected ≥ fWorst`): Accept if `fContracted < fWorst`. _(strict improvement required)_
 8. If contraction fails → **shrink** all vertices toward best
 9. Repeat from step 2
 
