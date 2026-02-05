@@ -98,7 +98,7 @@ Compute CIEDE2000, CIE76, and Oklch color differences.
 gamut-map --lang <language>
 ```
 
-6 nodes (gamut-map + color-types + srgb-linear + oklab + oklch).
+5 nodes (gamut-map + color-types + srgb-linear + oklab + oklch).
 Detect out-of-gamut colors and map them back into sRGB via Oklch chroma reduction.
 
 ### CSS Round-Trip (Parse + Serialize)
