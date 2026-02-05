@@ -25,70 +25,10 @@ research/.
 
 ## Repository structure
 
-```
-.claude-plugin/
-  plugin.json               — Plugin manifest (name: "special")
-skills/
-  robotics/
-    SKILL.md                — Skill entry point with frontmatter
-    HELP.md                 — Interactive help guide (decision tree, profiles, recipes)
-    reference/              — TypeScript reference (39 nodes, 936 tests, 100% coverage)
-      src/<node>.ts         — Implementation with @node structured comments
-      src/<node>.test.ts    — Behavioral contract
-    nodes/
-      <node>/
-        spec.md             — Behavioral spec with test vectors and provenance
-        to-<lang>.md        — Node-level translation hints (optional, per language)
-  optimization/
-    SKILL.md
-    HELP.md
-    reference/              — TypeScript reference (21 nodes, 539 tests, 100% coverage)
-    nodes/<node>/           — Per-node specs and translation hints
-  cron-expressions/
-    SKILL.md
-    HELP.md
-    reference/              — TypeScript reference (8 nodes, 189 tests, 100% coverage)
-    nodes/<node>/           — Per-node specs and translation hints
-  math-expression-parser/
-    SKILL.md
-    HELP.md
-    reference/              — TypeScript reference (6 nodes, 96 tests, 100% coverage)
-    nodes/<node>/           — Per-node specs and translation hints
-  when-words/
-    SKILL.md
-    HELP.md
-    reference/              — TypeScript reference (5 nodes, 124 tests, 100% coverage)
-    nodes/<node>/           — Per-node specs and translation hints
-  create-special-skill/
-    SKILL.md                — Meta-skill: create a new special skill
-    templates/              — SKILL-template.md, spec-template.md, to-lang-template.md
-  propose-special-skill/
-    SKILL.md                — Meta-skill: package and propose via GitHub issue
-research/
-  README.md                 — Research summary and reading order
-  hypothesis.md             — Core hypothesis and motivation
-  evaluation-methodology.md — Experimental design and metrics
-  skill-architecture.md     — From format comparison to skill design
-  optimization-library-survey.md — Algorithm survey across 11 libraries
-  robotics-library-survey.md — Robotics library survey across domains
-  robotics-algorithm-analysis.md — Algorithm selection and design decisions
-  robotics-node-graph.md    — Node graph design for robotics skill
-  robotics-implementation-roadmap.md — Implementation plan
-  additional-skill-candidates.md — Survey of future skill candidates
-  decisions/                — Architecture Decision Records
-  results/                  — Detailed experiment results by stage
-  experiments/              — Raw experiment outputs (historical)
-```
-
-## Skills
-
-| Skill | Nodes | Tests | Coverage | Cross-validated |
-|-------|-------|-------|----------|-----------------|
-| robotics | 39 | 936 | 100% | FilterPy v1.4.4, Robotics Toolbox v1.1.0, python-control v0.10.2, OMPL v1.7.0, GTSAM 4.2 |
-| optimization | 21 | 539 | 100% | scipy v1.17.0, Optim.jl v2.0.0 |
-| cron-expressions | 8 | 189 | 100% | — |
-| math-expression-parser | 6 | 96 | 100% | — |
-| when-words | 5 | 124 | 100% | — |
+Skills live in `skills/<name>/` with a standard structure: `SKILL.md`, `HELP.md`,
+`reference/` (TypeScript implementation), and `nodes/` (per-node specs). Meta-skills
+(`create-special-skill`, `propose-special-skill`) help authors create new skills.
+Research artifacts live in `research/`.
 
 ## Canonical skill format
 
@@ -120,36 +60,6 @@ cd research/experiments/<lib>-skill-rust && cargo test
 cd research/experiments/<lib>-skill-go && go test -v ./...
 ```
 
-## Structured comment format
-
-> **Canonical reference**: `skills/create-special-skill/SKILL.md` § "Structured comment format".
-> That is the authoritative source — it ships with the plugin and is available to skill
-> authors who do not have access to this CLAUDE.md. The summary below is for contributors.
-
-Node metadata is declared via JSDoc-style comments on exported functions:
-
-```typescript
-/**
- * @node kebab-case-id
- * @depends-on other-node-a, other-node-b
- * @contract this-node.test.ts
- * @hint category: Translation guidance for the agent
- * @provenance source-library vX.Y.Z, verified YYYY-MM-DD
- */
-export function myFunction(...): ReturnType { ... }
-```
-
-### @depends-on syntax
-
-- **All required**: `@depends-on a, b, c` — node needs all of a, b, and c
-- **At least one of**: `@depends-on any-of(a, b, c)` — node needs at least one from the group
-- **Mixed**: `@depends-on base-node, any-of(alg-a, alg-b, alg-c)` — base-node is always
-  required; at least one algorithm from the group is required
-
-The `any-of()` modifier is for dispatcher/aggregator nodes (like `minimize`) that import
-multiple implementations but only require one at translation time. When translating a
-subset, include only the `any-of` members you need.
-
 ## Conventions
 
 - Skill names use whole-word kebab-case nouns: `optimization`, `math-expression-parser`, `when-words`
@@ -162,3 +72,19 @@ subset, include only the `any-of` members you need.
 - All functions are pure where possible; state and I/O are explicit
 - Test vectors include `@provenance` annotations documenting source and validation
 - Cross-library validation against established implementations where applicable
+
+## Structured comment format
+
+See `skills/create-special-skill/SKILL.md` § "Structured comment format" for the
+canonical reference on `@node`, `@depends-on`, `@contract`, `@hint`, and `@provenance`.
+
+## Git workflow
+
+- Never use `gh pr merge --admin` to bypass branch protection
+- Use `--auto` to queue merge after CI passes
+- Wait for CI checks before merging PRs, even for "trivial" documentation changes
+- Commit messages should be concise and describe the change (not the files touched)
+
+## Code review
+
+See `docs/code-review-checklist.md` for detailed criteria checked during CI review.
