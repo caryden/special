@@ -1,6 +1,6 @@
 ---
 name: create-special-skill
-description: Create a new special skill — a modular, tested TypeScript reference that agents translate into any target language
+description: Create a new special skill — a modular, tested TypeScript reference that agents translate into any target language. Use when the user wants to create a skill for code generation from specs, RFCs, or behavioral descriptions.
 argument-hint: "<library-name> — kebab-case noun, e.g. 'date-formatter' or 'graph-traversal'"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "Task"]
 ---
@@ -11,31 +11,82 @@ Build a new special skill from a spec, RFC, API doc, or behavioral description.
 A special skill is a self-contained folder with a tested TypeScript reference
 implementation and layered translation guidance.
 
+## Core Principles
+
+### Context Efficiency
+
+**"The context window is a public good."** Only add context Claude lacks. Challenge
+each element: Does Claude need this explanation? Does this justify its token cost?
+Prefer concise examples over verbose explanations.
+
+- Keep SKILL.md under 500 lines
+- Move variant-specific details to per-node spec files
+- Reference files are loaded as-needed, not upfront
+
+### Progressive Disclosure
+
+Special skills use four-layer progressive disclosure:
+
+1. **Frontmatter** (~100 words) — Always present in skill list; name + description
+2. **SKILL.md body** (<5k words) — Loaded when skill triggers; node graph, design decisions
+3. **nodes/\<name\>/spec.md** — Loaded per-node during translation; test vectors, provenance
+4. **reference/src/\<name\>.ts** — Consulted only when spec is ambiguous
+
+### Degrees of Freedom
+
+Match specificity to task requirements:
+
+- **High freedom** (spec only): Multiple valid implementations, language-idiomatic choices
+- **Medium freedom** (spec + hints): Preferred patterns exist but variation acceptable
+- **Low freedom** (exact algorithms): Numerical precision, cryptographic operations, protocol compliance
+
+Special skills default to **low freedom** — the TypeScript reference and test vectors
+define exact behavior. Translation hints guide idiom adaptation, not algorithm changes.
+
 ## Input
 
 The user provides `$ARGUMENTS` — the kebab-case library name (e.g. `date-formatter`).
 They should also provide or point to the source material: a spec, RFC, existing library,
 or behavioral description.
 
+## Anatomy of a Special Skill
+
+```
+skills/$ARGUMENTS/
+├── SKILL.md              ← Entry point: node graph, design decisions, frontmatter
+├── HELP.md               ← Interactive guide for node/language selection
+├── reference/            ← TypeScript reference implementation
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── src/
+│       ├── <node>.ts         ← One per node
+│       └── <node>.test.ts    ← Behavioral contract (one per node)
+└── nodes/
+    ├── to-<lang>.md          ← Skill-level translation hints (optional)
+    └── <node>/
+        ├── spec.md           ← Behavioral spec with test vectors
+        └── to-<lang>.md      ← Node-level translation hints (optional)
+```
+
+### What NOT to Include
+
+- **README.md** — SKILL.md serves this purpose
+- **CHANGELOG.md** — Skills are versioned with the repository
+- **Installation guides** — Skills are self-contained
+- **Auxiliary documentation** — Everything needed is in SKILL.md, HELP.md, or spec files
+- **Dependencies** — Reference implementations have zero runtime dependencies
+
 ## Steps
 
 ### 1. Create the skill directory
 
+```bash
+mkdir -p skills/$ARGUMENTS/{reference/src,nodes}
 ```
-skills/$ARGUMENTS/
-  SKILL.md              ← you will generate this (use template below)
-  HELP.md               ← interactive guide for node/language selection
-  reference/
-    package.json
-    tsconfig.json
-    src/
-      <node>.ts         ← one per node
-      <node>.test.ts    ← one per node
-  nodes/
-    to-<lang>.md        ← skill-level translation hints (optional, per language)
-    <node>/
-      spec.md           ← behavioral spec with test vectors
-      to-<lang>.md      ← node-level translation hints (optional, per language)
+
+Initialize the reference package:
+```bash
+cd skills/$ARGUMENTS/reference && bun init -y
 ```
 
 ### 2. Design the node graph
@@ -191,11 +242,54 @@ Keep hints concise — 3-8 bullet points covering:
 
 ### 8. Validate
 
+#### Coverage and Tests
 - [ ] All tests pass: `cd skills/$ARGUMENTS/reference && bun test --coverage`
-- [ ] 100% line and function coverage
-- [ ] Every exported function has `@node`, `@contract`, `@depends-on` (if deps exist)
+- [ ] 100% line and function coverage — no exceptions
+- [ ] Zero dead code (unused variables, unreachable branches, unused constants)
+- [ ] Test assertions always execute (no `if` guards that silently skip expects)
+- [ ] Round-trip tests use consistent precision (document why if precision varies)
+- [ ] External test vectors have `@provenance` annotations in test files
+
+#### Structured Comments
+- [ ] Every exported function has `@node`, `@contract`
+- [ ] `@depends-on` lists **every** module the file imports from (not just transitive)
 - [ ] No circular dependencies
-- [ ] SKILL.md node graph matches actual code
-- [ ] Each node has spec.md
-- [ ] HELP.md exists with decision tree and node recipes
-- [ ] Zero dead code in reference implementation
+
+#### SKILL.md
+- [ ] Node table matches actual source files (count, names, dependencies)
+- [ ] Subset extraction claims are accurate (verify transitive dependency counts)
+- [ ] ASCII graph accurately represents dependency relationships
+- [ ] Key design decisions have `@provenance` citing authoritative sources
+
+#### Spec Files
+- [ ] Each node has `nodes/<name>/spec.md`
+- [ ] Every spec has at least one `@provenance:` annotation (with colon)
+- [ ] Section names match template (`## Parameters`, not `## Constants`)
+- [ ] Factual claims match implementation (counts, names, behaviors)
+- [ ] Edge cases document semantic gotchas (e.g., lossy conversions)
+
+#### HELP.md
+- [ ] Exists with decision tree and node recipes
+- [ ] Node counts in recipes match actual transitive dependencies
+- [ ] No false equivalences (e.g., `all` ≠ `convert` if they differ)
+
+#### Project Integration
+- [ ] CLAUDE.md skills table updated with correct node count, test count, coverage
+- [ ] CLAUDE.md repository structure section includes new skill
+- [ ] Cross-validation column is accurate (use `—` if none performed)
+
+### 9. Iterate
+
+Test the skill by generating translations for real use cases:
+
+1. Generate a translation (e.g., `srgb-linear --lang python`)
+2. Run the generated tests — they should pass first try
+3. If tests fail or friction occurs, update:
+   - Spec files for clearer wording
+   - Translation hints for recurring patterns
+   - Reference code comments for edge case clarification
+4. Re-run validation checklist after changes
+
+Translation hints accumulate from real experience, not speculation. A skill
+is mature when translations pass tests on the first attempt across multiple
+languages.
